@@ -26,13 +26,17 @@ The basic process is as follows:
 7. Insert the disk(s) and boot the device.
 8. Connect to the device via ssh and run through the typicall installer steps (set timezone, partition disks, etc)
 9. Before rebooting, open a shell and:
-   a. install flash-image
-   b. add entries for the buffalo devices under /usr/share/flash-kernel/db
-   c. add the DTB file for the device under /etc/flash-kernel/dtb
-   d. run flash-kernel to generate appropriate kernel and inird images
-   e. add the correct MAC address to /etc/network/interfaces
+ -  install flash-image
+ -  add entries for the buffalo devices under /usr/share/flash-kernel/db
+ -  add the DTB file for the device under /etc/flash-kernel/dtb
+ -  run flash-kernel to generate appropriate kernel and inird images
+ -  add the correct MAC address to /etc/network/interfaces
 10. Reboot 
 11. Connect to device over ssh, verify that /etc/fstab and /etc/mdadm/mdadm.conf make sense, adjust if needed.
 
-I'll expand on all of this as I build out the repository
+I'll expand on all of this as I build out the repository.
+
+Many of these steps can be simplified further if we can get the relevant pieces added to the Linux Kernel, flash-kernel and Debian Installer projects.
+
+
 
