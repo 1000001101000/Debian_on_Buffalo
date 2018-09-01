@@ -1,0 +1,30 @@
+Purpose:
+Copy the installer files (uImage.buffalo and initrd.buffalo) to the first partition/RAID array (/boot directory) on the device.
+
+The Easyish way:
+This can be accomplished a number of ways, the requirement is that the *.buffalo files end up on the first partiton of the drive which the device boots from. This partition must be formated using the EXT2 or EXT3 filesystem.
+
+I prefer to start with a device already running Buffalo's firmware, this way you can reuse the existing RAID arrays and don't have to remove the drives, this is particularly nice for the 210/410 which require dissasembly to get access the drives.
+
+If you are starting with a device running Buffalo's firmware:
+1. Obtain a copy of acp-commander either form the tools directory or from https://github.com/Stonie/acp-commander
+2. Run acp-commander (Java required):
+   java -jar acp_commander_gui_156.jar
+3. acp_commander should find the any devices running Buffalo's firmware on your network. Take note of the IP address if you don't already have it.
+4. Enter the admin password for the device in the admin password field.
+5. Send the command "chmod -R 777 /boot". The device may need to be rebooted after this step.
+**sometimes the device disconnects itself from the network after executing commands with acp-commander, if so just power teh device off and back on.
+6. Send the command "busybox telnetd &". This should start the telnet daemon on the device.
+7. Connect to the device via telnet, the username is "admin" and the password is your admin password for the device.
+8. Navigate to the /boot directory.
+9. Copy the installer files from your PC using ftp/sftp or download them from GitHub/etc using wget.
+
+If your starting with blank drives and do not wish to install the Buffalo firmware first:
+1. Create a partition table using gdisk/parted etc.
+2. Create partition 1 with enough space for the installer files.
+3. Format partition 1 ext3 using mkfs.ext3.
+4. Mount the partiton and copy uImage.buffalo and initrd.buffalo to it.
+5. Insert that drive into the device as Drive 1.   
+
+
+Once the installer files are in place, reboot your device to start the installer.
