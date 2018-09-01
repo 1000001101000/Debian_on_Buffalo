@@ -1,0 +1,8 @@
+Purpose:
+Generate a flattened device tree (FDT/DTB) which gives the Linux Kernel the information it needs to utilize your devices hardware.
+
+The Easy Way:
+Download the DTB file corresponding to your device from the device_trees folder.
+
+The Hard Way:
+

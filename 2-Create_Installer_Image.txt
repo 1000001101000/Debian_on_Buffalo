@@ -1,0 +1,25 @@
+Purpose:
+Package the Debian Installer and a suitable kernel image for your device.
+
+The Easy Way:
+Download inird.buffalo and the uImage.buffalo.<model> for your device. Rename uImage.buffalo.<model> to uImage.buffalo
+
+The Hard Way:
+This method requires mkimage from the uboot-tools package and the DTB file obtained in the previous step.
+
+Generate a Kernel image (uImage.buffalo):
+1. Find the Debian armhf "network-console" installer files. For Stretch: http://ftp.debian.org/debian/dists/stretch/main/installer-armhf/current/images/network-console/
+2. Download the kernel image (vmlinuz) from Debian's "network-console" installer page.
+3. Append the DTB to the end of the kernel image: 
+   cat vmlinuz armada-370-blahblah.dtb > kernelDTB
+4. Generate the kernel uboot image using mkimage:
+   mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d kernelDTB uImage.buffalo
+
+Generate the initrd image (initrd.buffalo):
+fortunately, Debian provides a pre-built initrd image for the Seageate Personal Cloud which we can use without modification.
+1. Under the "network-console" installer files navigate to seagate/personal-cloud/
+2. Download uInitrd.
+3. Rename uInitrd to initrd.buffalo
+
+
+To see how to manually create the initrd image see https://d-i.debian.org/daily-images/armhf/daily/build_network-console.log
