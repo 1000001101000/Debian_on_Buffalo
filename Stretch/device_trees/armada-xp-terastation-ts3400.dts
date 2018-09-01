@@ -1,0 +1,238 @@
+/*
+ * Device Tree file for Synology DS414
+ *
+ * Copyright (C) 2014, Arnaud EBALARD <arno@natisbad.org>
+ *
+ * This file is dual-licensed: you can use it either under the terms
+ * of the GPL or the X11 license, at your option. Note that this dual
+ * licensing only applies to this file, and not this project as a
+ * whole.
+ *
+ *  a) This file is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation; either version 2 of the
+ *     License, or (at your option) any later version.
+ *
+ *     This file is distributed in the hope that it will be useful
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ * Or, alternatively
+ *
+ *  b) Permission is hereby granted, free of charge, to any person
+ *     obtaining a copy of this software and associated documentation
+ *     files (the "Software"), to deal in the Software without
+ *     restriction, including without limitation the rights to use
+ *     copy, modify, merge, publish, distribute, sublicense, and/or
+ *     sell copies of the Software, and to permit persons to whom the
+ *     Software is furnished to do so, subject to the following
+ *     conditions:
+ *
+ *     The above copyright notice and this permission notice shall be
+ *     included in all copies or substantial portions of the Software.
+ *
+ *     THE SOFTWARE IS PROVIDED , WITHOUT WARRANTY OF ANY KIND
+ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
+ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *     OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Note: this Device Tree assumes that the bootloader has remapped the
+ * internal registers to 0xf1000000 (instead of the old 0xd0000000).
+ * The 0xf1000000 is the default used by the recent, DT-capable, U-Boot
+ * bootloaders provided by Marvell. It is used in recent versions of
+ * DSM software provided by Synology. Nonetheless, some earlier boards
+ * were delivered with an older version of u-boot that left internal
+ * registers mapped at 0xd0000000. If you have such a device you will
+ * not be able to directly boot a kernel based on this Device Tree. In
+ * that case, the preferred solution is to update your bootloader (e.g.
+ * by upgrading to latest version of DSM, or building a new one and
+ * installing it from u-boot prompt) or adjust the Devive Tree
+ * (s/0xf1000000/0xd0000000/ in 'ranges' below).
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include "armada-xp-mv78230.dtsi"
+
+/ {
+	model = "Synology DS414";
+	compatible = "synology,ds414", "marvell,armadaxp-mv78230",
+		     "marvell,armadaxp", "marvell,armada-370-xp";
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0 0x00000000 0 0x40000000>; /* 1GB */
+	};
+
+	soc {
+		ranges = <MBUS_ID(0xf0, 0x01) 0 0 0xf1000000 0x100000
+			  MBUS_ID(0x01, 0x1d) 0 0 0xfff00000 0x100000
+			  MBUS_ID(0x09, 0x09) 0 0 0xf1100000 0x10000
+			  MBUS_ID(0x09, 0x05) 0 0 0xf1110000 0x10000>;
+
+		pcie-controller {
+			status = "okay";
+
+			pcie@1,0 {
+				/* Port 0, Lane 0 */
+				status = "okay";
+			};
+
+			pcie@5,0 {
+				/* Port 1, Lane 0 */
+				status = "okay";
+			};
+		};
+
+		internal-regs {
+
+			rtc@10300 {
+				status = "disabled";
+			};
+
+			i2c@11000 {
+				status = "okay";
+				clock-frequency = <100000>; //maybe 400000
+
+				rs5c372: rs5c372@32 {
+					compatible = "rs5c372a";
+					reg = <0x32>;
+				};
+			};
+
+			serial@12000 {
+				status = "okay";
+			};
+
+			serial@12100 {
+				status = "okay";
+			};
+			
+			serial@12100 {
+				status = "okay";
+			};
+
+			serial@12300 {
+				status = "okay";
+			};
+
+			usb@50000 {
+				status = "okay";
+			};
+
+                        usb@51000 {
+                                status = "okay";
+                        };
+
+                        usb@52000 {
+                                status = "okay";
+                        };
+
+			mdio {
+				phy0: ethernet-phy@0 { /* Marvell 88E1512 */
+					reg = <0>;
+				};
+
+				phy1: ethernet-phy@1 { /* Marvell 88E1512 */
+					reg = <1>;
+				};
+			};
+
+			ethernet@70000 {
+				status = "okay";
+				pinctrl-0 = <&ge0_rgmii_pins>;
+				pinctrl-names = "default";
+				phy = <&phy1>;
+				phy-mode = "rgmii-id";
+			};
+
+			ethernet@74000 {
+				pinctrl-0 = <&ge1_rgmii_pins>;
+				pinctrl-names = "default";
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+		};
+	};
+
+};
+
+&pinctrl {
+	sata1_pwr_pin: sata1-pwr-pin {
+		marvell,pins = "mpp42";
+		marvell,function = "gpio";
+	};
+
+	sata2_pwr_pin: sata2-pwr-pin {
+		marvell,pins = "mpp44";
+		marvell,function = "gpio";
+	};
+
+	sata3_pwr_pin: sata3-pwr-pin {
+		marvell,pins = "mpp45";
+		marvell,function = "gpio";
+	};
+
+	sata4_pwr_pin: sata4-pwr-pin {
+		marvell,pins = "mpp46";
+		marvell,function = "gpio";
+	};
+
+	sata1_pres_pin: sata1-pres-pin {
+		marvell,pins = "mpp34";
+		marvell,function = "gpio";
+	};
+
+	sata2_pres_pin: sata2-pres-pin {
+		marvell,pins = "mpp35";
+		marvell,function = "gpio";
+	};
+
+	sata3_pres_pin: sata3-pres-pin {
+		marvell,pins = "mpp40";
+		marvell,function = "gpio";
+	};
+
+	sata4_pres_pin: sata4-pres-pin {
+		marvell,pins = "mpp41";
+		marvell,function = "gpio";
+	};
+
+	syno_id_bit0_pin: syno-id-bit0-pin {
+		marvell,pins = "mpp26";
+		marvell,function = "gpio";
+	};
+
+	syno_id_bit1_pin: syno-id-bit1-pin {
+		marvell,pins = "mpp28";
+		marvell,function = "gpio";
+	};
+
+	syno_id_bit2_pin: syno-id-bit2-pin {
+		marvell,pins = "mpp29";
+		marvell,function = "gpio";
+	};
+
+	fan1_alarm_pin: fan1-alarm-pin {
+		marvell,pins = "mpp33";
+		marvell,function = "gpio";
+	};
+
+	fan2_alarm_pin: fan2-alarm-pin {
+		marvell,pins = "mpp32";
+		marvell,function = "gpio";
+	};
+};
+

@@ -1,0 +1,286 @@
+/*
+ * Device Tree file for Buffalo LinkStation LS210D
+ *
+ * Toha <tohenk@yahoo.com>
+ *
+ * This file is dual-licensed: you can use it either under the terms
+ * of the GPL or the X11 license, at your option. Note that this dual
+ * licensing only applies to this file, and not this project as a
+ * whole.
+ *
+ *  a) This file is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation; either version 2 of the
+ *     License, or (at your option) any later version.
+ *
+ *     This file is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ * Or, alternatively,
+ *
+ *  b) Permission is hereby granted, free of charge, to any person
+ *     obtaining a copy of this software and associated documentation
+ *     files (the "Software"), to deal in the Software without
+ *     restriction, including without limitation the rights to use,
+ *     copy, modify, merge, publish, distribute, sublicense, and/or
+ *     sell copies of the Software, and to permit persons to whom the
+ *     Software is furnished to do so, subject to the following
+ *     conditions:
+ *
+ *     The above copyright notice and this permission notice shall be
+ *     included in all copies or substantial portions of the Software.
+ *
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *     OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include "armada-370.dtsi"
+
+/ {
+	model = "Buffalo LinkStation LS410D";
+	compatible = "buffalo,ls410d", "marvell,armada370", "marvell,armada-370-xp";
+
+	chosen {
+		bootargs = "earlyprintk boot=local";
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x20000000>; /* 512 MB */
+	};
+
+	soc {
+		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
+			  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+
+
+		internal-regs {
+			rtc@10300 {
+				status = "disabled";
+			};
+
+			serial@12000 {
+				status = "okay";
+			};
+
+			sata@a0000 {
+				nr-ports = <2>;
+				status = "okay";
+			};
+
+			timer@20300 {
+				status = "okay";
+			};
+
+			mdio {
+				pinctrl-0 = <&mdio_pins>;
+				pinctrl-names = "default";
+
+				phy0: ethernet-phy@0 {
+					reg = <0>;
+				};
+			};
+
+			ethernet@74000 {
+				pinctrl-0 = <&ge1_rgmii_pins>;
+				pinctrl-names = "default";
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+
+			mvsdio@d4000 {
+				pinctrl-0 = <&sdio_pins3>;
+				pinctrl-names = "default";
+				status = "okay";
+				broken-cd;
+			};
+
+			usb@50000 {
+				status = "okay";
+			};
+
+			i2c@11000 {
+				status = "okay";
+				clock-frequency = <100000>;
+
+				rs5c372: rs5c372@32 {
+					compatible = "rs5c372a";
+					reg = <0x32>;
+				};
+			};
+
+		};
+	};
+
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		pinctrl-0 = <&usb_vbus>;
+		pinctrl-names = "default";
+
+		usb_power: regulator@1 {
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "USB Power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <&gpio0 5 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+        gpio-fan {
+                compatible = "gpio-fan";
+                pinctrl-0 = <&fan_low &fan_high &fan_lock>;
+                pinctrl-names = "default";
+                gpios = <&gpio0 14 GPIO_ACTIVE_LOW
+                         &gpio0 13 GPIO_ACTIVE_LOW>;
+                gpio-fan,speed-map = <0    3
+                                      1500 2
+                                      3250 1
+                                      5000 0>;
+                alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+        };
+
+
+
+	gpio-leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&power_led_pin &alarm_led_pin &info_led_pin
+			&func_led_pin &system_led_pins>;
+
+		white-power-led {
+			label = "ls410de:white:power";
+			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		red-power-led {
+			label = "ls410de:red:power";
+			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+		amber-power-led {
+			label = "ls410de:amber:power";
+			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+		white-func-led {
+			label = "ls410de:white:func";
+			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+			linux,default-trigger = "disk-activity";
+		};
+		red-func-led {
+			label = "ls410de:red:func";
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-0 = <&power_switch &func_button>;
+		pinctrl-names = "default";
+
+		power-switch {
+			label = "Power Switch";
+			linux,code = <KEY_POWER>;
+			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+		};
+		func-button {
+			label = "Function Button";
+			linux,code = <KEY_OPTION>;
+			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+};
+
+&spi0 {
+	status = "okay";
+	pinctrl-0 = <&spi0_pins2>;
+
+	spi-flash@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "mx25l8005", "jedec,spi-nor";
+		reg = <0>; /* Chip select 0 */
+		spi-max-frequency = <50000000>;
+
+		partition@00000 {
+			label = "u-boot";
+			reg = <0x00000 0xf0000>;
+			read-only;
+		};
+		partition@f0000 {
+			label = "u-boot-env";
+			reg = <0xf0000 0x10000>;
+		};
+	};
+};
+
+&pinctrl {
+	usb_vbus: usb-vbus {
+		marvell,pins = "mpp5";
+		marvell,function = "gpo";
+	};
+	power_switch: power-switch {
+		marvell,pins = "mpp15";
+		marvell,function = "gpio";
+	};
+	fan_lock: fan-lock {
+                marvell,pins = "mpp10";
+                marvell,function = "gpio";
+        };
+        fan_high: fan-high {
+                marvell,pins = "mpp13";
+                marvell,function = "gpio";
+        };
+        fan_low: fan-low {
+                marvell,pins = "mpp14";
+                marvell,function = "gpio";
+        };
+	func_button: func-button {
+		marvell,pins = "mpp16";
+		marvell,function = "gpio";
+	};
+	power_led_pin: power-led-pin {
+		marvell,pins = "mpp54";
+		marvell,function = "gpo";
+	};
+	alarm_led_pin: alarm-led-pin {
+		marvell,pins = "mpp55";
+		marvell,function = "gpio";
+	};
+	info_led_pin: info-led-pin {
+		marvell,pins = "mpp57";
+		marvell,function = "gpio";
+	};
+	func_led_pin: func-led-pin {
+		marvell,pins = "mpp59";
+		marvell,function = "gpo";
+	};
+	system_led_pins: system-led-pins {
+		marvell,pins = "mpp7";
+		marvell,function = "gpo";
+	};
+};
