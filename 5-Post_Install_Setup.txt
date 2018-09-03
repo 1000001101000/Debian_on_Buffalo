@@ -1,0 +1,20 @@
+
+set hostname if you want since installer won't prompt for it.
+
+find IP address device boots with
+
+setup/configure fw_printenv to get MAC
+
+modify /etc/network/interfaces to hardcode MAC
+
+setup/configure fan control
+
+setup/configure triggerhappy/buttons?
+
+edit fstab for md arrays rather than uuid? add array from before install if desired.
+
+samba config?
+
+notes on how to use LEDs?
+
+other typical installs ntp?

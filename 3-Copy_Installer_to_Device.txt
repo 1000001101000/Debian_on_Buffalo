@@ -12,12 +12,15 @@ If you are starting with a device running Buffalo's firmware:
    java -jar acp_commander_gui_156.jar
 3. acp_commander should find the any devices running Buffalo's firmware on your network. Take note of the IP address if you don't already have it.
 4. Enter the admin password for the device in the admin password field.
-5. Send the command "chmod -R 777 /boot". The device may need to be rebooted after this step.
-**sometimes the device disconnects itself from the network after executing commands with acp-commander, if so just power teh device off and back on.
-6. Send the command "busybox telnetd &". This should start the telnet daemon on the device.
-7. Connect to the device via telnet, the username is "admin" and the password is your admin password for the device.
-8. Navigate to the /boot directory.
-9. Copy the installer files from your PC using ftp/sftp or download them from GitHub/etc using wget.
+5. Send the command "chmod -R 777 /boot". The device usually needs to be rebooted after this step.
+6. Click refresh in the lower-right corner, the device will usually show up as 192.168.11.150 or similar
+7. Send the command "reboot". The device should restart. If it is not found or fails to restart, restart it manually.
+8. Once the device is back online click refresh to bring it up again in acp-commander.
+9. Send the command "busybox telnetd &". This should start the telnet daemon on the device.
+10. Connect to the device via telnet, the username is "admin" and the password is your admin password for the device.
+11. Navigate to the /boot directory.
+12. Copy the installer files from your PC using sftp or wget.
+
 
 If your starting with blank drives and do not wish to install the Buffalo firmware first:
 1. Create a partition table using gdisk/parted etc.

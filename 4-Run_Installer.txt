@@ -1,0 +1,13 @@
+Purpose:
+Perform the actual install.
+
+Note: there are a few steps that have to be completed outside the installer before completing the installer and rebooting.
+
+The Easyish way:
+1. Boot up the device, assuming everything went well it will boot into the debian installer and start the ssh-server.
+2. Find the device's IP address. It will set a random MAC address at boot and will have been assigned a new IP address via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
+   nmap -p22 --open 192.168.1.*   or similar.
+3. Connect to the device via ssh, the username is installer, the password is install.
+4. Run through the installer like a typical Debian install (see detailed example at the end). Partition 1 still needs to be mounted as /boot and needs to be formatted as ext2 or ext3.
+Stop when you get to the page where the installer fails to install Grub.
+5.  
