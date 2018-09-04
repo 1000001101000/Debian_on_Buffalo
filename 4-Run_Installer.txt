@@ -8,6 +8,61 @@ The Easyish way:
 2. Find the device's IP address. It will set a random MAC address at boot and will have been assigned a new IP address via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
    nmap -p22 --open 192.168.1.*   or similar.
 3. Connect to the device via ssh, the username is installer, the password is install.
-4. Run through the installer like a typical Debian install (see detailed example at the end). Partition 1 still needs to be mounted as /boot and needs to be formatted as ext2 or ext3.
+4. Run through the installer like a typical Debian install (see details at the end). Note: Partition 1 still needs to be mounted as /boot and needs to be formatted as ext2 or ext3.
 Stop when you get to the page where the installer fails to install Grub.
-5.  
+5. Open a second ssh session to the device using the same login credentials. Leave the first one running, we'll need it later.
+6. Select "Start Shell"
+7. A warning page will be displayed, select continue.
+8. Confirm that the "/", "/boot", "/dev" and "/proc" filesystems are mounted under "/target":
+    ~ # mount | grep /target
+   /dev/sda2 on /target type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+   /dev/sda1 on /target/boot type ext3 (rw,relatime,data=ordered)
+   devtmpfs on /target/dev type devtmpfs (rw,relatime,size=105188k,nr_inodes=26297,mode=755)
+   proc on /target/proc type proc (rw,relatime)   
+9. chroot into the target system so we can configure the system to generate boot files automatically.
+   chroot /target /bin/bash
+10. Install flash-kernel
+    apt-get install flash-kernel
+11. Add config to ensure that generated initramfs's default to local boot (Some devices pass NFS boot params to the kernel which need to be ignored):
+    echo "BOOT=local" > /usr/share/initramfs-tools/conf.d/localboot
+12. Upload devices.db to /usr/share/db/
+13. Upload the device's DTB file to /etc/flash-kernel/dtbs/
+14. Run "udevadm trigger" to ensure all partitions are discvered properly when generating boot files.
+    udevadm trigger
+15. Run "update-initramfs -u" to generate the boot files, the output should be similar to below:
+    flash-kernel: installing version 4.9.0-7-armmp
+    flash-kernel: appending /etc/flash-kernel/dtbs/armada-370-linkstation-ls210.dtb to kernel
+    Generating kernel u-boot image... done.
+    Installing new uImage.buffalo.
+    Generating initramfs u-boot image... done.
+    Installing new initrd.buffalo.
+16. Now that you've set up the bootloader, go back to the first SSH session and complete the installation.
+17. Select "Continue without bootloader" from the menu.
+18. When it warns about needing to manually boot, select continue again.
+19. Select continue on the finally screen to reboot the device.
+
+
+
+Step 4 Expanded:
+1. At the initial screen choose "Start installer".
+2. Choose your regions for a list of mirrors close to you.
+3. Choose a mirror for Debian to install packaged from.
+4. If needed, specify a proxy to use.
+5. Select the language for the system.
+6. Select your region for a list of timezones.
+7. Set a root password.
+8. Confirm the root password.
+9. Enter the fullname for the first user.
+10. Set the username of the first user.
+11. Choose a password for the first user.
+12. Confirm password for the first user.
+13. Select a timezone.
+14. Configure disk partitions. see doc for examples.
+**The installer will now install the base system packages.
+15. Select whether to send usage statistics to Debian (default is no).
+16. Select Software: The default is "SSH Server" and "standard system utilities" which is sufficient.
+**The installer will now install the selected software.
+17. You should now get a warning page which says "the 'grub-pc' package failed to install"
+18. OPen a second ssh session to the device and follow the rest of the main steps before continuing.
+
+
