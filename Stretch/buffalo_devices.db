@@ -1,0 +1,98 @@
+Machine: Buffalo LinkStation LS210D
+Kernel-Flavors: armmp
+DTB-Id: armada-370-linkstation-ls210d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo LinkStation LS220D 
+Kernel-Flavors: armmp
+DTB-Id: armada-370-linkstation-ls220d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo LinkStation LS410D 
+Kernel-Flavors: armmp
+DTB-Id: armada-370-linkstation-ls410d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo LinkStation LS420D 
+Kernel-Flavors: armmp
+DTB-Id: armada-370-linkstation-ls420d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo LinkStation LS421D 
+Kernel-Flavors: armmp
+DTB-Id: armada-370-linkstation-ls421d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo LinkStation LS441D 
+Kernel-Flavors: armmp
+DTB-Id: armada-370-linkstation-ls441d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo TeraStation TS1200D 
+Kernel-Flavors: armmp
+DTB-Id: armada-370-terastation-ts1200d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo TeraStation TS1400D
+Kernel-Flavors: armmp
+DTB-Id: armada-370-terastation-ts1400d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo TeraStation TS1400R
+Kernel-Flavors: armmp
+DTB-Id: armada-370-terastation-ts1400r.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
