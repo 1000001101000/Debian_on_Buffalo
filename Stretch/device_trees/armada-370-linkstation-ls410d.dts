@@ -1,5 +1,5 @@
 /*
- * Device Tree file for Buffalo LinkStation LS421DE
+ * Device Tree file for Buffalo LinkStation LS410D
  *
  * Toha <tohenk@yahoo.com>
  *
@@ -49,8 +49,8 @@
 #include "armada-370.dtsi"
 
 / {
-	model = "Buffalo LinkStation LS421DE";
-	compatible = "buffalo,ls421de", "marvell,armada370", "marvell,armada-370-xp";
+	model = "Buffalo LinkStation LS410D";
+	compatible = "buffalo,ls410d", "marvell,armada370", "marvell,armada-370-xp";
 
 	chosen {
 		bootargs = "earlyprintk boot=local";
@@ -67,18 +67,6 @@
 			  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
 			  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
-		pcie-controller {
-			status = "okay";
-
-			pcie@1,0 {
-				/* Port 0, Lane 0 */
-				status = "okay";
-			};
-			pcie@2,0 {
-				/* Port 1, Lane 0 */
-				status = "okay";
-			};
-		};
 
 		internal-regs {
 			rtc@10300 {
@@ -126,10 +114,6 @@
 				status = "okay";
 			};
 
-			usb@51000 {
-				status = "okay";
-			};
-
 			i2c@11000 {
 				status = "okay";
 				clock-frequency = <100000>;
@@ -140,28 +124,6 @@
 				};
 			};
 
-			nand@d0000 {
-				status = "okay";
-				num-cs = <1>;
-				marvell,nand-keep-config;
-				marvell,nand-enable-arbiter;
-				nand-on-flash-bbt;
-
-				/* Use Hardware BCH ECC */
-				//nand-ecc-strength = <4>;
-				//nand-ecc-step-size = <512>;
-
-				partition@0 {
-					label = "boot";
-					//reg = <0x0 0x02000000>;
-					reg = <0x00000000 0x02000000>;  /* 32MB */
-				};
-				partition@02100000 {
-					label = "rootfs";
-					//reg = <0x02100000 0x1df00000>;
-					reg = <0x02000000 0x1e000000>;  /* 480MB */
-				};
-			};
 		};
 	};
 
@@ -185,49 +147,52 @@
 		};
 	};
 
+        gpio-fan {
+                compatible = "gpio-fan";
+                pinctrl-0 = <&fan_low &fan_high &fan_lock>;
+                pinctrl-names = "default";
+                gpios = <&gpio0 14 GPIO_ACTIVE_LOW
+                         &gpio0 13 GPIO_ACTIVE_LOW>;
+                gpio-fan,speed-map = <0    3
+                                      1500 2
+                                      3250 1
+                                      5000 0>;
+                alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+        };
+
+
+
 	gpio-leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
 		pinctrl-0 = <&power_led_pin &alarm_led_pin &info_led_pin
-			&func_led_pin &system_led_pins &sata1_led_pin &sata2_led_pin>;
+			&func_led_pin &system_led_pins>;
 
 		white-power-led {
-			label = "ls421de:white:power";
+			label = "ls410d:white:power";
 			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 		red-power-led {
-			label = "ls421de:red:power";
+			label = "ls410d:red:power";
 			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		amber-power-led {
-			label = "ls421de:amber:power";
+			label = "ls410d:amber:power";
 			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		white-func-led {
-			label = "ls421de:white:func";
+			label = "ls410d:white:func";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 			linux,default-trigger = "disk-activity";
 		};
 		red-func-led {
-			label = "ls421de:red:func";
+			label = "ls410d:red:func";
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
-		};
-		red-hdd0err-led {
-			label = "ls421de:red:hdd0err";
-			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-			linux,default-trigger = "ata1";
-		};
-		red-hdd1err-led {
-			label = "ls421de:red:hdd1err";
-			gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-			linux,default-trigger = "ata1";
 		};
 	};
 
@@ -248,18 +213,6 @@
 		};
 	};
 
-	gpio-fan {
-		compatible = "gpio-fan";
-		pinctrl-0 = <&fan_low &fan_high &fan_lock>;
-		pinctrl-names = "default";
-		gpios = <&gpio0 14 GPIO_ACTIVE_LOW
-		         &gpio0 13 GPIO_ACTIVE_LOW>;
-		gpio-fan,speed-map = <0    3
-		                      1500 2
-		                      3250 1
-		                      5000 0>;
-		alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-	};
 };
 
 &spi0 {
@@ -290,22 +243,22 @@
 		marvell,pins = "mpp5";
 		marvell,function = "gpo";
 	};
-	fan_lock: fan-lock {
-		marvell,pins = "mpp10";
-		marvell,function = "gpio";
-	};
-	fan_high: fan-high {
-		marvell,pins = "mpp13";
-		marvell,function = "gpio";
-	};
-	fan_low: fan-low {
-		marvell,pins = "mpp14";
-		marvell,function = "gpio";
-	};
 	power_switch: power-switch {
 		marvell,pins = "mpp15";
 		marvell,function = "gpio";
 	};
+	fan_lock: fan-lock {
+                marvell,pins = "mpp10";
+                marvell,function = "gpio";
+        };
+        fan_high: fan-high {
+                marvell,pins = "mpp13";
+                marvell,function = "gpio";
+        };
+        fan_low: fan-low {
+                marvell,pins = "mpp14";
+                marvell,function = "gpio";
+        };
 	func_button: func-button {
 		marvell,pins = "mpp16";
 		marvell,function = "gpio";
@@ -329,13 +282,5 @@
 	system_led_pins: system-led-pins {
 		marvell,pins = "mpp7";
 		marvell,function = "gpo";
-	};
-	sata1_led_pin: sata1-led-pin {
-		marvell,pins = "mpp61";
-		marvell,function = "gpo";
-	};
-	sata2_led_pin: sata2-led-pin {
-		marvell,pins = "mpp62";
-		marvell,function = "gpio";
 	};
 };

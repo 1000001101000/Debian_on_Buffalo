@@ -1,5 +1,5 @@
 /*
- * Device Tree file for Buffalo LinkStation LS420D
+ * Device Tree file for Buffalo LinkStation LS441D
  *
  * Toha <tohenk@yahoo.com>
  *
@@ -49,8 +49,8 @@
 #include "armada-370.dtsi"
 
 / {
-	model = "Buffalo LinkStation LS420D";
-	compatible = "buffalo,ls420d", "marvell,armada370", "marvell,armada-370-xp";
+	model = "Buffalo LinkStation LS441D";
+	compatible = "buffalo,ls441d", "marvell,armada370", "marvell,armada-370-xp";
 
 	chosen {
 		bootargs = "earlyprintk boot=local";
@@ -64,8 +64,20 @@
 
 	soc {
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-			  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-			  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000>;
+
+		pcie-controller {
+			status = "okay";
+
+			pcie@1,0 {
+				/* Port 0, Lane 0 */
+				status = "okay";
+			};
+			pcie@2,0 {
+				/* Port 1, Lane 0 */
+				status = "okay";
+			};
+		};
 
 		internal-regs {
 			rtc@10300 {
@@ -76,31 +88,25 @@
 				status = "okay";
 			};
 
-			sata@a0000 {
-				nr-ports = <2>;
-				status = "okay";
-			};
-
 			timer@20300 {
 				status = "okay";
 			};
 
 			mdio {
-				pinctrl-0 = <&mdio_pins>;
-				pinctrl-names = "default";
-
+				/* Marvell 88E1518 */
 				phy0: ethernet-phy@0 {
 					reg = <0>;
+					marvell,reg-init = <0x3 0x10 0xf000 0x081e>,
+							   <0x3 0x11 0xfff0 0x0001>;
+					compatible = "marvell,88e1518", "ethernet-phy-ieee802.3-c22";
 				};
 			};
 
 			ethernet@74000 {
-				pinctrl-0 = <&ge1_rgmii_pins>;
-				pinctrl-names = "default";
 				status = "okay";
 				phy = <&phy0>;
 				phy-mode = "rgmii-id";
-			};
+			};			
 
 			mvsdio@d4000 {
 				pinctrl-0 = <&sdio_pins3>;
@@ -110,10 +116,6 @@
 			};
 
 			usb@50000 {
-				status = "okay";
-			};
-
-			usb@51000 {
 				status = "okay";
 			};
 
@@ -127,10 +129,32 @@
 				};
 			};
 
+			nand@d0000 {
+				status = "okay";
+				num-cs = <1>;
+				marvell,nand-keep-config;
+				marvell,nand-enable-arbiter;
+				nand-on-flash-bbt;
+
+				/* Use Hardware BCH ECC */
+				//nand-ecc-strength = <4>;
+				//nand-ecc-step-size = <512>;
+
+				partition@0 {
+					label = "boot";
+					//reg = <0x0 0x02000000>;
+					reg = <0x00000000 0x02000000>;  /* 32MB */
+				};
+				partition@02100000 {
+					label = "rootfs";
+					//reg = <0x02100000 0x1df00000>;
+					reg = <0x02000000 0x1e000000>;  /* 480MB */
+				};
+			};
 		};
 	};
 
-	regulators {
+/*	regulators {
 		compatible = "simple-bus";
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -149,56 +173,111 @@
 			gpio = <&gpio0 5 GPIO_ACTIVE_LOW>;
 		};
 	};
+*/
+
 
 	gpio-leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&power_led_pin &alarm_led_pin &info_led_pin
-			&func_led_pin &system_led_pins &sata1_led_pin &sata2_led_pin>;
+		pinctrl-0 = <&alarm_led_pin &info_led_pin &power_led &err_led &info_led &func_red 
+			&func_led_pin &sata1_led_pin &sata2_led_pin &hdd2_err_led &hdd3_err_led 
+			&hdd_pwr0 &hdd_pwr1 &hdd_pwr2 &hdd_pwr3>;
 
-		white-power-led {
-			label = "ls420d:white:power";
-			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
+		power-led {
+			label = "ls441d:white:power";
+			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
-		red-power-led {
-			label = "ls420d:red:power";
-			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
+	
+		err-led {
+			label = "ls441d:red:power";
+			gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		amber-power-led {
-			label = "ls420d:amber:power";
-			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
+
+		info-led {
+			label = "ls441d:orange:power";
+			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
+
+
 		white-func-led {
-			label = "ls420d:white:func";
+			label = "ls441d:white:func";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
-			linux,default-trigger = "disk-activity";
 		};
-		red-func-led {
-			label = "ls420d:red:func";
-			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+
+		func-red {
+			label = "ls441d:red:function";
+			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
+
 		red-hdd0err-led {
-			label = "ls420d:red:hdd0err";
+			label = "ls441d:red:hdd0err";
 			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
-			linux,default-trigger = "ata1";
 		};
 		red-hdd1err-led {
-			label = "ls420d:red:hdd1err";
+			label = "ls441d:red:hdd1err";
 			gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
-			linux,default-trigger = "ata1";
 		};
+
+		hd1-power {
+			label = "PowerHD2";
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+
+		hd0-power {
+			label = "PowerHD1";
+			gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		
+		hd3-power {
+			label = "PowerHD4";
+			gpios = <&gpio1 16 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+
+		hd2-power {
+			label = "PowerHD3";
+			gpios = <&gpio1 20 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		
+		hdd2-err-led {
+			label = "ls441d:red:hdd2err";
+			gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+
+		hdd3-err-led {
+			label = "ls441d:red:hdd3err";
+			gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+
 	};
+
+	restart_poweroff {
+		compatible = "restart-poweroff";
+	};
+
+	//gpio-poweroff {
+	//	compatible = "gpio-poweroff";
+	//	pinctrl-0 = <&poweroff>;
+	//	pinctrl-names = "default";
+	//	gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
+	//};
+
 
 	gpio-keys {
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &func_button>;
+		pinctrl-0 = <&power_switch &func_button &hdd_hot0_n &hdd_hot1_n &hdd_hot2_n &hdd_hot3_n>;
 		pinctrl-names = "default";
 
 		power-switch {
@@ -211,6 +290,32 @@
 			linux,code = <KEY_OPTION>;
 			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
+
+		hdd0-hot {
+			label = "Hard Disk 1 Present";
+			linux,code = <KEY_PROG1>;
+			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
+		};
+
+		hdd1-hot {
+			label = "Hard Disk 2 Present";
+			linux,code = <KEY_PROG2>;
+			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+		};
+
+		hdd2-hot {
+			label = "Hard Disk 3 Present";
+			linux,code = <KEY_PROG3>;
+			gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
+		};
+
+		hdd3-hot {
+			label = "Hard Disk 4 Present";
+			linux,code = <KEY_PROG4>;
+			gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
+		};
+
+
 	};
 
 	gpio-fan {
@@ -223,7 +328,7 @@
 		                      1500 2
 		                      3250 1
 		                      5000 0>;
-		alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+		//alarm-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
 	};
 };
 
@@ -251,14 +356,52 @@
 };
 
 &pinctrl {
-	usb_vbus: usb-vbus {
+
+	power_led: power-led {
 		marvell,pins = "mpp5";
 		marvell,function = "gpo";
 	};
-	fan_lock: fan-lock {
+
+	/* ??? in */
+	usb_oc_n: usb-oc-n {
+		marvell,pins = "mpp6";
+		marvell,function = "gpio";
+	};
+	
+	/* out: default 0 */
+	hdd_pwr1: hdd-pwr1 {
+		marvell,pins = "mpp7";
+		marvell,function = "gpo";
+	};
+
+	/* out: default 0 */
+	hdd_pwr0: hdd-pwr0 {
+		marvell,pins = "mpp8";
+		marvell,function = "gpio";
+	};
+
+	func_red: func-red {
+		marvell,pins = "mpp9";
+		marvell,function = "gpo";
+	};
+
+	/* in */
+	hdd_hot0_n: hdd-hot0-n {
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
+	/* in */
+	hdd_hot1_n: hdd-hot1-n {
+		marvell,pins = "mpp11";
+		marvell,function = "gpio";
+	};
+
+	fan_lock: fan-lock {
+		marvell,pins = "mpp12";
+		marvell,function = "gpio";
+	};
+
 	fan_high: fan-high {
 		marvell,pins = "mpp13";
 		marvell,function = "gpio";
@@ -275,26 +418,76 @@
 		marvell,pins = "mpp16";
 		marvell,function = "gpio";
 	};
-	power_led_pin: power-led-pin {
+	
+	/* ??? in */
+	uart_en_n: uart-en-n {
+		marvell,pins = "mpp31";
+		marvell,function = "gpio";
+	};
+	
+	/* out: default 0 */
+	hdd3_err_led: hdd3-err-led {
+		marvell,pins = "mpp47";
+		marvell,function = "gpo";
+	};	
+
+	/* out: default 0 */
+	hdd_pwr3: hdd-pwr3 {
+		marvell,pins = "mpp49";
+		marvell,function = "gpio";
+	};	
+
+	/* in */
+	hdd_hot2_n: hdd-hot2-n {
+		marvell,pins = "mpp50";
+		marvell,function = "gpio";
+	};
+
+	/* in */
+	hdd_hot3_n: hdd-hot3-n {
+		marvell,pins = "mpp51";
+		marvell,function = "gpio";
+	};
+
+	/* out: default 0 */
+	hdd_pwr2: hdd-pwr2 {
+		marvell,pins = "mpp52";
+		marvell,function = "gpio";	
+	};
+
+	/* out: default 0 */
+	info_led: info-led {
 		marvell,pins = "mpp54";
 		marvell,function = "gpo";
 	};
+
 	alarm_led_pin: alarm-led-pin {
 		marvell,pins = "mpp55";
 		marvell,function = "gpio";
 	};
+
 	info_led_pin: info-led-pin {
 		marvell,pins = "mpp57";
 		marvell,function = "gpio";
 	};
+
+	/* out: default 0 */
+	hdd2_err_led: hdd2-err-led {
+		marvell,pins = "mpp58";
+		marvell,function = "gpio";
+	};
+
 	func_led_pin: func-led-pin {
 		marvell,pins = "mpp59";
 		marvell,function = "gpo";
 	};
-	system_led_pins: system-led-pins {
-		marvell,pins = "mpp7";
-		marvell,function = "gpo";
+
+	/* out: default 0 */
+	err_led: err-led {
+		marvell,pins = "mpp60";
+		marvell,function = "gpio";
 	};
+
 	sata1_led_pin: sata1-led-pin {
 		marvell,pins = "mpp61";
 		marvell,function = "gpo";

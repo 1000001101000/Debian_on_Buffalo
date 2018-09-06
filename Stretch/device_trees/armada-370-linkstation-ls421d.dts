@@ -1,5 +1,5 @@
 /*
- * Device Tree file for Buffalo LinkStation LS420D
+ * Device Tree file for Buffalo LinkStation LS421D
  *
  * Toha <tohenk@yahoo.com>
  *
@@ -49,8 +49,8 @@
 #include "armada-370.dtsi"
 
 / {
-	model = "Buffalo LinkStation LS420D";
-	compatible = "buffalo,ls420d", "marvell,armada370", "marvell,armada-370-xp";
+	model = "Buffalo LinkStation LS421D";
+	compatible = "buffalo,ls421d", "marvell,armada370", "marvell,armada-370-xp";
 
 	chosen {
 		bootargs = "earlyprintk boot=local";
@@ -66,6 +66,19 @@
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
 			  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
 			  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+
+		pcie-controller {
+			status = "okay";
+
+			pcie@1,0 {
+				/* Port 0, Lane 0 */
+				status = "okay";
+			};
+			pcie@2,0 {
+				/* Port 1, Lane 0 */
+				status = "okay";
+			};
+		};
 
 		internal-regs {
 			rtc@10300 {
@@ -127,6 +140,28 @@
 				};
 			};
 
+			nand@d0000 {
+				status = "okay";
+				num-cs = <1>;
+				marvell,nand-keep-config;
+				marvell,nand-enable-arbiter;
+				nand-on-flash-bbt;
+
+				/* Use Hardware BCH ECC */
+				//nand-ecc-strength = <4>;
+				//nand-ecc-step-size = <512>;
+
+				partition@0 {
+					label = "boot";
+					//reg = <0x0 0x02000000>;
+					reg = <0x00000000 0x02000000>;  /* 32MB */
+				};
+				partition@02100000 {
+					label = "rootfs";
+					//reg = <0x02100000 0x1df00000>;
+					reg = <0x02000000 0x1e000000>;  /* 480MB */
+				};
+			};
 		};
 	};
 
@@ -157,39 +192,39 @@
 			&func_led_pin &system_led_pins &sata1_led_pin &sata2_led_pin>;
 
 		white-power-led {
-			label = "ls420d:white:power";
+			label = "ls421d:white:power";
 			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 		red-power-led {
-			label = "ls420d:red:power";
+			label = "ls421d:red:power";
 			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		amber-power-led {
-			label = "ls420d:amber:power";
+			label = "ls421d:amber:power";
 			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		white-func-led {
-			label = "ls420d:white:func";
+			label = "ls421d:white:func";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 			linux,default-trigger = "disk-activity";
 		};
 		red-func-led {
-			label = "ls420d:red:func";
+			label = "ls421d:red:func";
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		red-hdd0err-led {
-			label = "ls420d:red:hdd0err";
+			label = "ls421d:red:hdd0err";
 			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 			linux,default-trigger = "ata1";
 		};
 		red-hdd1err-led {
-			label = "ls420d:red:hdd1err";
+			label = "ls421d:red:hdd1err";
 			gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 			linux,default-trigger = "ata1";

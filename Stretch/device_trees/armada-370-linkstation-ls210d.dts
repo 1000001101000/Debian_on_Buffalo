@@ -154,28 +154,28 @@
 			&func_led_pin &system_led_pins>;
 
 		white-power-led {
-			label = "ls210de:white:power";
+			label = "ls210d:white:power";
 			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 		red-power-led {
-			label = "ls210de:red:power";
+			label = "ls210d:red:power";
 			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		amber-power-led {
-			label = "ls210de:amber:power";
+			label = "ls210d:amber:power";
 			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 		white-func-led {
-			label = "ls210de:white:func";
+			label = "ls210d:white:func";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 			linux,default-trigger = "disk-activity";
 		};
 		red-func-led {
-			label = "ls210de:red:func";
+			label = "ls210d:red:func";
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
