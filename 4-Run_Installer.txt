@@ -41,10 +41,12 @@ Stop when you get to the page where the installer fails to install Grub.
     root@debian:/# ls -l /boot/*.buffalo
     -rw-r--r-- 1 root root 16511555 Sep  7 16:29 /boot/initrd.buffalo
     -rw-r--r-- 1 root root  3755255 Sep  7 16:29 /boot/uImage.buffalo
-16. Now that you've set up the boot files, go back to the first SSH session and complete the installation.
-17. Select "Continue without bootloader" from the menu.
-18. When it warns about needing to manually boot, select continue again.
-19. Select continue on the "finish the installation" screen to reboot the device.
+17. Exit the chroot.
+18. Exit your shell session, you can now close this SSH connection.
+19. Now that you've set up the boot files, go back to the first SSH session and complete the installation.
+20. Select "Continue without bootloader" from the menu.
+21. When it warns about needing to manually boot, select continue again.
+22. Select continue on the "finish the installation" screen to reboot the device.
 
 The device should come back online running a fresh Debian install (with another random MAC address and a new IP address)
 
