@@ -13,19 +13,20 @@ Stop when you get to the page where the installer fails to install Grub.
 5. Open a second ssh session to the device using the same login credentials. Leave the first one running, we'll need it later.
 6. Select "Start Shell"
 7. A warning page will be displayed, select continue.
-8. Confirm that the "/", "/boot", "/dev" and "/proc" filesystems are mounted under "/target":
+8. Confirm that the "/", "/boot", "/dev", "/proc" and "/sys" filesystems are mounted under "/target":
     ~ # mount | grep /target
    /dev/sda2 on /target type ext4 (rw,relatime,errors=remount-ro,data=ordered)
    /dev/sda1 on /target/boot type ext3 (rw,relatime,data=ordered)
    devtmpfs on /target/dev type devtmpfs (rw,relatime,size=105188k,nr_inodes=26297,mode=755)
    proc on /target/proc type proc (rw,relatime)   
+   sysfs on /target/sys type sysfs (rw,relatime)
 9. chroot into the target system so we can configure the system to generate boot files automatically.
    chroot /target /bin/bash
 10. Install flash-kernel
     apt-get install flash-kernel
 11. Add config to ensure that generated initramfs's default to local boot (Some devices pass NFS boot params to the kernel which need to be ignored):
     echo "BOOT=local" > /usr/share/initramfs-tools/conf.d/localboot
-12. Upload devices.db to /usr/share/db/
+12. Upload buffalo_devices.db to /usr/share/flash-kernel/db/
 13. Upload the device's DTB file to /etc/flash-kernel/dtbs/
 14. Run "udevadm trigger" to ensure all partitions are discvered properly when generating boot files.
     udevadm trigger
@@ -36,10 +37,18 @@ Stop when you get to the page where the installer fails to install Grub.
     Installing new uImage.buffalo.
     Generating initramfs u-boot image... done.
     Installing new initrd.buffalo.
-16. Now that you've set up the bootloader, go back to the first SSH session and complete the installation.
+16. Double check that both .buffalo files are present in /boot:
+    root@debian:/# ls -l /boot/*.buffalo
+    -rw-r--r-- 1 root root 16511555 Sep  7 16:29 /boot/initrd.buffalo
+    -rw-r--r-- 1 root root  3755255 Sep  7 16:29 /boot/uImage.buffalo
+16. Now that you've set up the boot files, go back to the first SSH session and complete the installation.
 17. Select "Continue without bootloader" from the menu.
 18. When it warns about needing to manually boot, select continue again.
-19. Select continue on the finally screen to reboot the device.
+19. Select continue on the "finish the installation" screen to reboot the device.
+
+The device should come back online running a fresh Debian install (with another random MAC address and a new IP address)
+
+see the next document for notes on how to do some post-install setup, including how to set the correct MAC address permanently.
 
 
 
@@ -49,7 +58,7 @@ Step 4 Expanded:
 3. Choose a mirror for Debian to install packaged from.
 4. If needed, specify a proxy to use.
 5. Select the language for the system.
-6. Select your region for a list of timezones.
+6. Select your system locale.
 7. Set a root password.
 8. Confirm the root password.
 9. Enter the fullname for the first user.
@@ -63,6 +72,6 @@ Step 4 Expanded:
 16. Select Software: The default is "SSH Server" and "standard system utilities" which is sufficient.
 **The installer will now install the selected software.
 17. You should now get a warning page which says "the 'grub-pc' package failed to install"
-18. OPen a second ssh session to the device and follow the rest of the main steps before continuing.
+18. Open a second ssh session to the device and follow the rest of the main steps before continuing.
 
 
