@@ -1,5 +1,5 @@
 /*
- * Device Tree file for Buffalo LinkStation LS441DE
+ * Device Tree file for Buffalo Terastation 1400R
  *
  * Toha <tohenk@yahoo.com>
  *
@@ -49,7 +49,7 @@
 #include "armada-370.dtsi"
 
 / {
-	model = "Buffalo TeraStation TS1400R";
+	model = "Buffalo Terastation TS1400R";
 	compatible = "buffalo,ts1400r", "marvell,armada370", "marvell,armada-370-xp";
 
 	chosen {

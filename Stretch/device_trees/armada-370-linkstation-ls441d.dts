@@ -1,5 +1,5 @@
 /*
- * Device Tree file for Buffalo LinkStation LS441D
+ * Device Tree file for Buffalo Linkstation LS441D
  *
  * Toha <tohenk@yahoo.com>
  *
@@ -49,7 +49,7 @@
 #include "armada-370.dtsi"
 
 / {
-	model = "Buffalo LinkStation LS441D";
+	model = "Buffalo Linkstation LS441D";
 	compatible = "buffalo,ls441d", "marvell,armada370", "marvell,armada-370-xp";
 
 	chosen {

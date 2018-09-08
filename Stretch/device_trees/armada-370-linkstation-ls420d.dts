@@ -1,5 +1,5 @@
 /*
- * Device Tree file for Buffalo LinkStation LS420D
+ * Device Tree file for Buffalo Linkstation LS420D
  *
  * Toha <tohenk@yahoo.com>
  *
@@ -49,7 +49,7 @@
 #include "armada-370.dtsi"
 
 / {
-	model = "Buffalo LinkStation LS420D";
+	model = "Buffalo Linkstation LS420D";
 	compatible = "buffalo,ls420d", "marvell,armada370", "marvell,armada-370-xp";
 
 	chosen {
