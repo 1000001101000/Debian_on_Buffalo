@@ -127,6 +127,29 @@
 				};
 			};
 
+			nand@d0000 {
+                                status = "okay";
+                                num-cs = <1>;
+                                marvell,nand-keep-config;
+                                marvell,nand-enable-arbiter;
+                                nand-on-flash-bbt;
+
+                                /* Use Hardware BCH ECC */
+                                //nand-ecc-strength = <4>;
+                                //nand-ecc-step-size = <512>;
+
+                                partition@0 {
+                                        label = "boot";
+                                        //reg = <0x0 0x02000000>;
+                                        reg = <0x00000000 0x02000000>;  /* 32MB */
+                                };
+                                partition@02100000 {
+                                        label = "rootfs";
+                                        //reg = <0x02100000 0x1df00000>;
+                                        reg = <0x02000000 0x1e000000>;  /* 480MB */
+                                };
+                        };
+
 		};
 	};
 
