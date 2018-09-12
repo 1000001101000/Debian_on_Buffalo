@@ -1,42 +1,22 @@
 # Debian_on_Buffalo
-Tools for Installing/Running Debian on Buffalo Linkstation/Terastation (LS4XX, LS2XX, TS1400 etc) 
+Tools for Installing/Running Debian on Buffalo Linkstation/Terastation (LS4XX, LS2XX, TSXXX etc) 
+
+My goal is to make it possible for someone with fairly basic linux knowledge to install Debian on their Marvell Armada based Buffalo Linkstation/Terastation similarly to what is provided for the older generation orion5x/Kirkwood devices.
 
 
-Some great work has been done over the past few years to run modern Debian Linux on the more recent Buffalo Linkstation models, most notably the LS421DE. I've spent some time over the past year building off of that work with the goal of simplifying the process to make it more like a typical Debian install, most notably by using the ARMHF kernel provided by Debian rather than cross compiling a custom one.
+I've divided the process into 5 parts:
 
+1. Obtain the Device Tree Blob (DTB) for your device.
+2. Use the DTB and the kernel/initrd provided by Debian to create the installer image.
+3. Transfer the installer image to the device.
+4. Run the Debian Installer.
+5. Install/configure the system to make use of the hardware (fan/tempurature sensors/etc)
 
-- Use the Vanilla Debian Kernel, removing the need to compile your own.
-- Use Flash-Kernel to automate the generation of new Kernel/Initrd images. (allow kernel updates without any manual steps)
-- Use the Debian installer to setup the base system 
-- Support RAID1 boot and rootfs devices to allow hotswapping drives.
-- Support additional devices (LS210, LS420, LS421, LS441, TS1400D and TS1400R Tested so far)
+Each section includes "the easy way" which is aimed at being simpler and requiring less technical knowledge by using files I've already created, and "the hard way" which shows how to compile your own files relying on as few resources provided by me as possible.
+ 
+Feel free to contact me with any questions/feedback.
 
-I'm confident this can be made to work on the LS220, LS410 and TS1200 as well but I have not had access to them to test with yet. 
-
-My goal is that someone with fairly basic Linux skills will be able to do this using the tools provided by Debian and as few files/resources provided by me as possible.
-
-The basic process is as follows:
-
-1. Download the Debian network-console installer files (vmlinuz and initrd.gz) from Debian's site
-2. Download the corresponding device tree file for your device from this site
-3. Append the device tree to the kernel file.
-4. Package the Kernel and initrd as uBoot images using mkimage.
-5. Prepare the boot disk(s) by creating an ext3 partition to boot from.
-6. copy the images over to the disk as uImage.buffalo and initrd.buffalo 
-7. Insert the disk(s) and boot the device.
-8. Connect to the device via ssh and run through the typicall installer steps (set timezone, partition disks, etc)
-9. Before rebooting, open a shell and:
- -  install flash-image
- -  add entries for the buffalo devices under /usr/share/flash-kernel/db
- -  add the DTB file for the device under /etc/flash-kernel/dtb
- -  run flash-kernel to generate appropriate kernel and inird images
- -  add the correct MAC address to /etc/network/interfaces
-10. Reboot 
-11. Connect to device over ssh, verify that /etc/fstab and /etc/mdadm/mdadm.conf make sense, adjust if needed.
-
-I'll expand on all of this as I build out the repository.
-
-Many of these steps can be simplified further if we can get the relevant pieces added to the Linux Kernel, flash-kernel and Debian Installer projects.
-
-
-
+Acknowledgments:
+Toha     - https://github.com/tohenk/linkstation-mod
+rogers0  - https://github.com/rogers0/OpenLinkstation
+shihsung - https://sites.google.com/site/shihsung/
