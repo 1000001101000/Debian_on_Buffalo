@@ -16,7 +16,12 @@ Each section includes "the easy way" which is aimed at being simpler and requiri
  
 Feel free to contact me with any questions/feedback.
 
-Acknowledgments:
+Acknowledgments: 
+
 Toha     - https://github.com/tohenk/linkstation-mod
+
 rogers0  - https://github.com/rogers0/OpenLinkstation
+
 shihsung - https://sites.google.com/site/shihsung/
+
+
