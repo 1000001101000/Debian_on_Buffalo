@@ -7,19 +7,27 @@ This can be accomplished a number of ways, the requirement is that the *.buffalo
 I prefer to start with a device already running Buffalo's firmware, this way you can reuse the existing RAID arrays and don't have to remove the drives, this is particularly nice for the 210/410 which require dissasembly to get access the drives.
 
 If you are starting with a device running Buffalo's firmware:
-1. Obtain a copy of acp-commander either form the tools directory or from https://github.com/Stonie/acp-commander
-2. Run acp-commander (Java required):
-   java -jar acp_commander_gui_156.jar
-3. acp_commander should find the any devices running Buffalo's firmware on your network. Take note of the IP address if you don't already have it.
-4. Enter the admin password for the device in the admin password field.
-5. Send the command "chmod -R 777 /boot". The device usually needs to be rebooted after this step.
-6. Click refresh in the lower-right corner, the device will usually show up as 192.168.11.150 or similar
-7. Send the command "reboot". The device should restart. If it is not found or fails to restart, restart it manually.
-8. Once the device is back online click refresh to bring it up again in acp-commander.
-9. Send the command "busybox telnetd &". This should start the telnet daemon on the device.
-10. Connect to the device via telnet, the username is "admin" and the password is your admin password for the device.
-11. Navigate to the /boot directory.
-12. Copy the installer files from your PC using sftp or wget.
+1. Obtain a copy of acp_commander_cli.jar either from the Tools directory or from nas-central.org (defunct)
+2. Use acp-commander to find the device's IP address if needed.
+   java -jar acp_commander_cli.jar -f
+3. Use acp_commander to send the command "chmod -R 777 /boot"
+   java -jar acp_commander_cli.jar -t <device ip address> -ip <device ip address> -c "chmod -R 777 /boot" -pw <your admin password> 
+4. Use acp_commander to send the command "busybox telnetd &"
+   java -jar acp_commander_cli.jar -t 192.168.1.184 -ip 192.168.1.184 -c "busybox telnetd &" -pw password
+5. Connect to the device via telnet, the username is "admin" and the password is your admin password for the device.
+   $ telnet 192.168.1.184
+   Trying 192.168.1.184...
+   Connected to 192.168.1.184.
+   Escape character is '^]'.
+
+   BUFFALO INC. LinkStation series 
+   LS210D6CF login: admin 
+   Password: 
+   [admin@LS210D6CF ~]$
+
+6. Navigate to the /boot directory.
+    cd /boot
+7. Copy the installer files from your PC using sftp or wget. You could also copy them to a network share on the device, then copy them to /boot from /mnt/disk.... or /mnt/array....
 
 
 If your starting with blank drives and do not wish to install the Buffalo firmware first:

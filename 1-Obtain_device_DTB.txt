@@ -15,3 +15,4 @@ The Hard Way:
 7. Copy the armmp config file to .config
    cp debian/config/armhf/config .config
 8. run "make oldconfig"
+.... work in progress
