@@ -182,20 +182,20 @@
 		pinctrl-0 = <&power_led &func_red &func_led_pin &hdd_pwr0 &hdd_pwr1 &hdd_pwr2 &hdd_pwr3>;
 
 		power-led {
-			label = "ls441de:white:power";
+			label = "ts1400d:white:power";
 			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 	
 
 		white-func-led {
-			label = "ls441de:white:func";
+			label = "ts1400d:white:func";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 
 		func-red {
-			label = "ls441de:red:function";
+			label = "ts1400d:red:function";
 			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};

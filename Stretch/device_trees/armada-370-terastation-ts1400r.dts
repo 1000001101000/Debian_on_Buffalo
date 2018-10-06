@@ -179,51 +179,7 @@
 	gpio-leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&alarm_led_pin &info_led_pin &power_led &err_led &info_led &func_red 
-			&func_led_pin &sata1_led_pin &sata2_led_pin &hdd2_err_led &hdd3_err_led 
-			&hdd_pwr0 &hdd_pwr1 &hdd_pwr2 &hdd_pwr3>;
-
-		power-led {
-			label = "ls441de:white:power";
-			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
-			default-state = "on";
-		};
-	
-		err-led {
-			label = "ls441de:red:power";
-			gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-
-		info-led {
-			label = "ls441de:orange:power";
-			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-
-
-		white-func-led {
-			label = "ls441de:white:func";
-			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-
-		func-red {
-			label = "ls441de:red:function";
-			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-
-		red-hdd0err-led {
-			label = "ls441de:red:hdd0err";
-			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-		red-hdd1err-led {
-			label = "ls441de:red:hdd1err";
-			gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
+		pinctrl-0 = <&hdd_pwr0 &hdd_pwr1 &hdd_pwr2 &hdd_pwr3>;
 
 		hd1-power {
 			label = "PowerHD2";
@@ -249,31 +205,11 @@
 			default-state = "on";
 		};
 		
-		hdd2-err-led {
-			label = "ls441de:red:hdd2err";
-			gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-
-		hdd3-err-led {
-			label = "ls441de:red:hdd3err";
-			gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-		};
-
 	};
 
 	restart_poweroff {
 		compatible = "restart-poweroff";
 	};
-
-	//gpio-poweroff {
-	//	compatible = "gpio-poweroff";
-	//	pinctrl-0 = <&poweroff>;
-	//	pinctrl-names = "default";
-	//	gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
-	//};
-
 
 	gpio-keys {
 		compatible = "gpio-keys";
@@ -328,7 +264,6 @@
 		                      1500 2
 		                      3250 1
 		                      5000 0>;
-		//alarm-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
 	};
 };
 
@@ -357,12 +292,6 @@
 
 &pinctrl {
 
-	power_led: power-led {
-		marvell,pins = "mpp5";
-		marvell,function = "gpo";
-	};
-
-	/* ??? in */
 	usb_oc_n: usb-oc-n {
 		marvell,pins = "mpp6";
 		marvell,function = "gpio";
@@ -378,11 +307,6 @@
 	hdd_pwr0: hdd-pwr0 {
 		marvell,pins = "mpp8";
 		marvell,function = "gpio";
-	};
-
-	func_red: func-red {
-		marvell,pins = "mpp9";
-		marvell,function = "gpo";
 	};
 
 	/* in */
@@ -425,18 +349,6 @@
 		marvell,function = "gpio";
 	};
 	
-	/* out: default 0 */
-	hdd3_err_led: hdd3-err-led {
-		marvell,pins = "mpp47";
-		marvell,function = "gpo";
-	};	
-
-	/* out: default 0 */
-	hdd_pwr3: hdd-pwr3 {
-		marvell,pins = "mpp49";
-		marvell,function = "gpio";
-	};	
-
 	/* in */
 	hdd_hot2_n: hdd-hot2-n {
 		marvell,pins = "mpp50";
@@ -454,46 +366,10 @@
 		marvell,pins = "mpp52";
 		marvell,function = "gpio";	
 	};
-
+	
 	/* out: default 0 */
-	info_led: info-led {
-		marvell,pins = "mpp54";
-		marvell,function = "gpo";
-	};
-
-	alarm_led_pin: alarm-led-pin {
-		marvell,pins = "mpp55";
-		marvell,function = "gpio";
-	};
-
-	info_led_pin: info-led-pin {
-		marvell,pins = "mpp57";
-		marvell,function = "gpio";
-	};
-
-	/* out: default 0 */
-	hdd2_err_led: hdd2-err-led {
-		marvell,pins = "mpp58";
-		marvell,function = "gpio";
-	};
-
-	func_led_pin: func-led-pin {
-		marvell,pins = "mpp59";
-		marvell,function = "gpo";
-	};
-
-	/* out: default 0 */
-	err_led: err-led {
-		marvell,pins = "mpp60";
-		marvell,function = "gpio";
-	};
-
-	sata1_led_pin: sata1-led-pin {
-		marvell,pins = "mpp61";
-		marvell,function = "gpo";
-	};
-	sata2_led_pin: sata2-led-pin {
-		marvell,pins = "mpp62";
-		marvell,function = "gpio";
-	};
+        hdd_pwr3: hdd-pwr3 {
+                marvell,pins = "mpp49";
+                marvell,function = "gpio";
+        };
 };
