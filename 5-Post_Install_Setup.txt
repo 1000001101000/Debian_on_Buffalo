@@ -1,22 +1,128 @@
+All of these steps are recommended but optional, they should be run as root.
 
+Find the device:
+The Kernel will not be able to retrieve the MAC address from the ethernet adapter due to an issue with how these SOCs pass it to the kernel at boot. We will work around that issue in a future step.  
+
+Find the device's IP address. It will set a random MAC address at boot and will have been assigned a new IP address via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
+   nmap -p22 --open 192.168.1.*   or similar.
+
+Setup your existing raid arrays for use on the new system:
+1. If you had raid arrays defined at install time the installer should have installed mdadm, if not install it:
+   apt-get install mdadm
+2. Use mdadm to scan for existing raid arrays (presumable the ones you set up while on stock firmware)
+   ~# mdadm --detail --scan
+   ARRAY /dev/md0 metadata=0.90 UUID=8de323cf:21f920b7:2776d444:be501e4f
+   ARRAY /dev/md1 metadata=1.2 UUID=e82d03b7:a7afdb01:663e8e97:125fc7c9
+   ARRAY /dev/md20 metadata=1.2 UUID=116997d2:e7f48544:24542b4e:8e4c2e18
+3. Edit /etc/mdadm/mdadm.conf, make sure there is a line for each array listed by the command from the previous step.
+4. If you had to make changes, generate a new initramfs and reboot.
+   update-initramfs -u
+   reboot
+5. You should now see all the arrays listed in /sys/block
+   ls /sys/block
+6. Presumably you'll already have used some of these arrays as your /boot,/ and swap during install and don't need to configure them further, if you have a data array/disk create a mountpoint for it similar to:
+   mkdir /mnt/array
+7. If you are trying to setup an array created by the stock firmware it is probably formatted as xfs, install the xfs utilities to manage it.
+   apt-get install xfsprogs
+8. Try mounting your array manually using the device name listed in /sys/block and the mount point you created.
+   mount /dev/md20 /mnt/array
+9. Assuming this succeeded verify the filesystem of the array.
+   ~# mount | grep /mnt/array
+   /dev/md20 on /mnt/array type xfs (rw,relatime)
+10. Unmount the array
+   umount /dev/md20
+11. Create an entry for the array in /etc/fstab using the info gathered above
+    /dev/md20	/mnt/array           xfs    defaults        0       2
+12. Verify your fstab entry works by mounting the array
+    mount /mnt/array
+13. Generate a new initramfs that accounts for the new configuration
+    update-initramfs -u
+
+**note: make certain any fstab entries you add are working properly before rebooting. If the system is unable to mount all the filesystems the default behavior is to stop the boot process. If this happens you'll need to remove the fstab entry (likely by connecting the drive to another system) to make the system bootable again. You can avoid this situation entirely by adding the "nofail" option so that system continues booting with out the filesystem or even the "noauto" option which requires you to manually mount it as needed. Personally, I just make sure to test my fstab entries whenever I make a change and manually fix the fstab if I get into trouble.
+
+Upgrade the kernel:
+This version of the debian installer will download and install the latest version of all packages except the kernel.
+You can upgrade it to the latest version for the distro with:
+   apt-get upgrade linux-image-armmp
+You will have to do this in the future when you want to update to the latest kernel.
+
+Hostname:
 set hostname if you want since installer won't prompt for it.
+   echo myhostname > /etc/hostname
 
-find IP address device boots with
+Motd:
+If you don't want the typical message of the day to show when you log in:
+   >/etc/motd
 
-setup/configure fw_printenv to get MAC
-echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
-#can we be sure it will always be mtdblock1?
+Install ntp to automatically sync your system clock:
+   apt-get install ntp
 
-modify /etc/network/interfaces to hardcode MAC
+Setup fw_printenv to view u-boot data, I use this to grab the MAC address for later steps. 
+**Warning, Modifying them can render your device un-bootable.
+   echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
 
-setup/configure fan control
+Get the MAC address of the ethernet adapter (it can also be obtained from the sticker on the device):
+   fw_printenv | grep eth[012]add
 
-setup/configure triggerhappy/buttons?
+Modify /etc/network/interfaces to manually set the MAC address for your device similar to:
+   # The primary network interface
+   allow-hotplug eth0
+   iface eth0 inet dhcp
+hwaddress ether AA:BB:CC:DD:EE:FF
 
-edit fstab for md arrays rather than uuid? add array from before install if desired.
+Install lmsensors so you can monitor the CPU temperature and fan speed:
+   apt-get install lm-sensors
 
-samba config?
+   ~# sensors
+   armada_thermal-virtual-0
+   Adapter: Virtual device
+   temp1:        +50.1°C  
 
-notes on how to use LEDs?
+   gpio_fan-isa-0000
+   Adapter: ISA adapter
+   fan1:        5000 RPM  (min =    0 RPM, max = 5000 RPM)
+   
+Setup fancontrol to automatically adjust the fan speed based on CPU temperature:
+   apt-get install fancontrol
+   pwmconfig
+   ***follow the prompts to set the temperature/fan speed settings.
 
-other typical installs ntp?
+My config looks like this:
+  ~# cat /etc/fancontrol 
+# Configuration file generated by pwmconfig, changes will be lost
+INTERVAL=10
+DEVPATH=hwmon0= hwmon1=devices/platform/gpio-fan
+DEVNAME=hwmon0=armada_thermal hwmon1=gpio_fan
+FCTEMPS=hwmon1/pwm1=hwmon0/temp1_input
+FCFANS= hwmon1/pwm1=hwmon1/fan1_input
+MINTEMP=hwmon1/pwm1=40
+MAXTEMP=hwmon1/pwm1=65
+MINSTART=hwmon1/pwm1=10
+MINSTOP=hwmon1/pwm1=0
+MAXPWM=hwmon1/pwm1=255
+
+
+Setup TriggerHappy to map actions to button presses on the device:
+   apt-get install triggerhappy
+
+Events can be associated with buttons by running the following command and pushing buttons on the device.
+   thd --dump /dev/input/event*   
+
+**I beleive you can then setup thd to run certain scripts when a given button is pressed, I haven't looked into it yet personally.
+
+Using LEDs:
+I've done my best to map all the LEDs which are controlled by the system's GPIO controller in the device tree so that they can be used directly (on some models some are controlled by a seperate microcontroller or by the sata controller, I'm still working on a way to control those). The entries for the LEDs can be found under /sys/class/leds/. They can be toggled on and off by setting their "brightness":
+
+   ~# echo 1 > /sys/class/leds/ls441de\:red\:hdd0err/brightness 
+   ~# echo 0 > /sys/class/leds/ls441de\:red\:hdd0err/brightness 
+
+In the device trees I've configured the white function led to blink with disk activity, this is both to make testing the trees a little easier and because this is more like how typical computers/servers behave. THis behavior can be changed by modifying the default and trigger values in the device tree as well changing the settings in the /sys/class/leds/ entries.
+
+***Note: for the 4-bay models there are additional "leds" defined which control the power for each drive: PowerHD1 etc. If you set them to "0" the corresponding drive will lose power. At some point in the future I may replace those entries with a more appropriate entry.
+
+Samba:
+If your looking to use oyur device as a Samba server you'll need to do a bit of setup to get it working. The following seems to be a pretty good guide:
+https://www.bleepingcomputer.com/forums/t/598615/a-simple-beginners-guide-to-setting-up-a-samba-share/
+
+One helpful hint is that samba includes the testparm utility which will validate your smb.conf and display any error/warnings encountered trying to parse it.
+
