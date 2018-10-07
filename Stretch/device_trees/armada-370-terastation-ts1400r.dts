@@ -213,19 +213,8 @@
 
 	gpio-keys {
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &func_button &hdd_hot0_n &hdd_hot1_n &hdd_hot2_n &hdd_hot3_n>;
+		pinctrl-0 = <&hdd_hot0_n &hdd_hot1_n &hdd_hot2_n &hdd_hot3_n>;
 		pinctrl-names = "default";
-
-		power-switch {
-			label = "Power Switch";
-			linux,code = <KEY_POWER>;
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
-		};
-		func-button {
-			label = "Function Button";
-			linux,code = <KEY_OPTION>;
-			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
-		};
 
 		hdd0-hot {
 			label = "Hard Disk 1 Present";
@@ -250,7 +239,6 @@
 			linux,code = <KEY_PROG4>;
 			gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
 		};
-
 
 	};
 
@@ -332,14 +320,6 @@
 	};
 	fan_low: fan-low {
 		marvell,pins = "mpp14";
-		marvell,function = "gpio";
-	};
-	power_switch: power-switch {
-		marvell,pins = "mpp15";
-		marvell,function = "gpio";
-	};
-	func_button: func-button {
-		marvell,pins = "mpp16";
 		marvell,function = "gpio";
 	};
 	
