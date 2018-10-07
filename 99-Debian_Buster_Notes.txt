@@ -1,0 +1,11 @@
+I've been working on Debian Buster support but at the moment it's a bit of a mess.
+
+back when kernel 4.13 was the current testing version I had a fully functioning device tree and installer image but a few things changed in the past 6 months or so. 
+
+Kernel 4.17-18: These kernels panic during boot due to how a security feature and bug in the armada boot code interact with each other, the bug is fixed in version 4.19 which is currently the experimental kernel.
+***btw, do not install the backports kernel for stretch until it is updated to version 4.19
+
+Nand: Somewhere around version 4.15 changes were made to the nand driver bindings which I'm still working to correct in the device trees.
+Temperature sensors: A change was made around 4.18-4.19 to armada_thermal to accomadate new models that seems to have broken the binding for armada-370
+
+Long story short: I'm holding off on posting anything for Buster until 4.19 becomes the testing kernel and the install process works again for Buster. 
