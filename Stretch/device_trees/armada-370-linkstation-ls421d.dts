@@ -69,13 +69,10 @@
 
 		pcie-controller {
 			status = "okay";
-
+			
+			//USB 3.0 Controller
 			pcie@1,0 {
 				/* Port 0, Lane 0 */
-				status = "okay";
-			};
-			pcie@2,0 {
-				/* Port 1, Lane 0 */
 				status = "okay";
 			};
 		};
@@ -126,10 +123,6 @@
 				status = "okay";
 			};
 
-			usb@51000 {
-				status = "okay";
-			};
-
 			i2c@11000 {
 				status = "okay";
 				clock-frequency = <100000>;
@@ -153,12 +146,10 @@
 
 				partition@0 {
 					label = "boot";
-					//reg = <0x0 0x02000000>;
 					reg = <0x00000000 0x02000000>;  /* 32MB */
 				};
 				partition@02100000 {
 					label = "rootfs";
-					//reg = <0x02100000 0x1df00000>;
 					reg = <0x02000000 0x1e000000>;  /* 480MB */
 				};
 			};
@@ -188,8 +179,20 @@
 	gpio-leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&power_led_pin &alarm_led_pin &info_led_pin
-			&func_led_pin &system_led_pins &sata1_led_pin &sata2_led_pin>;
+		pinctrl-0 = <&power_led_pin &alarm_led_pin &info_led_pin &func_led_pin 
+				&system_led_pins &sata1_led_pin &sata2_led_pin &hdd_pwr0 &hdd_pwr1>;
+
+		hd0-power {
+                        label = "PowerHD1";
+                        gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
+                        default-state = "on";
+                };
+
+                hd1-power {
+                        label = "PowerHD2";
+                        gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+                        default-state = "on";
+		};
 
 		white-power-led {
 			label = "ls421d:white:power";
@@ -231,10 +234,26 @@
 		};
 	};
 
+	restart_poweroff {
+                compatible = "restart-poweroff";
+        };
+
 	gpio-keys {
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &func_button>;
+		pinctrl-0 = <&power_switch &func_button &hdd_hot0_n &hdd_hot1_n>;
 		pinctrl-names = "default";
+
+		hdd0-hot {
+                        label = "Hard Disk 1 Present";
+                        linux,code = <KEY_PROG1>;
+                        gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+                };
+
+                hdd1-hot {
+                        label = "Hard Disk 2 Present";
+                        linux,code = <KEY_PROG2>;
+                        gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
+                };
 
 		power-switch {
 			label = "Power Switch";
@@ -290,10 +309,37 @@
 		marvell,pins = "mpp5";
 		marvell,function = "gpo";
 	};
+
+	system_led_pins: system-led-pins {
+                marvell,pins = "mpp7";
+                marvell,function = "gpo";
+        };
+
+	hdd_pwr0: hdd-pwr0 {
+                marvell,pins = "mpp8";
+                marvell,function = "gpio";
+        };
+
+        hdd_pwr1: hdd-pwr1 {
+                marvell,pins = "mpp9";
+                marvell,function = "gpo";
+        };
+
 	fan_lock: fan-lock {
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
+	hdd_hot0_n: hdd-hot0-n {
+                marvell,pins = "mpp11";
+                marvell,function = "gpio";
+        };
+
+        hdd_hot1_n: hdd-hot1-n {
+                marvell,pins = "mpp12";
+                marvell,function = "gpio";
+        };
+
 	fan_high: fan-high {
 		marvell,pins = "mpp13";
 		marvell,function = "gpio";
@@ -324,10 +370,6 @@
 	};
 	func_led_pin: func-led-pin {
 		marvell,pins = "mpp59";
-		marvell,function = "gpo";
-	};
-	system_led_pins: system-led-pins {
-		marvell,pins = "mpp7";
 		marvell,function = "gpo";
 	};
 	sata1_led_pin: sata1-led-pin {
