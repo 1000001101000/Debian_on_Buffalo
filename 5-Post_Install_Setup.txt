@@ -101,6 +101,39 @@ MINSTART=hwmon1/pwm1=10
 MINSTOP=hwmon1/pwm1=0
 MAXPWM=hwmon1/pwm1=255
 
+If your fan should fail (I tested by unplugging it while running) it will trigger a udev event which you can write udev rules to take an action on. I'll elaborate on that if I ever get around to doing so. The details of the udev event from when I tested were:
+
+root@LS421DE:~# udevadm monitor -p
+monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+KERNEL - the kernel uevent
+
+KERNEL[89.158141] change   /devices/platform/gpio-fan (platform)
+ACTION=change
+DEVPATH=/devices/platform/gpio-fan
+DRIVER=gpio-fan
+MODALIAS=of:Ngpio-fanT<NULL>Cgpio-fan
+OF_COMPATIBLE_0=gpio-fan
+OF_COMPATIBLE_N=1
+OF_FULLNAME=/gpio-fan
+OF_NAME=gpio-fan
+SEQNUM=1517
+SUBSYSTEM=platform
+
+UDEV  [89.169215] change   /devices/platform/gpio-fan (platform)
+ACTION=change
+DEVPATH=/devices/platform/gpio-fan
+DRIVER=gpio-fan
+MODALIAS=of:Ngpio-fanT<NULL>Cgpio-fan
+OF_COMPATIBLE_0=gpio-fan
+OF_COMPATIBLE_N=1
+OF_FULLNAME=/gpio-fan
+OF_NAME=gpio-fan
+SEQNUM=1517
+SUBSYSTEM=platform
+USEC_INITIALIZED=89163967
+
+
 
 Setup TriggerHappy to map actions to button presses on the device:
    apt-get install triggerhappy
