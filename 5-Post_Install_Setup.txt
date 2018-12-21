@@ -46,7 +46,7 @@ You can upgrade it to the latest version for the distro with:
    apt-get upgrade linux-image-armmp
 You will have to do this in the future when you want to update to the latest kernel.
 
-Proper Shutdown/Restart for LS4XX devices:
+Proper Shutdown/Restart for TS1200D and LS4XX devices:
 
 1. install phytool on the device
    apt-get install git build-essential
