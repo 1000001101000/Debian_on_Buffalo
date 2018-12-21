@@ -1,0 +1,10 @@
+[Unit]
+Description = Set PHY LED2 pin to signal restart rather than poweroff
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStop=/usr/local/bin/ls400-restart.sh
+
+[Install]
+WantedBy = multi-user.target
