@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
-* Device Tree file for Buffalo LinkStation LS210D
+* Device Tree file for Buffalo Linkstation LS210D
 *
-* Copyright (C) Toha <tohenk@yahoo.com>, modified by Jeremy J. Peper
+* Jeremy J. Peper, based on device trees created by
+* Steve Shih <shihsung@gmail.com> and Toha <tohenk@yahoo.com>
+*
 */
 
 /dts-v1/;
@@ -15,94 +17,88 @@
 	model = "Buffalo Linkstation LS210D";
 	compatible = "buffalo,ls210d", "marvell,armada370", "marvell,armada-370-xp";
 
-	chosen {
+	chosen
+	{
 		bootargs = "earlyprintk boot=local";
 		stdout-path = "serial0:115200n8";
 	};
 
-	memory {
+	memory
+	{
 		device_type = "memory";
 		reg = <0x00000000 0x10000000>; /* 256 MB */
 	};
 
-	soc {
+	soc
+	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-			  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-			  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
-		internal-regs {
-			serial@12000 {
+		internal-regs
+		{
+			serial@12000
+			{
 				status = "okay";
 			};
 
-			sata@a0000 {
-				nr-ports = <2>;
+			sata@a0000
+			{
+				nr-ports = <1>;
 				status = "okay";
 			};
 
-			timer@20300 {
+			timer@20300
+			{
 				status = "okay";
 			};
 
-			mdio {
-				pinctrl-0 = <&mdio_pins>;
-				pinctrl-names = "default";
-
-				phy0: ethernet-phy@0 {
+			mdio
+			{
+				/* Marvell 88E1518 */
+				phy0: ethernet-phy@0
+				{
 					reg = <0>;
+
+					/*
+					Set control registers for the chip's LED pins
+					On=Low, Off=High
+					LED0: On - Link, Blink - Activity, Off - No Link
+					LED1: Force hi-impedance (not connected?)
+					LED2: Force hi-impedance (not connected?)
+					*/
+ 
+					marvell,reg-init = <0x3 0x10 0xf000 0x0AA1>;
 				};
 			};
 
-			ethernet@74000 {
-				pinctrl-0 = <&ge1_rgmii_pins>;
-				pinctrl-names = "default";
+			ethernet@74000
+			{
 				status = "okay";
 				phy = <&phy0>;
 				phy-mode = "rgmii-id";
-			};
+			};			
 
-			mvsdio@d4000 {
-				pinctrl-0 = <&sdio_pins3>;
-				pinctrl-names = "default";
-				status = "okay";
-				broken-cd;
-			};
-
-			usb@50000 {
+			usb@50000
+			{
 				status = "okay";
 			};
-
-			i2c@11000 {
-				status = "okay";
-				clock-frequency = <100000>;
-			};
-
 		};
 	};
 
-	regulators {
+	regulators
+	{
 		compatible = "simple-bus";
 		#address-cells = <1>;
 		#size-cells = <0>;
-		pinctrl-0 = <&usb_vbus &hdd_pwr0>;
+		pinctrl-0 = <&hdd_pwr1>;
 		pinctrl-names = "default";
 
-		usb_power: regulator@1 {
+		regulator@1
+		{
 			compatible = "regulator-fixed";
 			reg = <1>;
-			regulator-name = "USB Power";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			enable-active-high;
-			regulator-always-on;
-			regulator-boot-on;
-			gpio = <&gpio0 5 GPIO_ACTIVE_LOW>;
-		};
-
-		regulator@2 {
-			compatible = "regulator-fixed";
-			reg = <2>;
-			regulator-name = "SATA0 power";
+			regulator-name = "HDD1 power";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			enable-active-high;
@@ -112,123 +108,150 @@
 		};
 	};
 
-	gpio-leds {
+	gpio-leds
+	{
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&power_led_pin &alarm_led_pin &info_led_pin &func_led_pin 
-				&system_led_pins>;
+		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_red &function_led_white>; 
 
-		white-power-led {
-			label = "ls210d:white:power";
+		function-led-red
+		{
+			label = "led:function:red";
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+
+		power-led-white
+		{
+			label = "led:power:white";
 			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
-		red-power-led {
-			label = "ls210d:red:power";
+
+		power-led-red
+		{
+			label = "led:power:red";
 			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		amber-power-led {
-			label = "ls210d:amber:power";
+
+		power-led-orange
+		{
+			label = "led:power:orange";
 			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		white-func-led {
-			label = "ls210d:white:func";
+
+		function-led-white
+		{
+			label = "led:function:white";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-			linux,default-trigger = "disk-activity";
-		};
-		red-func-led {
-			label = "ls210d:red:func";
-			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 	};
 
-	restart_poweroff {
-                compatible = "restart-poweroff";
-        };
+	restart_poweroff
+	{
+		compatible = "restart-poweroff";
+	};
 
-	gpio-keys {
+	gpio-keys
+	{
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &func_button>;
+		pinctrl-0 = <&power_switch &function_button>;
 		pinctrl-names = "default";
 
-		power-switch {
+		power-switch
+		{
 			label = "Power Switch";
-			linux,code = <KEY_POWER>;
+			linux,code = <KEY_ESC>;
 			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
 		};
-		func-button {
+
+		function-button
+		{
 			label = "Function Button";
 			linux,code = <KEY_OPTION>;
 			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
 	};
-
 };
 
-&spi0 {
+&spi0
+{
 	status = "okay";
 	pinctrl-0 = <&spi0_pins2>;
 
-	spi-flash@0 {
+	spi-flash@0
+	{
 		#address-cells = <1>;
 		#size-cells = <1>;
 		compatible = "mx25l8005", "jedec,spi-nor";
-		reg = <0>; /* Chip select 0 */
+		reg = <0>;
 		spi-max-frequency = <50000000>;
 
-		partition@00000 {
+		partition@00000
+		{
 			label = "u-boot";
 			reg = <0x00000 0xf0000>;
 			read-only;
 		};
-		partition@f0000 {
+
+		partition@f0000
+		{
 			label = "u-boot-env";
 			reg = <0xf0000 0x10000>;
+			read-only;
 		};
 	};
 };
 
-&pinctrl {
-	usb_vbus: usb-vbus {
-		marvell,pins = "mpp5";
+&pinctrl
+{
+	function_led_red: function-led-red
+	{
+		marvell,pins = "mpp7";
 		marvell,function = "gpo";
 	};
 
-	system_led_pins: system-led-pins {
-                marvell,pins = "mpp7";
-                marvell,function = "gpo";
-        };
-
-	hdd_pwr0: hdd-pwr0 {
+	hdd_pwr1: hdd-pwr1
+	{
 		marvell,pins = "mpp8";
-		marvell,function = "gpio";
+		marvell,function = "gpo";
 	};
 
-	power_switch: power-switch {
+	power_switch: power-switch
+	{
 		marvell,pins = "mpp15";
 		marvell,function = "gpio";
 	};
-	func_button: func-button {
+
+	function_button: function-button
+	{
 		marvell,pins = "mpp16";
 		marvell,function = "gpio";
 	};
-	power_led_pin: power-led-pin {
+
+	power_led_white: power-led-white
+	{
 		marvell,pins = "mpp54";
 		marvell,function = "gpo";
 	};
-	alarm_led_pin: alarm-led-pin {
+
+	power_led_red: power-led-red
+	{
 		marvell,pins = "mpp55";
 		marvell,function = "gpio";
 	};
-	info_led_pin: info-led-pin {
+
+	power_led_orange: power-led-orange
+	{
 		marvell,pins = "mpp57";
 		marvell,function = "gpio";
 	};
-	func_led_pin: func-led-pin {
+
+	function_led_white: function-led-white
+	{
 		marvell,pins = "mpp59";
 		marvell,function = "gpo";
 	};
