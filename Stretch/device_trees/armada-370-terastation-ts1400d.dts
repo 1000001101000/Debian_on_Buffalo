@@ -65,6 +65,11 @@
 			{
 				status = "okay";
 			};
+
+			serial@12100
+			{
+				status = "okay";
+			};
 			
 			timer@20300
 			{
