@@ -1,82 +1,25 @@
 Purpose:
 Perform the actual install.
 
-Note: there are a few steps that have to be completed outside the installer before completing the installer and rebooting.
+Note: the provided installer images now handle all the custom steps for you, the only requirement is that /boot is:
+-located on the first partition of the first (or every) disk
+-formatted as ext3
+-either a regular partition or part of an MDADM array using metadata version 0.90
+***if you use the partitions from a stock firmare install this will already be the case. 
 
 The Easyish way:
 1. Boot up the device, assuming everything went well it will boot into the debian installer and start the ssh-server.
-2. Find the device's IP address. It will set a random MAC address at boot and will have been assigned a new IP address via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
+2. It should come up with the same ip address as before. if you are unsure of the ip you can find it by scanning for devices listening on port 22 (ssh).
    nmap -p22 --open 192.168.1.*   or similar.
 3. Connect to the device via ssh, the username is installer, the password is install.
 4. Run through the installer like a typical Debian install (see details at the end). Note: Partition 1 still needs to be mounted as /boot and needs to be formatted as ext2 or ext3.
 Stop when you get to the page where the installer fails to install Grub.
-5. Open a second ssh session to the device using the same login credentials. Leave the first one running, we'll need it later.
-6. Select "Start Shell"
-7. A warning page will be displayed, select continue.
-8. Confirm that the "/", "/boot", "/dev", "/proc" and "/sys" filesystems are mounted under "/target":
-    ~ # mount | grep /target
-   /dev/sda2 on /target type ext4 (rw,relatime,errors=remount-ro,data=ordered)
-   /dev/sda1 on /target/boot type ext3 (rw,relatime,data=ordered)
-   devtmpfs on /target/dev type devtmpfs (rw,relatime,size=105188k,nr_inodes=26297,mode=755)
-   proc on /target/proc type proc (rw,relatime)   
-   sysfs on /target/sys type sysfs (rw,relatime)
-9. chroot into the target system so we can configure the system to generate boot files automatically.
-   chroot /target /bin/bash
-10. Add entries to /etc/modules for the mtdblock and m25p80 drivers.
-    echo mtdblock >> /etc/modules
-    echo m25p80 >> /etc/modules
-11. Install flash-kernel
-    apt-get install flash-kernel
-12. Add config to ensure that generated initramfs's default to local boot (Some devices pass NFS boot params to the kernel which need to be ignored):
-    echo "BOOT=local" > /usr/share/initramfs-tools/conf.d/localboot
-13. Upload buffalo_devices.db to /usr/share/flash-kernel/db/
-14. Upload the device's DTB file to /etc/flash-kernel/dtbs/
-15. Run "udevadm trigger" to ensure all partitions are discvered properly when generating boot files.
-    udevadm trigger
-16. Run "update-initramfs -u" to generate the boot files, the output should be similar to below:
-    flash-kernel: installing version 4.9.0-7-armmp
-    flash-kernel: appending /etc/flash-kernel/dtbs/armada-370-linkstation-ls210.dtb to kernel
-    Generating kernel u-boot image... done.
-    Installing new uImage.buffalo.
-    Generating initramfs u-boot image... done.
-    Installing new initrd.buffalo.
-17. Double check that both .buffalo files are present in /boot:
-    root@debian:/# ls -l /boot/*.buffalo
-    -rw-r--r-- 1 root root 16511555 Sep  7 16:29 /boot/initrd.buffalo
-    -rw-r--r-- 1 root root  3755255 Sep  7 16:29 /boot/uImage.buffalo
-18. Exit the chroot.
-19. Exit your shell session, you can now close this SSH connection.
-20. Now that you've set up the boot files, go back to the first SSH session and complete the installation.
-21. Select "Continue without bootloader" from the menu.
-22. When it warns about needing to manually boot, select continue again.
-23. Select continue on the "finish the installation" screen to reboot the device.
-
-The device should come back online running a fresh Debian install (with another random MAC address and a new IP address)
-
-see the next document for notes on how to do some post-install setup, including how to set the correct MAC address permanently.
 
 
+see the next document for notes on how to do some post-install setup.
 
-Step 4 Expanded:
-1. At the initial screen choose "Start installer".
-2. Choose your regions for a list of mirrors close to you.
-3. Choose a mirror for Debian to install packaged from.
-4. If needed, specify a proxy to use.
-5. Select the language for the system.
-6. Select your system locale.
-7. Set a root password.
-8. Confirm the root password.
-9. Enter the fullname for the first user.
-10. Set the username of the first user.
-11. Choose a password for the first user.
-12. Confirm password for the first user.
-13. Select a timezone.
-14. Configure disk partitions. see doc for examples.
-**The installer will now install the base system packages.
-15. Select whether to send usage statistics to Debian (default is no).
-16. Select Software: The default is "SSH Server" and "standard system utilities" which is sufficient.
-**The installer will now install the selected software.
-17. You should now get a warning page which says "the 'grub-pc' package failed to install"
-18. Open a second ssh session to the device and follow the rest of the main steps before continuing.
+
+The hardish way:
+You can build your own installer image and make any customizations you might be interested in using generate_images.sh found in the build directory found with the installer images.
 
 
