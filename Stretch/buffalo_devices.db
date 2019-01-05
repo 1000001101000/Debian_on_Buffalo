@@ -96,3 +96,14 @@ Boot-Kernel-Path: /boot/uImage.buffalo
 Boot-Initrd-Path: /boot/initrd.buffalo
 Required-Packages: u-boot-tools
 Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo Terastation TS3400D
+Kernel-Flavors: armmp
+DTB-Id: armada-xp-terastation-ts3400d.dtb
+DTB-Append: yes
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools
+Bootloader-Sets-Incorrect-Root: yes
