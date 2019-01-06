@@ -75,7 +75,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 rm initrd.gz
-rm uInitrd
 rm payload/source/*.dtb
 rm payload/source/buffalo_devices.db
 rm payload/source/*.deb
