@@ -98,7 +98,7 @@ Required-Packages: u-boot-tools
 Bootloader-Sets-Incorrect-Root: yes
 
 Machine: Buffalo Terastation TS3400D
-Kernel-Flavors: armmp
+Kernel-Flavors: armmp armmp-lpae
 DTB-Id: armada-xp-terastation-ts3400d.dtb
 DTB-Append: yes
 U-Boot-Kernel-Address: 0x00008000
