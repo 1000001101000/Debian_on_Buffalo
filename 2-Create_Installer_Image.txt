@@ -16,10 +16,19 @@ Generate a Kernel image (uImage.buffalo):
    mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d kernelDTB uImage.buffalo
 
 Generate the initrd image (initrd.buffalo):
-fortunately, Debian provides a pre-built initrd image for the Seageate Personal Cloud which we can use without modification.
-1. Under the "network-console" installer files navigate to seagate/personal-cloud/
-2. Download uInitrd.
-3. Rename uInitrd to initrd.buffalo
 
+The tools I am using to generate these images are found under the "build" directory along with the installer images. I'm basically using the "ssh-noninteractive" network-console installer provided by debian with a few tweaks to handle these devices better. 
 
-To see how to manually create the initrd image see https://d-i.debian.org/daily-images/armhf/daily/build_network-console.log
+Specifically, I've added logic to:
+
+load the modules required to access the spi flash for the device at install time.
+use fw_printenv to access the spi flash to determine the MAC address for each interface
+change the MAC address for each interface to the proper one (rather than the random one set at startup)
+load the files necessary for flash-kernel to automatically generate boot images (buffalo_devcies.db and dtb files)
+hardcode the main interface's MAC address in /etc/network/interfaces
+add entries in /etc/modules for the spi flash to work at startup.
+add entry in /target/usr/share/initramfs-tools/conf.d/ to ensure devince ignores the "root=/dev/nfs" parameter passed by buffalo's bootloader
+suppress the "no bootloader" warning (we're using the bootloader built into the device via flash-kernel)
+install flash-kernel 
+trigger flash-kernel at the end of the install process to generate the new uImage.buffalo and initrd.buffalo
+
