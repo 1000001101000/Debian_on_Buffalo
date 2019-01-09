@@ -1,10 +1,29 @@
 All of these steps are recommended but optional, they should be run as root.
 
 Find the device:
-The Kernel will not be able to retrieve the MAC address from the ethernet adapter due to an issue with how these SOCs pass it to the kernel at boot. We will work around that issue in a future step.  
-
-Find the device's IP address. It will set a random MAC address at boot and will have been assigned a new IP address via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
+The kernel is unable to get the MAC address for these network devices on their own, I've added logic to the installer to allow it look them up from the bootloader and set them at install time and then hardcode them in /etc/network/interfaces at the end of the install. If this failed for some reason the kernel will set a random MAC address at boot which could result in a new IP address being assigned via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
    nmap -p22 --open 192.168.1.*   or similar.
+
+To set it permanently to the desired value modify /etc/network/interfaces to manually set the MAC address for your device similar to:
+   # The primary network interface
+   allow-hotplug eth0
+   iface eth0 inet dhcp
+hwaddress ether AA:BB:CC:DD:EE:FF
+
+To get the device's MAC address you can look at the sticker on the device or:
+
+**note this is now done automatically as part of the installer
+Setup fw_printenv to view u-boot data, I use this to grab the MAC address for later steps. 
+**Warning, Modifying them can render your device un-bootable.
+   echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
+
+**note this is now done automatically as part of the installer
+Get the MAC address of the ethernet adapter (it can also be obtained from the sticker on the device):
+   fw_printenv | grep eth[012]add
+
+For the LS2XX,LS4XX and TS1XXX (single NIC devices) the MAC is stored in eth1address.
+For the TS3400D, eth0=ethaddress and eth1=eth1address. 
+ 
 
 Setup your existing raid arrays for use on the new system:
 1. If you had raid arrays defined at install time the installer should have installed mdadm, if not install it:
@@ -86,25 +105,6 @@ Install ntp to automatically sync your system clock:
    apt-get install ntp
 
 **note this is now done automatically as part of the installer
-Setup fw_printenv to view u-boot data, I use this to grab the MAC address for later steps. 
-**Warning, Modifying them can render your device un-bootable.
-   echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
-
-**note this is now done automatically as part of the installer
-Get the MAC address of the ethernet adapter (it can also be obtained from the sticker on the device):
-   fw_printenv | grep eth[012]add
-
-For the LS2XX,LS4XX and TS1XXX (single NIC devices) the MAC is stored in eth1address.
-For the TS3400D, eth0=ethaddress and eth1=eth1address. 
-
-**note this is now done automatically as part of the installer
-Modify /etc/network/interfaces to manually set the MAC address for your device similar to:
-   # The primary network interface
-   allow-hotplug eth0
-   iface eth0 inet dhcp
-hwaddress ether AA:BB:CC:DD:EE:FF
-
-**note this is now done automatically as part of the installer
 Install lmsensors so you can monitor the CPU temperature and fan speed:
    apt-get install lm-sensors
 
@@ -170,7 +170,6 @@ OF_NAME=gpio-fan
 SEQNUM=1517
 SUBSYSTEM=platform
 USEC_INITIALIZED=89163967
-
 
 
 Setup TriggerHappy to map actions to button presses on the device:
