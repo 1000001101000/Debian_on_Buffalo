@@ -1,11 +1,29 @@
-I've been working on Debian Buster support but at the moment it's a bit of a mess.
+Now that Kernel 4.19 has become the current TESTING Kernel, this included the fixes required to get Buster support working for these devices. I'm currently testing the new device trees and working through a some issues that are preventing the installer to work properly. I should have the first working version published shortly.
 
-back when kernel 4.13 was the current testing version I had a fully functioning device tree and installer image but a few things changed in the past 6 months or so. 
+Please note that while Buster is still the "Testing" version of Debian there will likely be a fair number of new issues, some of which may cause major issues. In particular new versions of the Debian Kernel often require changes to the device-trees to be bootable and have all the hardware continue to function. 
 
-Kernel 4.17-18: These kernels panic during boot due to how a security feature and bug in the armada boot code interact with each other, the bug is fixed in version 4.19 which is currently the experimental kernel.
-***btw, do not install the backports kernel for stretch until it is updated to version 4.19
+Until Buster becomes the new "Stable" version I highly recommend sticking to Stretch.
 
-Nand: Somewhere around version 4.15 changes were made to the nand driver bindings which I'm still working to correct in the device trees.
-Temperature sensors: A change was made around 4.18-4.19 to armada_thermal to accomadate new models that seems to have broken the binding for armada-370
 
-Long story short: I'm holding off on posting anything for Buster until 4.19 becomes the testing kernel and the install process works again for Buster. 
+Current issues:
+
+lack of entropy for rng at boot:
+
+At startup the random number generator does not report as ready until it can gather a certain amount of random data from the hardware. Services that require the rng to operate (mainly the ssh server) will not start until this completes. With the 4.19 kernel this has been taking 30-60 minutes rather than 10-15 seconds it previously took. My understanding is this is related to recent kernel security patches but I'm not familiar with the details.
+
+I've got a workaround set up based on haveged and rngd that allows the installer to run and for the resulting system to come up in a normal amount of time. 
+
+You can read more about haveged here:
+http://www.issihosts.com/haveged/faq.html
+
+Debian repo GPG-key date invalid:
+
+For some reason the GPG-key the installer is getting is dated about a week in the future which is causing the installer to throw an error. I assume this is something specific to the daily installer builds and will be corrected shortly.
+
+
+
+
+
+
+
+
