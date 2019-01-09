@@ -92,6 +92,10 @@ For the LS4XX and TS1XXX devices stock firmware activates/deactivates an unused 
 
 **if for some reason the power button isn't working to start the device, remove the power adapter for a few seconds then replace it and try again.
 
+Hwclock:
+Unfortunately, the debian kernel currently does not support the external RTC used by the LS4XX, TS1XXX and TS3X00 devices. The LS200 uses the RTC built into the SoC which does work although does not maintain a value if the device is unplugged. You can enable it's support by recompiling the kernel with CONFIG_RTC_DRV_RS5C372=y. Personally, I just do without it and never really notice the difference. The combination of ntp and fake-hwclock allows the system to keep the current time up to date and ensure that at boot time the clock is set to the time of the last shutdown rather than 1/1/1970 or something similar.
+    apt-get install fake-hwclock ntp
+
 Hostname:
 set hostname if you want since installer won't prompt for it.
    echo myhostname > /etc/hostname
