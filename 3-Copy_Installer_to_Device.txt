@@ -37,5 +37,6 @@ If your starting with blank drives and do not wish to install the Buffalo firmwa
 4. Mount the partiton and copy uImage.buffalo and initrd.buffalo to it.
 5. Insert that drive into the device as Drive 1.   
 
-
 Once the installer files are in place, reboot your device to start the installer.
+
+You can also load the boot files via TFTP. The procedure for getting these devices to boot via TFTP varies a bit from device to device. I've linked to a decent article over at https://buffalonas.miraheze.org/wiki/Restoring_Stock_Firmware_via_TFTP
