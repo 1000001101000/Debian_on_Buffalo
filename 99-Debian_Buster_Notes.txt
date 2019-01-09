@@ -9,12 +9,16 @@ Current issues:
 
 lack of entropy for rng at boot:
 
-At startup the random number generator does not report as ready until it can gather a certain amount of random data from the hardware. Services that require the rng to operate (mainly the ssh server) will not start until this completes. With the 4.19 kernel this has been taking 30-60 minutes rather than 10-15 seconds it previously took. My understanding is this is related to recent kernel security patches but I'm not familiar with the details.
+At startup the random number generator does not report as ready until it can gather a certain amount of random data from the hardware. Services that require the rng to operate (mainly the ssh server) will not start until this completes. With the 4.19 kernel this has been taking 30-60 minutes rather than 10-15 seconds it previously took. 
+
+This issue is discussed in detail here:
+https://daniel-lange.com/archives/152-Openssh-taking-minutes-to-become-available,-booting-takes-half-an-hour-...-because-your-server-waits-for-a-few-bytes-of-randomness.html
 
 I've got a workaround set up based on haveged and rngd that allows the installer to run and for the resulting system to come up in a normal amount of time. 
 
 You can read more about haveged here:
 http://www.issihosts.com/haveged/faq.html
+
 
 Debian repo GPG-key date invalid:
 
