@@ -46,7 +46,12 @@ You can upgrade it to the latest version for the distro with:
    apt-get upgrade linux-image-armmp
 You will have to do this in the future when you want to update to the latest kernel.
 
-Proper Shutdown/Restart for TS1200D and LS4XX devices:
+**note: updating the distro's kernel should be safe but installing the "backports" kernel requires additional steps. Since you are basically installing the kernel for a newer distro you also need the DTB files from that newer kernel (ie you need to put Buster's DTBS in /etc/flash-kernel/dtbs/ before trying to upgrade to the stretch-backports kernel).
+
+If something goes wrong with upgrading/installing a new kernel you can always connect the drive(s) to another system (or load the installer environment via TFTP, etc) and restore the uImage.buffalo.bak and initrd.buffalo.bak from the last working kernel.
+
+Proper Restart for LS441 devices:
+For the LS4XX and TS1XXX devices stock firmware activates/deactivates an unused led pin on the network adapter to signal wether the device should reboot after powering off. On the ls441 this is tied to the same gpio pin as the power button. To allow the power button to function this led is set to "off" at boot and needs to be set to "on" during the shutdown process if a reboot is desired. I included a script to handle this so that the ls441 can be rebooted successfully (rather than just powering off). 
 
 1. install phytool on the device
    apt-get install git build-essential
@@ -76,22 +81,30 @@ Motd:
 If you don't want the typical message of the day to show when you log in:
    >/etc/motd
 
+**note this is now done automatically as part of the installer
 Install ntp to automatically sync your system clock:
    apt-get install ntp
 
+**note this is now done automatically as part of the installer
 Setup fw_printenv to view u-boot data, I use this to grab the MAC address for later steps. 
 **Warning, Modifying them can render your device un-bootable.
    echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
 
+**note this is now done automatically as part of the installer
 Get the MAC address of the ethernet adapter (it can also be obtained from the sticker on the device):
    fw_printenv | grep eth[012]add
 
+For the LS2XX,LS4XX and TS1XXX (single NIC devices) the MAC is stored in eth1address.
+For the TS3400D, eth0=ethaddress and eth1=eth1address. 
+
+**note this is now done automatically as part of the installer
 Modify /etc/network/interfaces to manually set the MAC address for your device similar to:
    # The primary network interface
    allow-hotplug eth0
    iface eth0 inet dhcp
 hwaddress ether AA:BB:CC:DD:EE:FF
 
+**note this is now done automatically as part of the installer
 Install lmsensors so you can monitor the CPU temperature and fan speed:
    apt-get install lm-sensors
 
@@ -103,6 +116,9 @@ Install lmsensors so you can monitor the CPU temperature and fan speed:
    gpio_fan-isa-0000
    Adapter: ISA adapter
    fan1:        5000 RPM  (min =    0 RPM, max = 5000 RPM)
+   
+**Note: recent kernels (Buster) now show the temperature reading from the sensor in the ethernet chip which can be used as an ambient temperature reading in addition to the CPU temperature. 
+   
    
 Setup fancontrol to automatically adjust the fan speed based on CPU temperature:
    apt-get install fancontrol
@@ -171,9 +187,8 @@ I've done my best to map all the LEDs which are controlled by the system's GPIO 
    ~# echo 1 > /sys/class/leds/ls441de\:red\:hdd0err/brightness 
    ~# echo 0 > /sys/class/leds/ls441de\:red\:hdd0err/brightness 
 
-In the device trees I've configured the white function led to blink with disk activity, this is both to make testing the trees a little easier and because this is more like how typical computers/servers behave. THis behavior can be changed by modifying the default and trigger values in the device tree as well changing the settings in the /sys/class/leds/ entries.
+In the device trees for devices that don't have individual drive activity leds. I've configured the white function led to blink with disk activity, this is both to make testing the trees a little easier and because this is more like how typical computers/servers behave. This behavior can be changed by modifying the default and trigger values in the device tree as well changing the settings in the /sys/class/leds/ entries.
 
-***Note: for the 4-bay models there are additional "leds" defined which control the power for each drive: PowerHD1 etc. If you set them to "0" the corresponding drive will lose power. At some point in the future I may replace those entries with a more appropriate entry.
 
 Samba:
 If your looking to use oyur device as a Samba server you'll need to do a bit of setup to get it working. The following seems to be a pretty good guide:
