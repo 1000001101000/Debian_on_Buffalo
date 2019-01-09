@@ -30,5 +30,5 @@ add entries in /etc/modules for the spi flash to work at startup.
 add entry in /target/usr/share/initramfs-tools/conf.d/ to ensure devince ignores the "root=/dev/nfs" parameter passed by buffalo's bootloader
 suppress the "no bootloader" warning (we're using the bootloader built into the device via flash-kernel)
 install flash-kernel 
+copy the .db and .dtb files to the appropriate locations for flash-kernel to use them.
 trigger flash-kernel at the end of the install process to generate the new uImage.buffalo and initrd.buffalo
-
