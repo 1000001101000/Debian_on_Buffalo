@@ -18,16 +18,3 @@ I've got a workaround set up based on haveged and rngd that allows the installer
 
 You can read more about haveged here:
 http://www.issihosts.com/haveged/faq.html
-
-
-Debian repo GPG-key date invalid:
-
-For some reason the GPG-key the installer is getting is dated about a week in the future which is causing the installer to throw an error. I assume this is something specific to the daily installer builds and will be corrected shortly.
-
-
-
-
-
-
-
-
