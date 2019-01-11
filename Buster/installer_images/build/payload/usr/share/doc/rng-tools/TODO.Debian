@@ -1,0 +1,26 @@
+$Id: TODO,v 1.6.2.34 2008-06-10 19:51:37 hmh Exp $
+
+! do not try to use /dev/foo in VIAPadlock mode
+  (initscript)
+
+! find a way to waste less system time when VIA xstore
+  does not return data.  Busy-loop option.  Nanosleep
+  option (very nice to system, but only 68kbit/s on 
+  2.6).
+
+* Maybe define NDEBUG to remove assert() from
+  the packaged binary?
+
+Stats:
+ - detect/store overflow on stat counters?
+ - stats: average only since last stat dump?
+ - add system resource usage stats (CPUTIME, etc)
+
+Ideas:
+ - TCP/IP sink mode (multiple streams)
+ - TCP/IP source mode, compatible with the above
+ - Protect the above with good crypto (TLS).
+
+Backburner:
+ - i18n (including argp)
+ - file input with deletion of used bits

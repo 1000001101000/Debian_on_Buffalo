@@ -1,0 +1,5 @@
+rngd\[[0-9]+\]: +stats:
+rngd\[[0-9]+\]: .* starting up\.\.\.
+rngd\[[0-9]+\]: +Exiting\.\.\.
+rngd\[[0-9]+\]: +entropy feed to the kernel ready
+rngd\[[0-9]+\]: +Activating Linux kernel 2.4 entropy accounting bug workaround

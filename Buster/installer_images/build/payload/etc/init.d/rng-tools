@@ -1,0 +1,96 @@
+#! /bin/sh
+#
+# rng-tools	initscript for the rng-tools package
+#		Copr. 2003 by Henrique de Moraes Holschuh <hmh@debian.org>
+#		Copr. 2002 by Viral Shah <viral@debian.org>
+#
+### BEGIN INIT INFO
+# Provides:		rng-tools
+# Required-Start:	$remote_fs $syslog
+# Required-Stop:	$remote_fs $syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+### END INIT INFO
+#
+#
+# $Id: rng-tools.init,v 1.6.2.10 2008-06-10 19:51:37 hmh Exp $
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/rngd
+NAME=rngd
+DESC="Hardware RNG entropy gatherer daemon"
+PIDFILE=/var/run/rngd.pid
+
+DEVICELIST="hwrng hw_random hwrandom intel_rng i810_rng"
+
+HRNGDEVICE=/dev/hwrng
+RNGDOPTIONS=
+[ -r /etc/default/rng-tools ] && . /etc/default/rng-tools
+
+test -f ${DAEMON} || exit 0
+
+set -e
+
+finddevice () {
+	[ -c "${HRNGDEVICE}" ] && return 0
+	for i in ${DEVICELIST} ; do
+		if [ -c "/dev/$i" ] ; then
+			HRNGDEVICE="/dev/$i"
+			return 0
+		fi
+		if [ -c "/dev/misc/$i" ] ; then
+			HRNGDEVICE="/dev/misc/$i"
+			return 0
+		fi
+	done
+
+	echo "(Hardware RNG device inode not found)"
+	echo "$0: Cannot find a hardware RNG device to use." >&2
+	exit 1
+}
+
+START="--start --quiet --pidfile ${PIDFILE} --startas ${DAEMON} --name ${NAME}"
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	finddevice
+	START="${START} -- -r ${HRNGDEVICE} ${RNGDOPTIONS}"
+	if start-stop-daemon ${START} >/dev/null 2>&1 ; then
+		echo "${NAME}."
+	else
+		if start-stop-daemon --test ${START} >/dev/null 2>&1; then
+			echo "(failed)."
+			exit 1
+		else
+			echo "${DAEMON} already running."
+			exit 0
+		fi
+	fi
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	if start-stop-daemon --stop --quiet --pidfile ${PIDFILE} \
+		--startas ${DAEMON} --retry 10 --name ${NAME} \
+		>/dev/null 2>&1 ; then
+			echo "${NAME}."
+	else
+		if start-stop-daemon --test ${START} >/dev/null 2>&1; then
+			echo "(not running)."
+			exit 0
+		else
+			echo "(failed)."
+			exit 1
+		fi
+	fi
+	;;
+  restart|force-reload)
+	$0 stop
+	exec $0 start	    
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|force-reload}" 1>&2
+	exit 1
+	;;
+esac
+
+exit 0
