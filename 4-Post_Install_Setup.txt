@@ -1,10 +1,29 @@
 All of these steps are recommended but optional, they should be run as root.
 
 Find the device:
-The Kernel will not be able to retrieve the MAC address from the ethernet adapter due to an issue with how these SOCs pass it to the kernel at boot. We will work around that issue in a future step.  
-
-Find the device's IP address. It will set a random MAC address at boot and will have been assigned a new IP address via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
+The kernel is unable to get the MAC address for these network devices on their own, I've added logic to the installer to allow it look them up from the bootloader and set them at install time and then hardcode them in /etc/network/interfaces at the end of the install. If this failed for some reason the kernel will set a random MAC address at boot which could result in a new IP address being assigned via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
    nmap -p22 --open 192.168.1.*   or similar.
+
+To set it permanently to the desired value modify /etc/network/interfaces to manually set the MAC address for your device similar to:
+   # The primary network interface
+   allow-hotplug eth0
+   iface eth0 inet dhcp
+hwaddress ether AA:BB:CC:DD:EE:FF
+
+To get the device's MAC address you can look at the sticker on the device or:
+
+**note this is now done automatically as part of the installer
+Setup fw_printenv to view u-boot data, I use this to grab the MAC address for later steps. 
+**Warning, Modifying them can render your device un-bootable.
+   echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
+
+**note this is now done automatically as part of the installer
+Get the MAC address of the ethernet adapter (it can also be obtained from the sticker on the device):
+   fw_printenv | grep eth[012]add
+
+For the LS2XX,LS4XX and TS1XXX (single NIC devices) the MAC is stored in eth1address.
+For the TS3400D, eth0=ethaddress and eth1=eth1address. 
+ 
 
 Setup your existing raid arrays for use on the new system:
 1. If you had raid arrays defined at install time the installer should have installed mdadm, if not install it:
@@ -46,7 +65,12 @@ You can upgrade it to the latest version for the distro with:
    apt-get upgrade linux-image-armmp
 You will have to do this in the future when you want to update to the latest kernel.
 
-Proper Shutdown/Restart for TS1200D and LS4XX devices:
+**note: updating the distro's kernel should be safe but installing the "backports" kernel requires additional steps. Since you are basically installing the kernel for a newer distro you also need the DTB files from that newer kernel (ie you need to put Buster's DTBS in /etc/flash-kernel/dtbs/ before trying to upgrade to the stretch-backports kernel).
+
+If something goes wrong with upgrading/installing a new kernel you can always connect the drive(s) to another system (or load the installer environment via TFTP, etc) and restore the uImage.buffalo.bak and initrd.buffalo.bak from the last working kernel.
+
+Proper Restart for LS441 devices:
+For the LS4XX and TS1XXX devices stock firmware activates/deactivates an unused led pin on the network adapter to signal wether the device should reboot after powering off. On the ls441 this is tied to the same gpio pin as the power button. To allow the power button to function this led is set to "off" at boot and needs to be set to "on" during the shutdown process if a reboot is desired. I included a script to handle this so that the ls441 can be rebooted successfully (rather than just powering off). 
 
 1. install phytool on the device
    apt-get install git build-essential
@@ -68,6 +92,10 @@ Proper Shutdown/Restart for TS1200D and LS4XX devices:
 
 **if for some reason the power button isn't working to start the device, remove the power adapter for a few seconds then replace it and try again.
 
+Hwclock:
+Unfortunately, the debian kernel currently does not support the external RTC used by the LS4XX, TS1XXX and TS3X00 devices. The LS200 uses the RTC built into the SoC which does work although does not maintain a value if the device is unplugged. You can enable it's support by recompiling the kernel with CONFIG_RTC_DRV_RS5C372=y. Personally, I just do without it and never really notice the difference. The combination of ntp and fake-hwclock allows the system to keep the current time up to date and ensure that at boot time the clock is set to the time of the last shutdown rather than 1/1/1970 or something similar.
+    apt-get install fake-hwclock ntp
+
 Hostname:
 set hostname if you want since installer won't prompt for it.
    echo myhostname > /etc/hostname
@@ -76,22 +104,11 @@ Motd:
 If you don't want the typical message of the day to show when you log in:
    >/etc/motd
 
+**note this is now done automatically as part of the installer
 Install ntp to automatically sync your system clock:
    apt-get install ntp
 
-Setup fw_printenv to view u-boot data, I use this to grab the MAC address for later steps. 
-**Warning, Modifying them can render your device un-bootable.
-   echo "/dev/mtdblock1 0x00000 0x10000 0x10000" >> /etc/fw_env.config
-
-Get the MAC address of the ethernet adapter (it can also be obtained from the sticker on the device):
-   fw_printenv | grep eth[012]add
-
-Modify /etc/network/interfaces to manually set the MAC address for your device similar to:
-   # The primary network interface
-   allow-hotplug eth0
-   iface eth0 inet dhcp
-hwaddress ether AA:BB:CC:DD:EE:FF
-
+**note this is now done automatically as part of the installer
 Install lmsensors so you can monitor the CPU temperature and fan speed:
    apt-get install lm-sensors
 
@@ -103,6 +120,9 @@ Install lmsensors so you can monitor the CPU temperature and fan speed:
    gpio_fan-isa-0000
    Adapter: ISA adapter
    fan1:        5000 RPM  (min =    0 RPM, max = 5000 RPM)
+   
+**Note: recent kernels (Buster) now show the temperature reading from the sensor in the ethernet chip which can be used as an ambient temperature reading in addition to the CPU temperature. 
+   
    
 Setup fancontrol to automatically adjust the fan speed based on CPU temperature:
    apt-get install fancontrol
@@ -156,7 +176,6 @@ SUBSYSTEM=platform
 USEC_INITIALIZED=89163967
 
 
-
 Setup TriggerHappy to map actions to button presses on the device:
    apt-get install triggerhappy
 
@@ -171,9 +190,8 @@ I've done my best to map all the LEDs which are controlled by the system's GPIO 
    ~# echo 1 > /sys/class/leds/ls441de\:red\:hdd0err/brightness 
    ~# echo 0 > /sys/class/leds/ls441de\:red\:hdd0err/brightness 
 
-In the device trees I've configured the white function led to blink with disk activity, this is both to make testing the trees a little easier and because this is more like how typical computers/servers behave. THis behavior can be changed by modifying the default and trigger values in the device tree as well changing the settings in the /sys/class/leds/ entries.
+In the device trees for devices that don't have individual drive activity leds. I've configured the white function led to blink with disk activity, this is both to make testing the trees a little easier and because this is more like how typical computers/servers behave. This behavior can be changed by modifying the default and trigger values in the device tree as well changing the settings in the /sys/class/leds/ entries.
 
-***Note: for the 4-bay models there are additional "leds" defined which control the power for each drive: PowerHD1 etc. If you set them to "0" the corresponding drive will lose power. At some point in the future I may replace those entries with a more appropriate entry.
 
 Samba:
 If your looking to use oyur device as a Samba server you'll need to do a bit of setup to get it working. The following seems to be a pretty good guide:

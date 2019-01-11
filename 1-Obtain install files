@@ -1,0 +1,34 @@
+Purpose:
+Package the Debian Installer and a suitable kernel image for your device.
+
+The Easy Way:
+Download inird.buffalo and the uImage.buffalo.<model> for your device. Rename uImage.buffalo.<model> to uImage.buffalo
+
+The Hard Way:
+This method requires mkimage from the uboot-tools package and the DTB file obtained in the previous step.
+
+Generate a Kernel image (uImage.buffalo):
+1. Find the Debian armhf "network-console" installer files. For Stretch: http://ftp.debian.org/debian/dists/stretch/main/installer-armhf/current/images/network-console/
+2. Download the kernel image (vmlinuz) from Debian's "network-console" installer page.
+3. Append the DTB to the end of the kernel image: 
+   cat vmlinuz armada-370-blahblah.dtb > kernelDTB
+4. Generate the kernel uboot image using mkimage:
+   mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d kernelDTB uImage.buffalo
+
+Generate the initrd image (initrd.buffalo):
+
+The tools I am using to generate these images are found under the "build" directory along with the installer images. I'm basically using the "ssh-noninteractive" network-console installer provided by debian with a few tweaks to handle these devices better. 
+
+Specifically, I've added logic to:
+
+load the modules required to access the spi flash for the device at install time.
+use fw_printenv to access the spi flash to determine the MAC address for each interface
+change the MAC address for each interface to the proper one (rather than the random one set at startup)
+load the files necessary for flash-kernel to automatically generate boot images (buffalo_devcies.db and dtb files)
+hardcode the main interface's MAC address in /etc/network/interfaces
+add entries in /etc/modules for the spi flash to work at startup.
+add entry in /target/usr/share/initramfs-tools/conf.d/ to ensure devince ignores the "root=/dev/nfs" parameter passed by buffalo's bootloader
+suppress the "no bootloader" warning (we're using the bootloader built into the device via flash-kernel)
+install flash-kernel 
+copy the .db and .dtb files to the appropriate locations for flash-kernel to use them.
+trigger flash-kernel at the end of the install process to generate the new uImage.buffalo and initrd.buffalo

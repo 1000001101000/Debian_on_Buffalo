@@ -17,9 +17,3 @@ Stop when you get to the page where the installer fails to install Grub.
 
 
 see the next document for notes on how to do some post-install setup.
-
-
-The hardish way:
-You can build your own installer image and make any customizations you might be interested in using generate_images.sh found in the build directory found with the installer images.
-
-
