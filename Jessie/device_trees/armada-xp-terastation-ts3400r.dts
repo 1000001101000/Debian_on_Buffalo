@@ -1,0 +1,357 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+* Device Tree file for Buffalo Terastation TS3400R
+*
+* Jeremy J. Peper, based on device trees created by
+* Steve Shih <shihsung@gmail.com> and Toha <tohenk@yahoo.com>
+*
+*/
+
+/dts-v1/;
+ 
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include "armada-xp-mv78230.dtsi"
+ 
+/ {
+	model = "Buffalo Terastation TS3400R";
+	compatible = "buffalo,ts3400r", "marvell,armadaxp-mv78230", "marvell,armadaxp", "marvell,armada-370-xp";
+ 
+	chosen
+	{
+		stdout-path = "serial0:115200n8";
+	};
+ 
+	memory
+	{
+		device_type = "memory";
+		reg = <0 0x00000000 0 0x40000000>; /* 1GB */
+	};
+
+	soc
+	{
+		ranges = <MBUS_ID(0xf0, 0x01) 0 0 0xd0000000 0x100000
+			 MBUS_ID(0x01, 0x1d) 0 0 0xfff00000 0x100000
+			 MBUS_ID(0x09, 0x09) 0 0 0xf1100000 0x10000
+			 MBUS_ID(0x09, 0x05) 0 0 0xf1110000 0x10000>;
+	  
+		pcie-controller
+		{
+			status = "okay";
+
+			/* Marvell 88SX7042 */
+			pcie@1,0
+			{
+				/* Port 0, Lane 0 */
+				status = "okay";
+			};
+
+			/* D720202 USB 3.0 Controller */
+			pcie@5,0
+			{
+				/* Port 1, Lane 0 */
+				status = "okay";
+			};
+		};
+
+				  
+		internal-regs
+		{
+			rtc@10300
+			{
+				status = "disabled";
+			};
+
+			i2c@11000
+                        {
+                                status = "okay";
+                                clock-frequency = <100000>;
+
+                                rs5c372: rs5c372@32
+                                {
+                                        compatible = "rs5c372a";
+                                        reg = <0x32>;
+                                };
+                        };  
+
+			//Serial ports ordered to match the stock firmware order.
+
+			//console
+			serial@12000
+			{
+				status = "okay";
+			};
+
+			serial@12300
+			{
+				status = "okay";
+			};
+
+			//back serial port
+			serial@12100
+			{
+				status = "okay";
+			};
+
+			serial@12200
+			{
+				status = "okay";
+			};
+
+			serial@12300
+			{
+				status = "okay";
+			};
+
+			timer@20300
+			{
+				status = "okay";
+			};
+
+			//front, usb 2.0 port
+                        usb@50000
+                        {
+                                status = "okay";
+                        };
+
+			//rear,top usb 2.0 port
+			usb@51000
+			{
+				status = "okay";
+			};
+
+			//rear,bottom usb 2.0 port
+			usb@52000
+			{
+				status = "okay";
+			};
+
+			spi@10600
+			{
+				status = "okay";
+				spi-flash@0
+				{
+					#address-cells = <1>;
+					#size-cells = <1>;
+					compatible = "mx25l8005", "jedec,spi-nor";
+					reg = <0>;
+					spi-max-frequency = <50000000>;
+
+					partition@00000
+					{
+						label = "u-boot";
+						reg = <0x00000 0xf0000>;
+						read-only;
+					};
+
+					partition@f0000
+					{
+						label = "u-boot-env";
+						reg = <0xf0000 0x10000>;
+						read-only;
+					};
+				};
+			};
+
+			pinctrl
+			{
+				hdd_pwr1: hdd-pwr1
+				{
+					marvell,pins = "mpp26";
+					marvell,function = "gpio";
+				};
+			
+				hdd_pwr2: hdd-pwr2
+				{
+					marvell,pins = "mpp27";
+					marvell,function = "gpio";
+				};
+			
+				hdd_pwr3: hdd-pwr3
+				{
+					marvell,pins = "mpp24";
+					marvell,function = "gpio";
+				};
+			
+				hdd_pwr4: hdd-pwr4
+				{
+					marvell,pins = "mpp29";
+					marvell,function = "gpio";
+				};
+			
+				hdd1_present: hdd1-present
+				{
+					marvell,pins = "mpp32";
+					marvell,function = "gpio";
+				};
+			
+				hdd2_present: hdd2-present
+				{
+					marvell,pins = "mpp33";
+					marvell,function = "gpio";
+				};
+				
+				hdd3_present: hdd3-present
+				{
+					marvell,pins = "mpp34";
+					marvell,function = "gpio";
+				};
+			
+				hdd4_present: hdd4-present
+				{
+					marvell,pins = "mpp35";
+					marvell,function = "gpio";
+				};
+			};
+
+			nand@d0000
+			{
+				status = "okay";
+				num-cs = <1>;
+				marvell,nand-keep-config;
+				marvell,nand-enable-arbiter;
+				nand-on-flash-bbt;
+
+				/* Use Hardware BCH ECC */
+				nand-ecc-strength = <4>;
+				nand-ecc-step-size = <512>;
+
+				partition@0
+				{
+					label = "boot";
+					reg = <0x00000000 0x02000000>;  /* 32MB */
+				};
+
+				partition@02100000
+				{
+					label = "rootfs";
+					reg = <0x02000000 0x1e000000>;  /* 480MB */
+				};
+			};
+
+			mdio
+			{
+				phy0: ethernet-phy@0
+				{ /* Marvell 88E1318 */
+					reg = <0>;
+				};
+ 
+				phy1: ethernet-phy@1
+				{ /* Marvell 88E1318 */
+					reg = <1>;
+				};
+			};
+ 
+			ethernet@70000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+ 
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy1>;
+				phy-mode = "rgmii-id";
+			};
+		};
+	};
+
+	gpio-keys
+	{
+		compatible = "gpio-keys";
+		pinctrl-0 = <&hdd1_present &hdd2_present &hdd3_present &hdd4_present>;
+		pinctrl-names = "default";
+
+		hdd1-present
+		{
+			label = "Hard Disk 1 Present";
+			linux,code = <KEY_PROG1>;
+			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+		};
+
+		hdd2-present
+		{
+			label = "Hard Disk 2 Present";
+			linux,code = <KEY_PROG2>;
+			gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+		};
+
+		hdd3-present
+		{
+			label = "Hard Disk 3 Present";
+			linux,code = <KEY_PROG3>;
+			gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
+		};
+
+		hdd4-present
+		{
+			label = "Hard Disk 4 Present";
+			linux,code = <KEY_PROG4>;
+			gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	regulators
+	{
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		pinctrl-0 = <&hdd_pwr1 &hdd_pwr2 &hdd_pwr3 &hdd_pwr4>;
+		pinctrl-names = "default";
+
+		regulator@1
+		{
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "HDD1 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <&gpio0 26 GPIO_ACTIVE_HIGH>;
+		};
+
+		regulator@2
+		{
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "HDD2 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <&gpio0 27 GPIO_ACTIVE_HIGH>;
+		};
+		
+		regulator@3
+		{
+			compatible = "regulator-fixed";
+			reg = <3>;
+			regulator-name = "HDD3 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		};
+
+		regulator@4
+		{
+			compatible = "regulator-fixed";
+			reg = <4>;
+			regulator-name = "HDD4 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
