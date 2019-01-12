@@ -63,12 +63,12 @@
 					/*
 					Set control registers for the chip's LED pins
 					On=Low, Off=High
-					LED0: On - Link, Blink - Activity, Off - No Link
-					LED1: Force hi-impedance (not connected?)
+					LED0: Force hi-impedance (not connected?)
+					LED1: On - Link, Blink - Activity, Off - No Link
 					LED2: Force hi-impedance (not connected?)
 					*/
  
-					marvell,reg-init = <0x3 0x10 0xf000 0x0AA1>;
+					marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
 				};
 			};
 
