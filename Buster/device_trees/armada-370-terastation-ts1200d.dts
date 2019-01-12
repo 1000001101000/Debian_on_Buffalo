@@ -292,6 +292,41 @@
 	};
 };
 
+&nand_controller
+{
+	status = "okay";
+
+	nand@0
+	{
+		reg = <0>;
+		label = "pxa3xx_nand-0";
+		nand-rb = <0>;
+		marvell,nand-keep-config;
+		nand-on-flash-bbt;
+		nand-ecc-strength = <4>;
+		nand-ecc-step-size = <512>;
+	
+		partitions
+		{
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+	
+			partition@0
+			{
+				label = "boot";
+				reg = <0x00000000 0x02000000>;  /* 32MB */
+			};
+	
+			partition@02100000
+			{
+				label = "rootfs";
+				reg = <0x02000000 0x1e000000>;  /* 480MB */
+			};
+		};
+	};
+};
+
 &pinctrl
 {
 	usb_pwr: usb-pwr
