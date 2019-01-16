@@ -84,7 +84,7 @@ For the LS4XX and TS1XXX devices stock firmware activates/deactivates an unused 
    chmod +x /usr/local/bin/ls400-restart.sh
 4. Install the service
    systemctl daemon-reload 
-   systemctl enable ls400-restart.service --now
+   systemctl enable ls400-restart.service --run
 5. Reboot the device and confirm that it restarts as expected
    reboot
 6. Shutdown the device and confirm that it powers off as expected (and still starts when pressing power button)
