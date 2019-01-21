@@ -7,6 +7,10 @@ Until Buster becomes the new "Stable" version I highly recommend sticking to Str
 
 Current issues:
 
+Fan gpios inverted:
+For some reason the values required for the gpio-fan functionality have inverted with the current kernel (eg the fans stop when the system calls for full power). I've updated the device trees to re-invert them so that they continue to function normally, I imagine it will be necessary to re-re-invert them again when whatever underlying bug gets fixed.
+
+
 lack of entropy for rng at boot:
 
 At startup the random number generator does not report as ready until it can gather a certain amount of random data from the hardware. Services that require the rng to operate (mainly the ssh server) will not start until this completes. With the 4.19 kernel this has been taking 30-60 minutes rather than 10-15 seconds it previously took. 
