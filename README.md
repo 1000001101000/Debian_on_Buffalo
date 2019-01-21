@@ -1,5 +1,5 @@
 # Debian_on_Buffalo
-Tools for Installing/Running Debian on Buffalo Linkstation/Terastation (LS4XX, LS2XX, TSXXX etc) 
+Tools for Installing/Running Debian on Buffalo Linkstation/Terastation (LS4XX, LS2XX, TS1XXX and TS3X00) 
 
 My goal is to make it possible for someone with fairly basic linux knowledge to install Debian on their Marvell Armada based Buffalo Linkstation/Terastation similarly to what is provided for the older generation orion5x/Kirkwood devices.
 
