@@ -332,8 +332,8 @@
 		compatible = "gpio-fan";
 		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
 		pinctrl-names = "default";
-		gpios = <&gpio0 14 GPIO_ACTIVE_LOW
-		         &gpio0 13 GPIO_ACTIVE_LOW>;
+		gpios = <&gpio0 13 GPIO_ACTIVE_LOW
+		         &gpio0 14 GPIO_ACTIVE_LOW>;
 		gpio-fan,speed-map = <0    3
 		                      1200 2
 		                      1800 1
