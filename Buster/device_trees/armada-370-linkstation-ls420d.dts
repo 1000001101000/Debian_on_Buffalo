@@ -77,7 +77,7 @@
 
 				rs5c372: rs5c372@32
 				{
-					compatible = "rs5c372a";
+					compatible = "ricoh,rs5c372a";
 					reg = <0x32>;
 				};
 			};
@@ -234,12 +234,12 @@
 		compatible = "gpio-fan";
 		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
 		pinctrl-names = "default";
-		gpios = <&gpio0 14 GPIO_ACTIVE_HIGH
-		         &gpio0 13 GPIO_ACTIVE_HIGH>;
+		gpios = <&gpio0 13 GPIO_ACTIVE_HIGH
+		         &gpio0 14 GPIO_ACTIVE_HIGH>;
 		gpio-fan,speed-map = <0    3
-		  1500 2
-		  3250 1
-		  5000 0>;
+		  1200 2
+		  1800 1
+		  2300 0>;
 		alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
 	};
 };

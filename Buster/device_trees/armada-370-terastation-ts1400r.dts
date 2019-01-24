@@ -76,7 +76,7 @@
 
 				rs5c372: rs5c372@32
 				{
-					compatible = "rs5c372a";
+					compatible = "ricoh,rs5c372a";
 					reg = <0x32>;
 				};
 			};
