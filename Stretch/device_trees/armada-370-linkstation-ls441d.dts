@@ -335,8 +335,8 @@
 		gpios = <&gpio0 13 GPIO_ACTIVE_LOW
 		         &gpio0 14 GPIO_ACTIVE_LOW>;
 		gpio-fan,speed-map = <0    3
-		                      1200 2
-		                      1800 1
+		                      1100 2
+		                      1600 1
 		                      2050 0>;
 		alarm-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
 	};
