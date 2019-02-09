@@ -13,14 +13,13 @@ This process:
 
 I've divided the process into 5 parts:
 
-1. Obtain the Device Tree Blob (DTB) for your device.
-2. Use the DTB and the kernel/initrd provided by Debian to create the installer image.
-3. Transfer the installer image to the device.
-4. Run the Debian Installer.
-5. Install/configure the system to make use of the hardware (fan/tempurature sensors/etc)
+1. Download my prebuilt installer images or build your own (my build scripts are in the /build directory)
+2. Transfer the installer image to the device.
+3. Run the Debian Installer.
+4. Install/configure the system to make use of the hardware (fan/tempurature sensors/etc)
 
-Each section includes "the easy way" which is aimed at being simpler and requiring less technical knowledge by using files I've already created, and "the hard way" which shows how to compile your own files relying on as few resources provided by me as possible.
- 
+My goal has been to make this process as easy as possible while also providing all the information someone would need to customize/expand this process to fit their needs.
+
 Feel free to contact me with any questions/feedback.
 
 Disclaimer: While this process does not modify the actual device and cannot "brick" your device, if something goes wrong (like skipping a step) it may be necessary remove a drive from the device and connect to a PC to recover. 
