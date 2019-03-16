@@ -11,11 +11,12 @@ fi
 wget -N "https://d-i.debian.org/daily-images/armhf/daily/network-console/initrd.gz"
 #wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
+echo $kernel_ver
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
-
+kernel_deb="linux-image-4.19.0-3-armmp_4.19.20-1_armhf.deb"
 rngd_deb_url="$(zcat Packages.gz | grep rng-tools | grep Filename | head -n 1 | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$rngd_deb_url"
 rndg_deb="$(basename "$rngd_deb_url")"

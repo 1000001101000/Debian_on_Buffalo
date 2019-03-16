@@ -9,6 +9,7 @@ if [ -d "tmp" ]; then
 fi
 
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
+wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/vmlinuz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
@@ -39,7 +40,7 @@ if [ $? -ne 0 ]; then
         echo "failed to copy device db, quitting"
         exit
 fi
-cp -v "debian-files/tmp/boot/vmlinuz-$kernel_ver" .
+cp -v "debian-files/vmlinuz" .
 if [ $? -ne 0 ]; then
         echo "failed to copy kernel, quitting"
         exit
@@ -84,7 +85,7 @@ dtb_list="$(ls $dtb_dir/*.dtb)"
 for dtb in $dtb_list
 do
 model="$(echo $dtb | gawk -F- '{print $4}' | gawk -F. '{print $1}')"
-cat vmlinuz-$kernel_ver $dtb > tmpkern
+cat vmlinuz $dtb > tmpkern
 faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
 done
 rm tmpkern
