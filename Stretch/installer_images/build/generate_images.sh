@@ -8,7 +8,7 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
+#wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
 wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/vmlinuz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
