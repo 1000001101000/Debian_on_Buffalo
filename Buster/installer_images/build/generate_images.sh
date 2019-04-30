@@ -8,8 +8,8 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "https://d-i.debian.org/daily-images/armhf/daily/network-console/initrd.gz"
-#wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
+#wget -N "https://d-i.debian.org/daily-images/armhf/daily/network-console/initrd.gz"
+wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
 echo $kernel_ver
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
