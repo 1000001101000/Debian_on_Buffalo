@@ -87,6 +87,10 @@ For the LS4XX and TS1200 devices the stock firmware activates/deactivates an unu
    chmod +x /lib/systemd/system-shutdown/ls400-restart.sh
 4. The device should now restart if a restart command is issued and poweroff if a shutdown command is issued.
 
+For the LS200 devices the devices appears to decide between restart and poweroff based on the position of the power switch. To poweroff the device set the rear switch to the off position and then issue the shutdown command.
+
+For the TS1400 and TS3X00 devices the powerdown sequence seems to be at least partially controlled by the built in microcontroller, I am still researching how to properly command a poweroff for these devices.
+
 **if for some reason the power button isn't working to start the device, remove the power adapter for a few seconds then replace it and try again.
 
 Hwclock:
