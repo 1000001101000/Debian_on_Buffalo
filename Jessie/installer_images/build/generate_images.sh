@@ -1,6 +1,6 @@
 ##requires uboot-tools, gzip, faketime, rsync, wget, cpio?
 dtb_dir="../../device_trees"
-
+tools_dir="../../../Tools"
 distro="jessie"
 
 cd debian-files
@@ -37,6 +37,11 @@ fi
 cp -v $dtb_dir/*.dtb payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy dtb files, quitting"
+        exit
+fi
+cp -v $tools_dir/*.sh payload/source/
+if [ $? -ne 0 ]; then
+        echo "failed to copy tools, quitting"
         exit
 fi
 cp -v ../../buffalo_devices.db payload/source/

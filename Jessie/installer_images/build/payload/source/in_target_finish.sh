@@ -4,3 +4,6 @@ if [ $? -eq 0 ]; then
         systemctl enable ts3000_boot.service
         systemctl enable init_lcd.service
 fi
+##attempt to resolve broken dependencies
+apt-get install -fy
+exit 0
