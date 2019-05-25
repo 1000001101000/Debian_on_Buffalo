@@ -28,5 +28,4 @@ if [ $? -eq 0 ]; then
         /source/dist/ts3000_startup/ts3000_startup
 fi
 
-
 exit 0

@@ -8,15 +8,15 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
+#wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
-wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
+#wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
+#wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
-wget -N "http://ftp.debian.org/debian/dists/$distro-backports/main/binary-armhf/Packages.gz" -O "bp-Packages.gz"
+#wget -N "http://ftp.debian.org/debian/dists/$distro-backports/main/binary-armhf/Packages.gz" -O "bp-Packages.gz"
 fk_deb_url="$(zcat bp-Packages.gz | grep flash-kernel | grep Filename | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$fk_deb_url"
+#wget -N "http://ftp.debian.org/debian/$fk_deb_url"
 fk_deb="$(basename $fk_deb_url)"
 mkdir tmp
 dpkg --extract $kernel_deb tmp/
