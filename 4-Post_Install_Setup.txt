@@ -1,5 +1,6 @@
 All of these steps are recommended but optional, they should be run as root.
 
+
 Find the device:
 The kernel is unable to get the MAC address for these network devices on their own, I've added logic to the installer to allow it look them up from the bootloader and set them at install time and then hardcode them in /etc/network/interfaces at the end of the install. If this failed for some reason the kernel will set a random MAC address at boot which could result in a new IP address being assigned via DHCP. There are several ways to find the address it has been assigned, an easy on is to scan for ssh servers on your network with NMAP:
    nmap -p22 --open 192.168.1.*   or similar.
@@ -69,26 +70,22 @@ You will have to do this in the future when you want to update to the latest ker
 
 If something goes wrong with upgrading/installing a new kernel you can always connect the drive(s) to another system (or load the installer environment via TFTP, etc) and restore the uImage.buffalo.bak and initrd.buffalo.bak from the last working kernel.
 
-Proper Restart for LS441 devices:
-For the LS4XX and TS1XXX devices stock firmware activates/deactivates an unused led pin on the network adapter to signal wether the device should reboot after powering off. On the ls441 this is tied to the same gpio pin as the power button. To allow the power button to function this led is set to "off" at boot and needs to be set to "on" during the shutdown process if a reboot is desired. I included a script to handle this so that the ls441 can be rebooted successfully (rather than just powering off). 
+Proper Restart/Shutdown:
+The different groups of devices use different mechanisms to signal the hardware whether to poweroff or restart when the device shuts down. All of the devices will reboot when a restart command is issued (the LS441 will only do so via the script mentioned below). For the non-LS400 devices I'm still researching how to properly command them to poweroff, currently they will also reboot if a shutdown command is issued. If you command a halt (shutdown -H) they will go down but not completely poweroff and will need unplugged to completely poweroff. I'm still working on a complete solution for those devices.   
 
+For the LS4XX and TS1200 devices the stock firmware activates/deactivates an unused led/interrupt pin on the network adapter to signal whether the device should reboot after powering off. On the ls441 this is tied to the same gpio pin as the power button. To allow the power button to function this led is set to "off" at boot and needs to be set to "on" during the shutdown process if a reboot is desired. I included a script to handle this so that the ls441 can be rebooted successfully (rather than just powering off). 
+
+**note this is now done automatically as part of the installer
 1. install phytool on the device
    apt-get install git build-essential
    git clone https://github.com/wkz/phytool
    cd phytool
    make install
-
-2. Upload ls400-restart.sh from the Tools section to /usr/local/bin/
-3. Upload ls400-restart.service from the Tools section to /etc/systemd/system/
-4. Make ls400-restart.sh executable
-   chmod +x /usr/local/bin/ls400-restart.sh
-4. Install the service
-   systemctl daemon-reload 
-   systemctl enable ls400-restart.service --run
-5. Reboot the device and confirm that it restarts as expected
-   reboot
-6. Shutdown the device and confirm that it powers off as expected (and still starts when pressing power button)
-   halt
+   
+2. Upload ls400_restart.sh from the Tools section to /lib/systemd/system-shutdown/
+3. Make ls400_restart.sh executable
+   chmod +x /lib/systemd/system-shutdown/ls400-restart.sh
+4. The device should now restart if a restart command is issued and poweroff if a shutdown command is issued.
 
 **if for some reason the power button isn't working to start the device, remove the power adapter for a few seconds then replace it and try again.
 
