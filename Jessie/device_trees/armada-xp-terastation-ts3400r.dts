@@ -74,20 +74,12 @@
                                 };
                         };  
 
-			//Serial ports ordered to match the stock firmware order.
-
 			//console
 			serial@12000
 			{
 				status = "okay";
 			};
 
-			serial@12300
-			{
-				status = "okay";
-			};
-
-			//back serial port
 			serial@12100
 			{
 				status = "okay";
@@ -98,6 +90,7 @@
 				status = "okay";
 			};
 
+			//microcontroller interface
 			serial@12300
 			{
 				status = "okay";
