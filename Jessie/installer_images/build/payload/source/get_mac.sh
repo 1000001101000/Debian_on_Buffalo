@@ -17,4 +17,12 @@ if [ $? -eq 0 ]; then
 else
    /source/fw_printenv -n eth1addr > /source/eth0-mac.txt && /source/set_mac.sh "eth0" "$(cat /source/eth0-mac.txt)"
 fi
+
+##special stuff for ts3000
+grep TS3 /proc/device-tree/model > /dev/null
+if [ $? -eq 0 ]; then
+        /source/ts3000_scripts/ts3000_installer_display
+        /source/ts3000_scripts/ts3000_startup
+fi
+
 exit 0
