@@ -62,11 +62,6 @@
 				status = "okay";
 			};
 
-			serial@12300
-			{
-				status = "okay";
-			};
-
 			//back serial port
 			serial@12100
 			{
@@ -78,6 +73,7 @@
 				status = "okay";
 			};
 
+			//microcontroller interface
 			serial@12300
 			{
 				status = "okay";
