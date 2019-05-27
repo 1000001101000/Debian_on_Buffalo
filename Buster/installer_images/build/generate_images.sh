@@ -47,6 +47,11 @@ if [ $? -ne 0 ]; then
         echo "failed to copy tools, quitting"
         exit
 fi
+cp -vrp $tools_dir/ts3000_scripts payload/source/
+if [ $? -ne 0 ]; then
+        echo "failed to copy tools, quitting"
+        exit
+fi
 cp -v ../../buffalo_devices.db payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy device db, quitting"
