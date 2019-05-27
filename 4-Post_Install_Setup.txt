@@ -89,7 +89,10 @@ For the LS4XX and TS1200 devices the stock firmware activates/deactivates an unu
 
 For the LS200 devices the devices appears to decide between restart and poweroff based on the position of the power switch. To poweroff the device set the rear switch to the off position and then issue the shutdown command.
 
-For the TS1400 and TS3X00 devices the powerdown sequence seems to be at least partially controlled by the built in microcontroller, I am still researching how to properly command a poweroff for these devices.
+For the TS3X00 devices power is handled by the built in microcontroller, to instruct it to shutdown the appropriate commands must be sent at the end of the shutdown process. I've included a script to do this (python script to send the commands + shell script triggered by shutdown command to call it) in the Tools directory. This is also automatically set up by the installer. 
+These scripts were built using https://github.com/1000001101000/Python_buffalo_libmicon and pyInstaller
+
+I'm still trying to figure out how to make the TS1400x devices shut down cleanly. Suprisingly, none of the above methods work for  these devices.
 
 **if for some reason the power button isn't working to start the device, remove the power adapter for a few seconds then replace it and try again.
 
