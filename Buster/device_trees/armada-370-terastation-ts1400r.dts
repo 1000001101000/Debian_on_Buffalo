@@ -339,7 +339,7 @@
 
 	uart1_pins: uart1-pins
 	{
-		marvell,pins = "mpp57", "mpp42";
+		marvell,pins = "mpp57", "mpp55";
 		marvell,function = "uart1";
 	};
 };

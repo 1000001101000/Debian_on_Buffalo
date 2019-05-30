@@ -324,5 +324,11 @@
 			linux,code = <KEY_PROG4>;
 			gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
 		};
+
+		uart1_pins: uart1-pins
+		{
+			marvell,pins = "mpp57", "mpp55";
+			marvell,function = "uart1";
+		};
 	};
 };
