@@ -326,4 +326,10 @@
 		marvell,pins = "mpp52";
 		marvell,function = "gpio";	
 	};
+
+	uart1_pins: uart1-pins
+	{
+		marvell,pins = "mpp57", "mpp42";
+		marvell,function = "uart1";
+	};
 };

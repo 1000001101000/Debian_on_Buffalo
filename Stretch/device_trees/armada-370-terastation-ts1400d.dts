@@ -372,4 +372,10 @@
 		marvell,pins = "mpp59";
 		marvell,function = "gpo";
 	};
+
+	uart1_pins: uart1-pins
+	{
+		marvell,pins = "mpp57", "mpp42";
+		marvell,function = "uart1";
+	};
 };
