@@ -3,7 +3,7 @@
 import libmicon
 import platform
 
-test = libmicon.micon_api("/dev/ttyS3")
+test = libmicon.micon_api("/dev/ttyS1")
 
 ##set custom lcd message
 title = "Terastation " + platform.machine()[:3]

@@ -17,6 +17,14 @@
 	model = "Buffalo Terastation TS3200D";
 	compatible = "buffalo,ts3200d", "marvell,armadaxp-mv78230", "marvell,armadaxp", "marvell,armada-370-xp";
  
+	aliases
+        {
+                serial0 = &uart0;
+                serial1 = &uart3;
+                serial2 = &uart1;
+                serial3 = &uart2;
+        };
+
 	chosen
 	{
 		stdout-path = "serial0:115200n8";
@@ -74,22 +82,22 @@
                                 };
                         };  
 
-			serial@12000
+			uart0: serial@12000
 			{
 				status = "okay";
 			};
 
-			serial@12100
+			uart2: serial@12100
 			{
 				status = "okay";
 			};
 
-			serial@12200
+			uart3: serial@12200
 			{
 				status = "okay";
 			};
 
-			serial@12300
+			uart1: serial@12300
 			{
 				status = "okay";
 			};

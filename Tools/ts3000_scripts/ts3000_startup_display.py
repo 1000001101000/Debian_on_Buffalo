@@ -8,7 +8,7 @@ version= "Debian " + file.readline().strip()
 version = version.center(16)
 title = "Terastation " + platform.machine()[:3].upper()
 
-test = libmicon.micon_api("/dev/ttyS3")
+test = libmicon.micon_api("/dev/ttyS1")
 
 ##set custom lcd message
 test.set_lcd_buffer(libmicon.lcd_set_buffer0,title,version)

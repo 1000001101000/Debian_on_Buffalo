@@ -3,8 +3,8 @@ grep TS3 /proc/device-tree/model > /dev/null
 if [ $? -eq 0 ]; then
 	cp -r /source/ts3000_scripts "/target/usr/local/bin/"
 	cp /source/ts3000_scripts/*.service /target/etc/systemd/system/
-	cp /source/ts3000_scripts/ts3400_restart.sh /target/lib/systemd/system-shutdown/
-        chmod 755 /target/lib/systemd/system-shutdown/ts3400_restart.sh
+	cp /source/ts3000_scripts/ts3000_restart.sh /target/lib/systemd/system-shutdown/
+        chmod 755 /target/lib/systemd/system-shutdown/ts3000_restart.sh
 fi
 
 grep LS4 /proc/device-tree/model > /dev/null

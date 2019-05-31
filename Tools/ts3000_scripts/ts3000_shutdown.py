@@ -2,7 +2,7 @@
 
 import libmicon
 
-test = libmicon.micon_api("/dev/ttyS3")
+test = libmicon.micon_api("/dev/ttyS1")
 
 ##enable just the messages that we've configured so far.
 test.set_lcd_buffer(libmicon.lcd_set_buffer0,"     ","     ")
