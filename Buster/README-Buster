@@ -1,0 +1,18 @@
+Debian Buster is the current Testing version of Debian which is in the process of becoming the new Stable version. Since Buster is close to becoming the new "Stable" release (Buster RC1 was released in 4/2019) it's most likely safe to use Buster on your device at this point. That way you won' thave to worry about upgrading to a new release for a couple of years. If you do run into issues you can always install Stretch instead which will likely still be supported for several more years.   
+
+
+Buster Notes:
+
+Fan gpios inverted:
+For some reason the values required for the gpio-fan functionality have inverted with the current kernel I've updated the device trees to re-invert them so that they continue to function normally. I don't know which way is the "correct" way but will watch for further changes in future kernels.
+
+
+lack of entropy for rng at boot:
+For security reasons Debian has disabled CONFIG_RANDOM_TRUST_CPU for their kernels. Without a sufficient source of entropy the random number generator can take > 30minutes to initialize on these devices which will delay sshd from starting. To correct this I've set up the installer to install haveged which generates entropy to allow things to work normally.
+
+This issue is discussed in detail here:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=898814
+https://daniel-lange.com/archives/152-Openssh-taking-minutes-to-become-available,-booting-takes-half-an-hour-...-because-your-server-waits-for-a-few-bytes-of-randomness.html
+
+You can read more about haveged here:
+http://www.issihosts.com/haveged/faq.html

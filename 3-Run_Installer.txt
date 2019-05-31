@@ -7,13 +7,4 @@ Note: the provided installer images now handle all the custom steps for you, the
 -either a regular partition or part of an MDADM array using metadata version 0.90
 ***if you use the partitions from a stock firmare install this will already be the case. 
 
-The Easyish way:
-1. Boot up the device, assuming everything went well it will boot into the debian installer and start the ssh-server.
-2. It should come up with the same ip address as before. if you are unsure of the ip you can find it by scanning for devices listening on port 22 (ssh).
-   nmap -p22 --open 192.168.1.*   or similar.
-3. Connect to the device via ssh, the username is installer, the password is install.
-4. Run through the installer like a typical Debian install (see details at the end). Note: Partition 1 still needs to be mounted as /boot and needs to be formatted as ext2 or ext3.
-Stop when you get to the page where the installer fails to install Grub.
-
-
 see the next document for notes on how to do some post-install setup.
