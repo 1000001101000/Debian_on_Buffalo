@@ -3,12 +3,19 @@
 import libmicon
 import platform
 
+##try reading micon version from each port to determine the right one
+for port in ["/dev/ttyS1","/dev/ttyS3"]:
+        test = libmicon.micon_api(port)
+        result = test.send_read_cmd(0x83)
+        if result:
+                break
+        test.port.close()
+
+
 file = open("/etc/debian_version", "r")
 version= "Debian " + file.readline().strip()
 version = version.center(16)
 title = "Terastation " + platform.machine()[:3].upper()
-
-test = libmicon.micon_api("/dev/ttyS1")
 
 ##set custom lcd message
 test.set_lcd_buffer(libmicon.lcd_set_buffer0,title,version)
