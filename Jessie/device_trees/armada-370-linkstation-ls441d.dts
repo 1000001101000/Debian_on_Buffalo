@@ -294,11 +294,23 @@
 					label = "boot";
 					reg = <0x00000000 0x02000000>;  /* 32MB */
 				};
-				
-				partition@02100000
+
+				partition@2000000
 				{
 					label = "rootfs";
-					reg = <0x02000000 0x1e000000>;  /* 480MB */
+					reg = <0x02000000 0x17e00000>;  /* 382MB */
+				};
+
+				partition@19e00000
+				{
+					label = "em_boot";
+					reg = <0x19e00000 0x02000000>;  /* 32MB */
+				};
+
+				partition@1be00000
+				{
+					label = "reserve";
+					reg = <0x1be00000 0x4200000>;  /* 66MB */
 				};
 			};
 		};
@@ -496,11 +508,11 @@
 		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
 		pinctrl-names = "default";
 		gpios = <&gpio0 13 GPIO_ACTIVE_LOW
-		         &gpio0 14 GPIO_ACTIVE_LOW>;
+			 &gpio0 14 GPIO_ACTIVE_LOW>;
 		gpio-fan,speed-map = <0    3
-		                      1100 2
-		                      1600 1
-		                      2050 0>;
+				      1100 2
+				      1600 1
+				      2050 0>;
 		alarm-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
 	};
 };
