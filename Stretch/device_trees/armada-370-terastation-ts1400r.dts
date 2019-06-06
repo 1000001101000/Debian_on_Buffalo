@@ -137,7 +137,7 @@
 					reg = <0x00000000 0x02000000>;  /* 32MB */
 				};
 				
-				partition@02100000
+				partition@2000000
 				{
 					label = "rootfs";
 					reg = <0x02000000 0x1e000000>;  /* 480MB */
