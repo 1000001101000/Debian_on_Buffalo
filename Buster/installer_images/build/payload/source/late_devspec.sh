@@ -7,6 +7,12 @@ if [ $? -eq 0 ]; then
 	chmod 755 /target/lib/systemd/system-shutdown/ts3000_restart.sh
 fi
 
+grep TS14 /proc/device-tree/model > /dev/null
+if [ $? -eq 0 ]; then
+        cp -r /source/ts3000_scripts "/target/usr/local/bin/"
+        cp /source/ts3000_scripts/*.service /target/etc/systemd/system/
+fi
+
 grep LS4 /proc/device-tree/model > /dev/null
 is_ls400=$?
 grep TS12 /proc/device-tree/model > /dev/null
