@@ -32,8 +32,8 @@
 	soc
 	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
 		internal-regs
 		{
@@ -42,57 +42,21 @@
 				status = "disabled";
 			};
 
-			serial@12000
+			i2c@11000
 			{
 				status = "okay";
-			};
+				clock-frequency = <100000>;
 
-			sata@a0000
-			{
-				nr-ports = <1>;
-				status = "okay";
-			};
-
-			timer@20300
-			{
-				status = "okay";
-			};
-
-			mdio
-			{
-				/* Marvell 88E1518 */
-				phy0: ethernet-phy@0
+				rs5c372: rs5c372@32
 				{
-					reg = <0>;
-
-					/*
-					Set control registers for the chip's LED pins
-					On=Low, Off=High
-					LED0: On - Link, Blink - Activity, Off - No Link
-					LED1: Force off (not connected?)
-					LED2: Force on (used by boot loader to tell reboot from shutdown)
-					*/
- 
-					marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
+					compatible = "ricoh,rs5c372a";
+					reg = <0x32>;
 				};
-			};
-
-			ethernet@74000
-			{
-				status = "okay";
-				phy = <&phy0>;
-				phy-mode = "rgmii-id";
-			};			
-
-			usb@50000
-			{
-				status = "okay";
 			};
 
 			spi@10600
 			{
 				status = "okay";
-
 				spi-flash@0
 				{
 					#address-cells = <1>;
@@ -117,91 +81,117 @@
 				};
 			};
 
-			pinctrl
+			serial@12000
 			{
-				usb_pwr: usb-pwr
-				{
-					marvell,pins = "mpp5";
-					marvell,function = "gpo";
-				};
+				status = "okay";
+			};
 
-				hdd_pwr1: hdd-pwr1
-				{
-					marvell,pins = "mpp8";
-					marvell,function = "gpio";
-				};
+			timer@20300
+			{
+				status = "okay";
+			};
 
-				fan_alarm: fan-alarm
-				{
-					marvell,pins = "mpp10";
-					marvell,function = "gpio";
-				};
+			usb@50000
+			{
+				status = "okay";
+			};
 
-				hdd1_present: hdd1-present
-				{
-					marvell,pins = "mpp11";
-					marvell,function = "gpio";
-				};
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
 
-				fan_high: fan-high
-				{
-					marvell,pins = "mpp13";
-					marvell,function = "gpio";
-				};
+			sata@a0000
+			{
+				nr-ports = <1>;
+				status = "okay";
+			};
 
-				fan_low: fan-low
+			mdio
+			{
+				phy0: ethernet-phy@0
 				{
-					marvell,pins = "mpp14";
-					marvell,function = "gpio";
-				};
-
-				power_switch: power-switch
-				{
-					marvell,pins = "mpp15";
-					marvell,function = "gpio";
-				};
-
-				function_button: function-button
-				{
-					marvell,pins = "mpp16";
-					marvell,function = "gpio";
-				};
-
-				power_led_white: power-led-white
-				{
-					marvell,pins = "mpp54";
-					marvell,function = "gpo";
-				};
-
-				power_led_red: power-led-red
-				{
-					marvell,pins = "mpp55";
-					marvell,function = "gpio";
-				};
-
-				power_led_orange: power-led-orange
-				{
-					marvell,pins = "mpp57";
-					marvell,function = "gpio";
-				};
-
-				function_led_white: function-led-white
-				{
-					marvell,pins = "mpp59";
-					marvell,function = "gpo";
+					reg = <0>;
+					//LED0: on/blink on act, LED1: off (not connected) LED2: Force on (signals boot loader to reboot by default)
+					marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
 				};
 			};
 
-			i2c@11000
+			pinctrl
 			{
-				status = "okay";
-				clock-frequency = <100000>;
+	usb_pwr: usb-pwr
+	{
+		marvell,pins = "mpp5";
+		marvell,function = "gpo";
+	};
 
-				rs5c372: rs5c372@32
-				{
-					compatible = "rs5c372a";
-					reg = <0x32>;
-				};
+	hdd_pwr1: hdd-pwr1
+	{
+		marvell,pins = "mpp8";
+		marvell,function = "gpio";
+	};
+
+	fan_alarm: fan-alarm
+	{
+		marvell,pins = "mpp10";
+		marvell,function = "gpio";
+	};
+
+	hdd1_present: hdd1-present
+	{
+		marvell,pins = "mpp11";
+		marvell,function = "gpio";
+	};
+
+	fan_high: fan-high
+	{
+		marvell,pins = "mpp13";
+		marvell,function = "gpio";
+	};
+	
+	fan_low: fan-low
+	{
+		marvell,pins = "mpp14";
+		marvell,function = "gpio";
+	};
+
+	power_switch: power-switch
+	{
+		marvell,pins = "mpp15";
+		marvell,function = "gpio";
+	};
+	
+	function_button: function-button
+	{
+		marvell,pins = "mpp16";
+		marvell,function = "gpio";
+	};
+
+	power_led_white: power-led-white
+	{
+		marvell,pins = "mpp54";
+		marvell,function = "gpo";
+	};
+
+	power_led_red: power-led-red
+	{
+		marvell,pins = "mpp55";
+		marvell,function = "gpio";
+	};
+
+	power_led_orange: power-led-orange
+	{
+		marvell,pins = "mpp57";
+		marvell,function = "gpio";
+	};
+
+	function_led_white: function-led-white
+	{
+		marvell,pins = "mpp59";
+		marvell,function = "gpo";
+	};
 			};
 		};
 	};
@@ -214,10 +204,10 @@
 		pinctrl-0 = <&usb_pwr &hdd_pwr1>;
 		pinctrl-names = "default";
 
-		regulator@1
+		regulator@0
 		{
 			compatible = "regulator-fixed";
-			reg = <1>;
+			reg = <0>;
 			regulator-name = "USB Power";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -227,10 +217,10 @@
 			gpio = <&gpio0 5 GPIO_ACTIVE_LOW>;
 		};
 
-		regulator@2
+		regulator@1
 		{
 			compatible = "regulator-fixed";
-			reg = <2>;
+			reg = <1>;
 			regulator-name = "HDD1 power";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -246,6 +236,7 @@
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
 		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_white>;
+
 
 		power-led-white
 		{
@@ -284,7 +275,7 @@
 	gpio-keys
 	{
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &function_button &hdd1_present>;
+		pinctrl-0 = <&hdd1_present &power_switch &function_button>;
 		pinctrl-names = "default";
 
 		hdd1-present
@@ -314,12 +305,12 @@
 		compatible = "gpio-fan";
 		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
 		pinctrl-names = "default";
-		gpios = <&gpio0 13 GPIO_ACTIVE_LOW
-		         &gpio0 14 GPIO_ACTIVE_LOW>;
+		gpios = <&gpio0 13 GPIO_ACTIVE_HIGH
+			 &gpio0 14 GPIO_ACTIVE_HIGH>;
 		gpio-fan,speed-map = <0    3
-		                      2050 2
-		                      3600 1
-		                      4500 0>;
+				      2050 2
+				      3600 1
+				      4500 0>;
 		alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
 	};
 };

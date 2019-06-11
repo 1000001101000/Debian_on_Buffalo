@@ -16,7 +16,7 @@
 / {
 	model = "Buffalo Terastation TS1400R";
 	compatible = "buffalo,ts1400r", "marvell,armada370", "marvell,armada-370-xp";
-	
+
 	chosen
 	{
 		bootargs = "earlyprintk boot=local";
@@ -32,21 +32,19 @@
 	soc
 	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
 		pcie-controller
 		{
 			status = "okay";
-			
-			/* D720202 USB 3.0 Controller */
+
 			pcie@1,0
 			{
 				/* Port 0, Lane 0 */
 				status = "okay";
 			};
-			
-			/* 88SE9215 Sata Controller */
+
 			pcie@2,0
 			{
 				/* Port 1, Lane 0 */
@@ -61,56 +59,21 @@
 				status = "disabled";
 			};
 
-			serial@12000
+			i2c@11000
 			{
 				status = "okay";
-			};
+				clock-frequency = <100000>;
 
-			serial@12100
-			{
-				status = "okay";
-			};
-			
-			timer@20300
-			{
-				status = "okay";
-			};
-
-			mdio
-			{
-				/* Marvell 88E1518 */
-				phy0: ethernet-phy@0
+				rs5c372: rs5c372@32
 				{
-					reg = <0>;
-
-					/*
-					Set control registers for the chip's LED pins
-					On=Low, Off=High
-					LED0: On - Link, Blink - Activity, Off - No Link (led near the ethernet port)
-					LED1: Force off (not connected)
-					LED2: Force off (appears to be connected to microcontroller, triggers reboot when turned on)
-					*/
- 
-					marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
+					compatible = "ricoh,rs5c372a";
+					reg = <0x32>;
 				};
-			};
-
-			ethernet@74000
-			{
-				status = "okay";
-				phy = <&phy0>;
-				phy-mode = "rgmii-id";
-			};
-
-			usb@50000
-			{
-				status = "okay";
 			};
 
 			spi@10600
 			{
 				status = "okay";
-
 				spi-flash@0
 				{
 					#address-cells = <1>;
@@ -135,67 +98,99 @@
 				};
 			};
 
-			pinctrl
+			serial@12000
 			{
-				hdd_pwr2: hdd-pwr2
-				{
-					marvell,pins = "mpp7";
-					marvell,function = "gpo";
-				};
+				status = "okay";
+			};
 
-				hdd_pwr1: hdd-pwr1
-				{
-					marvell,pins = "mpp8";
-					marvell,function = "gpio";
-				};
+			//microcontroller interface, see https://github.com/1000001101000/Python_buffalo_libmicon
+			serial@12100
+			{
+				status = "okay";
+			};
 
-				hdd1_present: hdd1-present
-				{
-					marvell,pins = "mpp10";
-					marvell,function = "gpio";
-				};
+			timer@20300
+			{
+				status = "okay";
+			};
 
-				hdd2_present: hdd2-present
-				{
-					marvell,pins = "mpp11";
-					marvell,function = "gpio";
-				};
+			usb@50000
+			{
+				status = "okay";
+			};
 
-				hdd_pwr4: hdd-pwr4
-				{
-					marvell,pins = "mpp49";
-					marvell,function = "gpio";
-				};	
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
 
-				hdd3_present: hdd3-present
+			mdio
+			{
+				phy0: ethernet-phy@0
 				{
-					marvell,pins = "mpp50";
-					marvell,function = "gpio";
-				};
-
-				hdd4_present: hdd4-present
-				{
-					marvell,pins = "mpp51";
-					marvell,function = "gpio";
-				};
-
-				hdd_pwr3: hdd-pwr3
-				{
-					marvell,pins = "mpp52";
-					marvell,function = "gpio";	
+					reg = <0>;
+					marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
 				};
 			};
 
-			i2c@11000
+			pinctrl
 			{
-				status = "okay";
-				clock-frequency = <100000>;
 
-				rs5c372: rs5c372@32
-				{
-					compatible = "rs5c372a";
-					reg = <0x32>;
-				};
+	hdd_pwr2: hdd-pwr2
+	{
+		marvell,pins = "mpp7";
+		marvell,function = "gpo";
+	};
+
+	hdd_pwr1: hdd-pwr1
+	{
+		marvell,pins = "mpp8";
+		marvell,function = "gpio";
+	};
+
+	hdd1_present: hdd1-present
+	{
+		marvell,pins = "mpp10";
+		marvell,function = "gpio";
+	};
+
+	hdd2_present: hdd2-present
+	{
+		marvell,pins = "mpp11";
+		marvell,function = "gpio";
+	};
+
+	hdd_pwr4: hdd-pwr4
+	{
+		marvell,pins = "mpp49";
+		marvell,function = "gpio";
+	};	
+
+	hdd3_present: hdd3-present
+	{
+		marvell,pins = "mpp50";
+		marvell,function = "gpio";
+	};
+
+	hdd4_present: hdd4-present
+	{
+		marvell,pins = "mpp51";
+		marvell,function = "gpio";
+	};
+
+	hdd_pwr3: hdd-pwr3
+	{
+		marvell,pins = "mpp52";
+		marvell,function = "gpio";	
+	};
+
+	uart1_pins: uart1-pins
+	{
+		marvell,pins = "mpp57", "mpp55";
+		marvell,function = "uart1";
+	};
 			};
 
 			nand@d0000
@@ -215,7 +210,7 @@
 					label = "boot";
 					reg = <0x00000000 0x02000000>;  /* 32MB */
 				};
-				
+
 				partition@2000000
 				{
 					label = "rootfs";
@@ -224,7 +219,7 @@
 			};
 		};
 	};
-	
+
 	regulators
 	{
 		compatible = "simple-bus";
@@ -258,7 +253,7 @@
 			regulator-boot-on;
 			gpio = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 		};
-		
+
 		regulator@3
 		{
 			compatible = "regulator-fixed";
@@ -285,7 +280,8 @@
 			gpio = <&gpio1 16 GPIO_ACTIVE_HIGH>;
 		};
 	};
-	
+
+
 	restart_poweroff
 	{
 		compatible = "restart-poweroff";
@@ -303,14 +299,15 @@
 			linux,code = <KEY_PROG1>;
 			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
 		};
-		
+
 		hdd2-present
 		{
 			label = "Hard Disk 2 Present";
 			linux,code = <KEY_PROG2>;
 			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+
 		};
-		
+
 		hdd3-present
 		{
 			label = "Hard Disk 3 Present";
@@ -324,11 +321,6 @@
 			linux,code = <KEY_PROG4>;
 			gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
 		};
-
-		uart1_pins: uart1-pins
-		{
-			marvell,pins = "mpp57", "mpp55";
-			marvell,function = "uart1";
-		};
 	};
+
 };
