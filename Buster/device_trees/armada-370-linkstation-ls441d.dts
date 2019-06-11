@@ -41,6 +41,7 @@
 			{
 				status = "disabled";
 			};
+
 			i2c@11000
 			{
 				status = "okay";
@@ -164,6 +165,7 @@
 			gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
+
 		power-led-orange
 		{
 			label = "led:power:orange";
@@ -285,7 +287,6 @@
 		//LED0: on/blink on act, LED1: off (not connected) LED2: Force off (connected to power button gpio, signals shutdown/restart)
 		marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
 	};
-
 };
 
 &spi0
@@ -402,7 +403,6 @@
 		marvell,function = "gpio";
 	};
 
-
 	function_led_red: function-led-red
 	{
 		marvell,pins = "mpp9";
@@ -414,6 +414,7 @@
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
 	hdd2_present: hdd2-present
 	{
 		marvell,pins = "mpp11";
@@ -425,7 +426,6 @@
 		marvell,pins = "mpp12";
 		marvell,function = "gpio";
 	};
-
 
 	fan_high: fan-high
 	{
@@ -516,5 +516,4 @@
 		marvell,pins = "mpp62";
 		marvell,function = "gpio";
 	};
-
 };

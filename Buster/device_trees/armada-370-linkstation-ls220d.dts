@@ -115,6 +115,7 @@
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
+
 		power-led-white
 		{
 			label = "led:power:white";
@@ -222,7 +223,6 @@
 		//LED0: off (not connected), LED1: on/blink on act, LED2: off (not connected)
 		marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
 	};
-
 };
 
 &spi0
@@ -290,7 +290,6 @@
 	};
 };
 
-
 &pinctrl
 {
 	hdd_pwr2: hdd-pwr2
@@ -311,12 +310,12 @@
 		marvell,function = "gpio";
 	};
 
-
 	fan_alarm: fan-alarm
 	{
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
 	hdd1_present: hdd1-present
 	{
 		marvell,pins = "mpp11";
@@ -328,7 +327,6 @@
 		marvell,pins = "mpp12";
 		marvell,function = "gpio";
 	};
-
 
 	fan_high: fan-high
 	{
@@ -389,5 +387,4 @@
 		marvell,pins = "mpp62";
 		marvell,function = "gpio";
 	};
-
 };

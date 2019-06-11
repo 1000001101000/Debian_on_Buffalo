@@ -41,6 +41,7 @@
 			{
 				status = "disabled";
 			};
+
 			i2c@11000
 			{
 				status = "okay";
@@ -123,6 +124,7 @@
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
 		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_white>;
+
 
 		power-led-white
 		{
@@ -209,7 +211,6 @@
 		//LED0: on/blink on act, LED1: off (not connected) LED2: Force on (signals boot loader to reboot by default) 
 		marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
 	};
-
 };
 
 &spi0
@@ -241,8 +242,6 @@
 	};
 };
 
-
-
 &pinctrl
 {
 	usb_pwr: usb-pwr
@@ -257,18 +256,17 @@
 		marvell,function = "gpio";
 	};
 
-
 	fan_alarm: fan-alarm
 	{
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
 	hdd1_present: hdd1-present
 	{
 		marvell,pins = "mpp11";
 		marvell,function = "gpio";
 	};
-
 
 	fan_high: fan-high
 	{
@@ -317,5 +315,4 @@
 		marvell,pins = "mpp59";
 		marvell,function = "gpo";
 	};
-
 };

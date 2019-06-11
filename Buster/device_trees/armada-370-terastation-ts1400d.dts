@@ -41,6 +41,7 @@
 			{
 				status = "disabled";
 			};
+
 			i2c@11000
 			{
 				status = "okay";
@@ -222,7 +223,6 @@
 		reg = <0>;
 		marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
 	};
-
 };
 
 &spi0
@@ -327,7 +327,6 @@
 		marvell,function = "gpio";
 	};
 
-
 	function_led_red: function-led-red
 	{
 		marvell,pins = "mpp9";
@@ -339,6 +338,7 @@
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
 	hdd2_present: hdd2-present
 	{
 		marvell,pins = "mpp11";
@@ -380,5 +380,4 @@
 		marvell,pins = "mpp57", "mpp55";
 		marvell,function = "uart1";
 	};
-
 };

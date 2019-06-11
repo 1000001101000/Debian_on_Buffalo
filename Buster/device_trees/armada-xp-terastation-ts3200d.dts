@@ -50,6 +50,7 @@
 			{
 				status = "disabled";
 			};
+
 			i2c@11000
 			{
 				status = "okay";
@@ -327,5 +328,4 @@
 	{
 		marvell,pins = "mpp35";
 		marvell,function = "gpio";
-	};
-};
+	};};

@@ -41,6 +41,7 @@
 			{
 				status = "disabled";
 			};
+
 			i2c@11000
 			{
 				status = "okay";
@@ -127,7 +128,6 @@
 			enable-active-high;
 			regulator-always-on;
 			regulator-boot-on;
- 
 			gpio = <&gpio0 9 GPIO_ACTIVE_HIGH>;
 		};
 	};
@@ -144,6 +144,7 @@
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
+
 		power-led-white
 		{
 			label = "led:power:white";
@@ -251,7 +252,6 @@
 		//LED0: on/blink on act, LED1: off (not connected) LED2: Force on (signals boot loader to reboot by default) 
 		marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
 	};
-
 };
 
 &spi0
@@ -283,8 +283,6 @@
 	};
 };
 
-
-
 &pinctrl
 {
 	usb_pwr: usb-pwr
@@ -305,7 +303,6 @@
 		marvell,function = "gpio";
 	};
 
-
 	hdd_pwr2: hdd-pwr2
 	{
 		marvell,pins = "mpp9";
@@ -317,6 +314,7 @@
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
+
 	hdd1_present: hdd1-present
 	{
 		marvell,pins = "mpp11";
@@ -328,7 +326,6 @@
 		marvell,pins = "mpp12";
 		marvell,function = "gpio";
 	};
-
 
 	fan_high: fan-high
 	{
@@ -389,5 +386,4 @@
 		marvell,pins = "mpp62";
 		marvell,function = "gpio";
 	};
-
 };
