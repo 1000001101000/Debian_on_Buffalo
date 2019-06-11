@@ -16,7 +16,7 @@
 / {
 	model = "Buffalo Terastation TS1400R";
 	compatible = "buffalo,ts1400r", "marvell,armada370", "marvell,armada-370-xp";
-	
+
 	chosen
 	{
 		bootargs = "earlyprintk boot=local";
@@ -32,21 +32,19 @@
 	soc
 	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
 		pcie-controller
 		{
 			status = "okay";
-			
-			/* D720202 USB 3.0 Controller */
+
 			pcie@1,0
 			{
 				/* Port 0, Lane 0 */
 				status = "okay";
 			};
-			
-			/* 88SE9215 Sata Controller */
+
 			pcie@2,0
 			{
 				/* Port 1, Lane 0 */
@@ -61,52 +59,6 @@
 				status = "disabled";
 			};
 
-			serial@12000
-			{
-				status = "okay";
-			};
-
-			serial@12100
-			{
-				status = "okay";
-			};
-			
-			timer@20300
-			{
-				status = "okay";
-			};
-
-			mdio
-			{
-				/* Marvell 88E1518 */
-				phy0: ethernet-phy@0
-				{
-					reg = <0>;
-
-					/*
-					Set control registers for the chip's LED pins
-					On=Low, Off=High
-					LED0: On - Link, Blink - Activity, Off - No Link (led near the ethernet port)
-					LED1: Force off (not connected)
-					LED2: Force off (appears to be connected to microcontroller, triggers reboot when turned on)
-					*/
- 
-					marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
-				};
-			};
-
-			ethernet@74000
-			{
-				status = "okay";
-				phy = <&phy0>;
-				phy-mode = "rgmii-id";
-			};			
-
-			usb@50000
-			{
-				status = "okay";
-			};
-
 			i2c@11000
 			{
 				status = "okay";
@@ -114,8 +66,45 @@
 
 				rs5c372: rs5c372@32
 				{
-					compatible = "rs5c372a";
+					compatible = "ricoh,rs5c372a";
 					reg = <0x32>;
+				};
+			};
+
+			serial@12000
+			{
+				status = "okay";
+			};
+
+			//microcontroller interface, see https://github.com/1000001101000/Python_buffalo_libmicon
+			serial@12100
+			{
+				status = "okay";
+			};
+
+			timer@20300
+			{
+				status = "okay";
+			};
+
+			usb@50000
+			{
+				status = "okay";
+			};
+
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+
+			mdio
+			{
+				phy0: ethernet-phy@0
+				{
+					reg = <0>;
+					marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
 				};
 			};
 
@@ -136,7 +125,7 @@
 					label = "boot";
 					reg = <0x00000000 0x02000000>;  /* 32MB */
 				};
-				
+
 				partition@2000000
 				{
 					label = "rootfs";
@@ -145,7 +134,7 @@
 			};
 		};
 	};
-	
+
 	regulators
 	{
 		compatible = "simple-bus";
@@ -179,7 +168,7 @@
 			regulator-boot-on;
 			gpio = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 		};
-		
+
 		regulator@3
 		{
 			compatible = "regulator-fixed";
@@ -206,7 +195,8 @@
 			gpio = <&gpio1 16 GPIO_ACTIVE_HIGH>;
 		};
 	};
-	
+
+
 	restart_poweroff
 	{
 		compatible = "restart-poweroff";
@@ -224,14 +214,15 @@
 			linux,code = <KEY_PROG1>;
 			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
 		};
-		
+
 		hdd2-present
 		{
 			label = "Hard Disk 2 Present";
 			linux,code = <KEY_PROG2>;
 			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+
 		};
-		
+
 		hdd3-present
 		{
 			label = "Hard Disk 3 Present";
@@ -246,6 +237,7 @@
 			gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
 		};
 	};
+
 };
 
 &spi0
@@ -267,7 +259,7 @@
 			reg = <0x00000 0xf0000>;
 			read-only;
 		};
-		
+
 		partition@f0000
 		{
 			label = "u-boot-env";
@@ -279,6 +271,7 @@
 
 &pinctrl
 {
+
 	hdd_pwr2: hdd-pwr2
 	{
 		marvell,pins = "mpp7";
@@ -290,7 +283,7 @@
 		marvell,pins = "mpp8";
 		marvell,function = "gpio";
 	};
-	
+
 	hdd1_present: hdd1-present
 	{
 		marvell,pins = "mpp10";

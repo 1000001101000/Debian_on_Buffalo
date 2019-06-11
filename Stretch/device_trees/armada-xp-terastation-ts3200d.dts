@@ -8,28 +8,29 @@
 */
 
 /dts-v1/;
- 
+
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/gpio/gpio.h>
 #include "armada-xp-mv78230.dtsi"
- 
+
 / {
 	model = "Buffalo Terastation TS3200D";
 	compatible = "buffalo,ts3200d", "marvell,armadaxp-mv78230", "marvell,armadaxp", "marvell,armada-370-xp";
- 
+
 	aliases
-        {
-                serial0 = &uart0;
-                serial1 = &uart3;
-                serial2 = &uart1;
-                serial3 = &uart2;
-        };
+	{
+		serial0 = &uart0;
+		serial1 = &uart3;
+		serial2 = &uart1;
+		serial3 = &uart2;
+	};
 
 	chosen
 	{
+		bootargs = "earlyprintk boot=local";
 		stdout-path = "serial0:115200n8";
 	};
- 
+
 	memory
 	{
 		device_type = "memory";
@@ -42,19 +43,17 @@
 			 MBUS_ID(0x01, 0x1d) 0 0 0xfff00000 0x100000
 			 MBUS_ID(0x09, 0x09) 0 0 0xf1100000 0x10000
 			 MBUS_ID(0x09, 0x05) 0 0 0xf1110000 0x10000>;
-	  
+
 		pcie-controller
 		{
 			status = "okay";
 
-			/* Marvell 88SX7042 */
 			pcie@1,0
 			{
 				/* Port 0, Lane 0 */
 				status = "okay";
 			};
 
-			/* D720202 USB 3.0 Controller */
 			pcie@5,0
 			{
 				/* Port 1, Lane 0 */
@@ -62,7 +61,6 @@
 			};
 		};
 
-				  
 		internal-regs
 		{
 			rtc@10300
@@ -71,19 +69,17 @@
 			};
 
 			i2c@11000
-                        {
-                                status = "okay";
-                                clock-frequency = <100000>;
+			{
+				status = "okay";
+				clock-frequency = <100000>;
 
-                                rs5c372: rs5c372@32
-                                {
-                                        compatible = "rs5c372a";
-                                        reg = <0x32>;
-                                };
-                        };  
+				rs5c372: rs5c372@32
+				{
+					compatible = "ricoh,rs5c372a";
+					reg = <0x32>;
+				};
+			};
 
-
-			//front serial port, console
 			serial@12000
 			{
 				status = "okay";
@@ -100,7 +96,7 @@
 				status = "okay";
 			};
 
-			//microcontroller interface
+			//microcontroller interface, see https://github.com/1000001101000/Python_buffalo_libmicon
 			serial@12300
 			{
 				status = "okay";
@@ -111,16 +107,52 @@
 				status = "okay";
 			};
 
-			//rear,top usb 2.0 port
+			usb@50000
+			{
+				status = "okay";
+			};
+
 			usb@51000
 			{
 				status = "okay";
 			};
 
-			//rear,bottom usb 2.0 port
 			usb@52000
 			{
 				status = "okay";
+			};
+
+			ethernet@70000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+ 
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy1>;
+				phy-mode = "rgmii-id";
+			};
+
+			sata@a0000
+			{
+				nr-ports = <2>;
+				status = "okay";
+			};
+
+			mdio
+			{
+				phy0: ethernet-phy@0
+				{
+					reg = <0>;
+				};
+
+				phy1: ethernet-phy@1
+				{
+					reg = <1>;
+				};
 			};
 
 			nand@d0000
@@ -141,68 +173,6 @@
 					reg = <0x00000000 0x20000000>;  /* 512MB */
 				};
 			};
-
-			mdio
-			{
-				phy0: ethernet-phy@0
-				{ /* Marvell 88E1318 */
-					reg = <0>;
-				};
- 
-				phy1: ethernet-phy@1
-				{ /* Marvell 88E1318 */
-					reg = <1>;
-				};
-			};
- 
-			ethernet@70000
-			{
-				status = "okay";
-				phy = <&phy0>;
-				phy-mode = "rgmii-id";
-			};
- 
-			ethernet@74000
-			{
-				status = "okay";
-				phy = <&phy1>;
-				phy-mode = "rgmii-id";
-			};
-		};
-	};
-
-	gpio-keys
-	{
-		compatible = "gpio-keys";
-		pinctrl-0 = <&hdd1_present &hdd2_present &hdd3_present &hdd4_present>;
-		pinctrl-names = "default";
-
-		hdd1-present
-		{
-			label = "Hard Disk 1 Present";
-			linux,code = <KEY_PROG1>;
-			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
-		};
-
-		hdd2-present
-		{
-			label = "Hard Disk 2 Present";
-			linux,code = <KEY_PROG2>;
-			gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
-		};
-
-		hdd3-present
-		{
-			label = "Hard Disk 3 Present";
-			linux,code = <KEY_PROG3>;
-			gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
-		};
-
-		hdd4-present
-		{
-			label = "Hard Disk 4 Present";
-			linux,code = <KEY_PROG4>;
-			gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
 		};
 	};
 
@@ -211,7 +181,7 @@
 		compatible = "simple-bus";
 		#address-cells = <1>;
 		#size-cells = <0>;
-		pinctrl-0 = <&hdd_pwr1 &hdd_pwr2 &hdd_pwr3 &hdd_pwr4>;
+		pinctrl-0 = <&hdd_pwr1 &hdd_pwr2>;
 		pinctrl-names = "default";
 
 		regulator@1
@@ -239,33 +209,36 @@
 			regulator-boot-on;
 			gpio = <&gpio0 27 GPIO_ACTIVE_HIGH>;
 		};
-		
-		regulator@3
+	};
+
+
+	restart_poweroff
+	{
+		compatible = "restart-poweroff";
+	};
+
+	gpio-keys
+	{
+		compatible = "gpio-keys";
+		pinctrl-0 = <&hdd1_present &hdd2_present>;
+		pinctrl-names = "default";
+
+		hdd1-present
 		{
-			compatible = "regulator-fixed";
-			reg = <3>;
-			regulator-name = "HDD3 power";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			enable-active-high;
-			regulator-always-on;
-			regulator-boot-on;
-			gpio = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			label = "Hard Disk 1 Present";
+			linux,code = <KEY_PROG1>;
+			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
 		};
 
-		regulator@4
+		hdd2-present
 		{
-			compatible = "regulator-fixed";
-			reg = <4>;
-			regulator-name = "HDD4 power";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			enable-active-high;
-			regulator-always-on;
-			regulator-boot-on;
-			gpio = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+			label = "Hard Disk 2 Present";
+			linux,code = <KEY_PROG2>;
+			gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+
 		};
 	};
+
 };
 
 &spi0
@@ -344,5 +317,4 @@
 	{
 		marvell,pins = "mpp35";
 		marvell,function = "gpio";
-	};
-};
+	};};
