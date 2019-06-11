@@ -32,23 +32,23 @@
 	soc
 	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
 		internal-regs
 		{
+
 			serial@12000
 			{
 				status = "okay";
 			};
 
-			sata@a0000
+			timer@20300
 			{
-				nr-ports = <2>;
 				status = "okay";
 			};
 
-			timer@20300
+			usb@50000
 			{
 				status = "okay";
 			};
@@ -58,10 +58,11 @@
 				status = "okay";
 				phy = <&phy0>;
 				phy-mode = "rgmii-id";
-			};			
+			};
 
-			usb@50000
+			sata@a0000
 			{
+				nr-ports = <2>;
 				status = "okay";
 			};
 		};
@@ -106,8 +107,7 @@
 	{
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_red &function_led_white 
-				&hdd1_led_red &hdd2_led_red>;
+		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_white &function_led_red &hdd1_led_red &hdd2_led_red>;
 
 		function-led-red
 		{
@@ -115,7 +115,6 @@
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-
 		power-led-white
 		{
 			label = "led:power:white";
@@ -167,7 +166,7 @@
 	gpio-keys
 	{
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &function_button &hdd1_present &hdd2_present>;
+		pinctrl-0 = <&hdd1_present &hdd2_present &power_switch &function_button>;
 		pinctrl-names = "default";
 
 		hdd1-present
@@ -182,6 +181,7 @@
 			label = "Hard Disk 2 Present";
 			linux,code = <KEY_PROG2>;
 			gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
+
 		};
 
 		power-switch
@@ -205,13 +205,24 @@
 		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
 		pinctrl-names = "default";
 		gpios = <&gpio0 13 GPIO_ACTIVE_HIGH
-		         &gpio0 14 GPIO_ACTIVE_HIGH>;
+			 &gpio0 14 GPIO_ACTIVE_HIGH>;
 		gpio-fan,speed-map = <0    3
-		                      1850 2
-		                      2600 1
-		                      3500 0>;
+				      1850 2
+				      2600 1
+				      3500 0>;
 		alarm-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
 	};
+};
+
+&mdio
+{
+	phy0: ethernet-phy@0
+	{
+		reg = <0>;
+		//LED0: off (not connected), LED1: on/blink on act, LED2: off (not connected)
+		marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
+	};
+
 };
 
 &spi0
@@ -243,25 +254,6 @@
 	};
 };
 
-&mdio
-{
-	/* Marvell 88E1518 */
-	phy0: ethernet-phy@0
-	{
-		reg = <0>;
-
-		/*
-		Set control registers for the chip's LED pins
-		On=Low, Off=High
-		LED0: Force hi-impedance (not connected?)
-		LED1: On - Link, Blink - Activity, Off - No Link
-		LED2: Force hi-impedance (not connected?)
-		*/
-
-		marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
-	};
-};
-
 &nand_controller
 {
 	status = "okay";
@@ -281,21 +273,23 @@
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
-	
+
 			partition@0
 			{
 				label = "boot";
 				reg = <0x00000000 0x02000000>;  /* 32MB */
 			};
-	
+
 			partition@2000000
 			{
 				label = "rootfs";
 				reg = <0x02000000 0x1e000000>;  /* 480MB */
 			};
+			
 		};
 	};
 };
+
 
 &pinctrl
 {
@@ -314,15 +308,15 @@
 	hdd_pwr1: hdd-pwr1
 	{
 		marvell,pins = "mpp8";
-		marvell,function = "gpo";
+		marvell,function = "gpio";
 	};
+
 
 	fan_alarm: fan-alarm
 	{
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
-
 	hdd1_present: hdd1-present
 	{
 		marvell,pins = "mpp11";
@@ -335,12 +329,13 @@
 		marvell,function = "gpio";
 	};
 
+
 	fan_high: fan-high
 	{
 		marvell,pins = "mpp13";
 		marvell,function = "gpio";
 	};
-
+	
 	fan_low: fan-low
 	{
 		marvell,pins = "mpp14";
@@ -352,7 +347,7 @@
 		marvell,pins = "mpp15";
 		marvell,function = "gpio";
 	};
-
+	
 	function_button: function-button
 	{
 		marvell,pins = "mpp16";
@@ -388,10 +383,11 @@
 		marvell,pins = "mpp61";
 		marvell,function = "gpo";
 	};
-
+	
 	hdd2_led_red: hdd2-led-red
 	{
 		marvell,pins = "mpp62";
 		marvell,function = "gpio";
 	};
+
 };

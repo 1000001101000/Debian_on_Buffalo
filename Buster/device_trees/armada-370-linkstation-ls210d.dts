@@ -32,23 +32,23 @@
 	soc
 	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
 		internal-regs
 		{
+
 			serial@12000
 			{
 				status = "okay";
 			};
 
-			sata@a0000
+			timer@20300
 			{
-				nr-ports = <1>;
 				status = "okay";
 			};
 
-			timer@20300
+			usb@50000
 			{
 				status = "okay";
 			};
@@ -58,10 +58,11 @@
 				status = "okay";
 				phy = <&phy0>;
 				phy-mode = "rgmii-id";
-			};			
+			};
 
-			usb@50000
+			sata@a0000
 			{
+				nr-ports = <1>;
 				status = "okay";
 			};
 		};
@@ -93,7 +94,7 @@
 	{
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_red &function_led_white>; 
+		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_white &function_led_red>;
 
 		function-led-red
 		{
@@ -101,7 +102,6 @@
 			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-
 		power-led-white
 		{
 			label = "led:power:white";
@@ -139,8 +139,9 @@
 	gpio-keys
 	{
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_switch &function_button>;
+		pinctrl-0 = < &power_switch &function_button>;
 		pinctrl-names = "default";
+
 
 		power-switch
 		{
@@ -156,6 +157,18 @@
 			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 		};
 	};
+
+};
+
+&mdio
+{
+	phy0: ethernet-phy@0
+	{
+		reg = <0>;
+		//LED0: off (not connected), LED1: on/blink on act, LED2: off (not connected)
+		marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
+	};
+
 };
 
 &spi0
@@ -187,27 +200,11 @@
 	};
 };
 
-&mdio
-{
-	/* Marvell 88E1518 */
-	phy0: ethernet-phy@0
-	{
-		reg = <0>;
 
-		/*
-		Set control registers for the chip's LED pins
-		On=Low, Off=High
-		LED0: Force hi-impedance (not connected?)
-		LED1: On - Link, Blink - Activity, Off - No Link
-		LED2: Force hi-impedance (not connected?)
-		*/
-
-		marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
-	};
-};
 
 &pinctrl
 {
+
 	function_led_red: function-led-red
 	{
 		marvell,pins = "mpp7";
@@ -217,15 +214,16 @@
 	hdd_pwr1: hdd-pwr1
 	{
 		marvell,pins = "mpp8";
-		marvell,function = "gpo";
+		marvell,function = "gpio";
 	};
+
 
 	power_switch: power-switch
 	{
 		marvell,pins = "mpp15";
 		marvell,function = "gpio";
 	};
-
+	
 	function_button: function-button
 	{
 		marvell,pins = "mpp16";
@@ -255,4 +253,5 @@
 		marvell,pins = "mpp59";
 		marvell,function = "gpo";
 	};
+
 };

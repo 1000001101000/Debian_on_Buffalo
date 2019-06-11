@@ -16,7 +16,7 @@
 / {
 	model = "Buffalo Linkstation LS441D";
 	compatible = "buffalo,ls441d", "marvell,armada370", "marvell,armada-370-xp";
-	
+
 	chosen
 	{
 		bootargs = "earlyprintk boot=local";
@@ -32,8 +32,8 @@
 	soc
 	{
 		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
-				  MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
-				  MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
 
 		internal-regs
 		{
@@ -41,29 +41,6 @@
 			{
 				status = "disabled";
 			};
-
-			serial@12000
-			{
-				status = "okay";
-			};
-			
-			timer@20300
-			{
-				status = "okay";
-			};
-
-			ethernet@74000
-			{
-				status = "okay";
-				phy = <&phy0>;
-				phy-mode = "rgmii-id";
-			};			
-
-			usb@50000
-			{
-				status = "okay";
-			};
-
 			i2c@11000
 			{
 				status = "okay";
@@ -75,9 +52,31 @@
 					reg = <0x32>;
 				};
 			};
+
+			serial@12000
+			{
+				status = "okay";
+			};
+
+			timer@20300
+			{
+				status = "okay";
+			};
+
+			usb@50000
+			{
+				status = "okay";
+			};
+
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
 		};
 	};
-	
+
 	regulators
 	{
 		compatible = "simple-bus";
@@ -111,7 +110,7 @@
 			regulator-boot-on;
 			gpio = <&gpio0 7 GPIO_ACTIVE_HIGH>;
 		};
-		
+
 		regulator@3
 		{
 			compatible = "regulator-fixed";
@@ -138,13 +137,12 @@
 			gpio = <&gpio1 16 GPIO_ACTIVE_HIGH>;
 		};
 	};
-	
+
 	gpio-leds
 	{
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_red &function_led_white 
-				&hdd1_led_red &hdd2_led_red &hdd3_led_red &hdd4_led_red>;
+		pinctrl-0 = <&power_led_white &power_led_red &power_led_orange &function_led_white &function_led_red &hdd1_led_red &hdd2_led_red &hdd3_led_red &hdd4_led_red>;
 
 		power-led-white
 		{
@@ -152,21 +150,20 @@
 			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
-		
+
 		function-led-red
 		{
 			label = "led:function:red";
 			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		
+
 		hdd4-led-red
 		{
 			label = "led:hdd4:red";
 			gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-
 		power-led-orange
 		{
 			label = "led:power:orange";
@@ -180,14 +177,14 @@
 			gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		
+
 		function-led-white
 		{
 			label = "led:function:white";
 			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		
+
 		power-led-red
 		{
 			label = "led:power:red";
@@ -201,7 +198,7 @@
 			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
-		
+
 		hdd2-led-red
 		{
 			label = "led:hdd2:red";
@@ -218,7 +215,7 @@
 	gpio-keys
 	{
 		compatible = "gpio-keys";
-		pinctrl-0 = <&power_button &function_button &hdd1_present &hdd2_present &hdd3_present &hdd4_present>;
+		pinctrl-0 = <&hdd1_present &hdd2_present &hdd3_present &hdd4_present &power_button &function_button>;
 		pinctrl-names = "default";
 
 		hdd1-present
@@ -227,21 +224,22 @@
 			linux,code = <KEY_PROG1>;
 			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
 		};
-		
+
 		hdd2-present
 		{
 			label = "Hard Disk 2 Present";
 			linux,code = <KEY_PROG2>;
 			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+
 		};
-		
+
 		power-button
 		{
 			label = "Power Button";
 			linux,code = <KEY_ESC>;
 			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
 		};
-		
+
 		function-button
 		{
 			label = "Function Button";
@@ -270,32 +268,24 @@
 		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
 		pinctrl-names = "default";
 		gpios = <&gpio0 13 GPIO_ACTIVE_HIGH
-		         &gpio0 14 GPIO_ACTIVE_HIGH>;
+			 &gpio0 14 GPIO_ACTIVE_HIGH>;
 		gpio-fan,speed-map = <0    3
-		                      1100 2
-		                      1600 1
-		                      2050 0>;
+				      1100 2
+				      1600 1
+				      2050 0>;
 		alarm-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
 	};
 };
 
 &mdio
 {
-	/* Marvell 88E1518 */
 	phy0: ethernet-phy@0
 	{
 		reg = <0>;
-
-		/*
-		Set control registers for the chip's LED pins
-		On=Low, Off=High
-		LED0: On - Link, Blink - Activity, Off - No Link (led near the ethernet port)
-		LED1: Force off (not connected)
-		LED2: Force off (connected to GPIO15 along with power button)
-		*/
-
+		//LED0: on/blink on act, LED1: off (not connected) LED2: Force off (connected to power button gpio, signals shutdown/restart)
 		marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
 	};
+
 };
 
 &spi0
@@ -317,7 +307,7 @@
 			reg = <0x00000 0xf0000>;
 			read-only;
 		};
-		
+
 		partition@f0000
 		{
 			label = "u-boot-env";
@@ -346,13 +336,13 @@
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
-	
+
 			partition@0
 			{
 				label = "boot";
 				reg = <0x00000000 0x02000000>;  /* 32MB */
 			};
-	
+
 			partition@2000000
 			{
 				label = "rootfs";
@@ -360,16 +350,17 @@
 			};
 
 			partition@19e00000
-                        {
-                                label = "em_boot";
-                                reg = <0x19e00000 0x02000000>;  /* 32MB */
-                        };
+			{
+				label = "em_boot";
+				reg = <0x19e00000 0x02000000>;  /* 32MB */
+			};
 
 			partition@1be00000
-                        {
-                                label = "reserve";
-                                reg = <0x1be00000 0x4200000>;  /* 66MB */
-                        };
+			{
+				label = "reserve";
+				reg = <0x1be00000 0x4200000>;  /* 66MB */
+			};
+			
 		};
 	};
 };
@@ -378,14 +369,12 @@
 {
 	status = "okay";
 	
-	/* D720202 USB 3.0 Controller */
 	pcie@1,0
 	{
 		/* Port 0, Lane 0 */
 		status = "okay";
 	};
-	
-	/* 88SE9215 Sata Controller */
+
 	pcie@2,0
 	{
 		/* Port 1, Lane 0 */
@@ -412,7 +401,8 @@
 		marvell,pins = "mpp8";
 		marvell,function = "gpio";
 	};
-	
+
+
 	function_led_red: function-led-red
 	{
 		marvell,pins = "mpp9";
@@ -424,7 +414,6 @@
 		marvell,pins = "mpp10";
 		marvell,function = "gpio";
 	};
-
 	hdd2_present: hdd2-present
 	{
 		marvell,pins = "mpp11";
@@ -437,6 +426,7 @@
 		marvell,function = "gpio";
 	};
 
+
 	fan_high: fan-high
 	{
 		marvell,pins = "mpp13";
@@ -448,7 +438,7 @@
 		marvell,pins = "mpp14";
 		marvell,function = "gpio";
 	};
-	
+
 	power_button: power-button
 	{
 		marvell,pins = "mpp15";
@@ -465,7 +455,7 @@
 	{
 		marvell,pins = "mpp47";
 		marvell,function = "gpo";
-	};	
+	};
 
 	hdd_pwr4: hdd-pwr4
 	{
@@ -526,4 +516,5 @@
 		marvell,pins = "mpp62";
 		marvell,function = "gpio";
 	};
+
 };
