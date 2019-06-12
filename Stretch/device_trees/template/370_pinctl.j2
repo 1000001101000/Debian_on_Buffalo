@@ -1,0 +1,222 @@
+{% if device.model == "ls220d" %}
+	hdd_pwr2: hdd-pwr2
+	{
+		marvell,pins = "mpp2";
+		marvell,function = "gpo";
+	};
+{% endif %}
+{% if device.series != "ls200" and device.model != "ts1400r" %}
+{% if device.model == "ls441d" or device.model == "ts1400d" %}
+	power_led_white: power-led-white
+{% else %}
+	usb_pwr: usb-pwr
+{% endif %}
+	{
+		marvell,pins = "mpp5";
+		marvell,function = "gpo";
+	};
+{% endif %}
+{% if device.model != "ls410d" %}
+
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+	hdd_pwr2: hdd-pwr2
+{% else %}
+	function_led_red: function-led-red
+{% endif %}
+	{
+		marvell,pins = "mpp7";
+		marvell,function = "gpo";
+	};
+{% endif %}
+
+	hdd_pwr1: hdd-pwr1
+	{
+		marvell,pins = "mpp8";
+		marvell,function = "gpio";
+	};
+{% if (device.series == "ls400" and device.model != "ls410d") or device.model == "ts1400d" %}
+
+{% if device.model == "ls441d" or device.model == "ts1400d" %}
+	function_led_red: function-led-red
+{% else %}
+	hdd_pwr2: hdd-pwr2
+{% endif %}
+	{
+		marvell,pins = "mpp9";
+		marvell,function = "gpo";
+	};
+{% endif %}
+{% if device.model != "ls210d" %}
+
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+	hdd1_present: hdd1-present
+{% else %}
+	fan_alarm: fan-alarm
+{% endif %}
+	{
+		marvell,pins = "mpp10";
+		marvell,function = "gpio";
+	};
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+
+	hdd2_present: hdd2-present
+{% else %}
+
+	hdd1_present: hdd1-present
+{% endif %}
+	{
+		marvell,pins = "mpp11";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.model != "ls210d" and device.model != "ls410d" and device.series != "ts1400" %}
+
+{% if device.model == "ls441d" %}
+	fan_alarm: fan-alarm
+{% endif %}
+{% if num_drives == "2" %}
+	hdd2_present: hdd2-present
+{% endif %}
+	{
+		marvell,pins = "mpp12";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.series != "ts1400" and device.model != "ls210d" %}
+
+	fan_high: fan-high
+	{
+		marvell,pins = "mpp13";
+		marvell,function = "gpio";
+	};
+	
+	fan_low: fan-low
+	{
+		marvell,pins = "mpp14";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.series != "ts1400" %}
+
+{% if device.model == "ls441d" %}
+	power_button: power-button
+{% else %}
+	power_switch: power-switch
+{% endif %}
+	{
+		marvell,pins = "mpp15";
+		marvell,function = "gpio";
+	};
+	
+	function_button: function-button
+	{
+		marvell,pins = "mpp16";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.model == "ls441d" %}
+	
+	hdd4_led_red: hdd4-led-red
+	{
+		marvell,pins = "mpp47";
+		marvell,function = "gpo";
+	};
+{% endif %}
+{% if num_drives == "4" %}
+
+	hdd_pwr4: hdd-pwr4
+	{
+		marvell,pins = "mpp49";
+		marvell,function = "gpio";
+	};	
+
+	hdd3_present: hdd3-present
+	{
+		marvell,pins = "mpp50";
+		marvell,function = "gpio";
+	};
+
+	hdd4_present: hdd4-present
+	{
+		marvell,pins = "mpp51";
+		marvell,function = "gpio";
+	};
+
+	hdd_pwr3: hdd-pwr3
+	{
+		marvell,pins = "mpp52";
+		marvell,function = "gpio";	
+	};
+{% endif %}
+{% if device.series != "ts1400" %}
+
+{% if device.model == "ls441d" %}
+	power_led_orange: power-led-orange
+{% else %}
+	power_led_white: power-led-white
+{% endif %}
+	{
+		marvell,pins = "mpp54";
+		marvell,function = "gpo";
+	};
+{% endif %}
+{% if device.series != "ts1400" and device.model != "ls441d" %}
+
+	power_led_red: power-led-red
+	{
+		marvell,pins = "mpp55";
+		marvell,function = "gpio";
+	};
+
+	power_led_orange: power-led-orange
+	{
+		marvell,pins = "mpp57";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.model == "ls441d" %}
+
+	hdd3_led_red: hdd3-led-red
+	{
+		marvell,pins = "mpp58";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.model != "ts1400r" %}
+
+	function_led_white: function-led-white
+	{
+		marvell,pins = "mpp59";
+		marvell,function = "gpo";
+	};
+{% endif %}
+{% if device.model == "ls441d" %}
+
+	power_led_red: power-led-red
+	{
+		marvell,pins = "mpp60";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if num_drives != "1" and device.series != "ts1400" %}
+
+	hdd1_led_red: hdd1-led-red
+	{
+		marvell,pins = "mpp61";
+		marvell,function = "gpo";
+	};
+	
+	hdd2_led_red: hdd2-led-red
+	{
+		marvell,pins = "mpp62";
+		marvell,function = "gpio";
+	};
+{% endif %}
+{% if device.series == "ts1400" %}
+
+	uart1_pins: uart1-pins
+	{
+		marvell,pins = "mpp57", "mpp55";
+		marvell,function = "uart1";
+	};
+{% endif %}
