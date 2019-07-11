@@ -1,0 +1,51 @@
+$ java -jar acp_commander_cli.jar -t 192.168.1.131 -ip 192.168.1.131 -pw password -c "/bin/busybox telnetd&"
+$ java -jar acp_commander_cli.jar -t 192.168.1.131 -ip 192.168.1.131 -pw password -c "chmod -R 777 /boot"
+$ cd ..
+$ cd Buster/installer_images/
+$ python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
+[1] 31817
+$ telnet 192.168.1.131
+Trying 192.168.1.131...
+Connected to ls220de.
+Escape character is '^]'.
+
+BUFFALO INC. LinkStation series 
+LS220DED26 login: admin
+Password: 
+[admin@LS220DED26 ~]$ cd /boot
+[admin@LS220DED26 boot]$ mv uImage.buffalo uImage.buffalo.bak
+[admin@LS220DED26 boot]$ mv initrd.buffalo initrd.buffalo.bak
+[admin@LS220DED26 boot]$ wget http://192.168.1.146:8000/initrd.buffalo
+--2019-07-11 08:51:02--  http://192.168.1.146:8000/initrd.buffalo
+Connecting to 192.168.1.146:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 31138868 (30M) [application/octet-stream]
+Saving to: `initrd.buffalo'
+
+100%[=============================================================================================================>] 31,138,868  20.4M/s   in 1.5s    
+
+2019-07-11 08:51:03 (20.4 MB/s) - `initrd.buffalo' saved [31138868/31138868]
+
+[admin@LS220DED26 boot]$ wget http://192.168.1.146:8000/uImage.buffalo.ls220d
+--2019-07-11 08:51:37--  http://192.168.1.146:8000/uImage.buffalo.ls220d
+Connecting to 192.168.1.146:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4251893 (4.1M) [application/octet-stream]
+Saving to: `uImage.buffalo.ls220d'
+
+100%[=============================================================================================================>] 4,251,893   --.-K/s   in 0.1s    
+
+2019-07-11 08:51:37 (28.0 MB/s) - `uImage.buffalo.ls220d' saved [4251893/4251893]
+
+[admin@LS220DED26 boot]$ mv uImage.buffalo.ls220d uImage.buffalo        
+[admin@LS220DED26 boot]$ sync
+[admin@LS220DED26 boot]$ exit
+logout
+Connection closed by foreign host.
+$ java -jar acp_commander_cli.jar -t 192.168.1.131 -ip 192.168.1.131 -pw password -c "reboot"
+$ ssh installer@192.168.1.131
+The authenticity of host '192.168.1.131 (192.168.1.131)' can't be established.
+RSA key fingerprint is SHA256:f58ol5GJgIp+D8cPGkgqW8ZVpoq0cgnKOyHpfbMOE+M.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.1.131' (RSA) to the list of known hosts.
+installer@192.168.1.131's password: 
