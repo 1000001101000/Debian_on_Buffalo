@@ -1,6 +1,10 @@
 Purpose:
 Perform the actual install.
 
+Connect to the device via ssh, it will be at whatever ip address dhcp assigns it which is likely the same as it was under the stock firmware. If you have trouble finding it you can try scanning for it using nmap or similar.
+The username is installer and the password is install.
+  $ ssh installer@192.168.1.22
+
 Note: the provided installer images now handle all the custom steps for you, the only requirement is that /boot is:
 -located on the first partition of the first (or every) disk
 -formatted as ext3
