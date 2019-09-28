@@ -5,11 +5,8 @@ Tools for Installing/Running Debian on Buffalo Linkstation/Terastation (TS-XEL, 
 
 I've moved all the documentation to the wiki:  
 https://github.com/1000001101000/Debian_on_Buffalo/wiki
-  
-
-
-<br><br><br><br><br><br>
-  
+   
+<br><br><br><br>
   
 Acknowledgments: 
 
