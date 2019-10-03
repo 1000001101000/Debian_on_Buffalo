@@ -17,6 +17,13 @@ wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.g
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
+
+eth_deb_url="$(zcat Packages.gz | grep ethtool | grep Filename | head -n 1 | gawk '{print $2}')"
+wget -N "http://ftp.debian.org/debian/$eth_deb_url"
+eth_deb="$(basename "$eth_deb_url")"
+dpkg --extract $eth_deb ../armhf-payload/
+
+
 mkdir tmp
 dpkg --extract $kernel_deb tmp/
 if [ $? -ne 0 ]; then
