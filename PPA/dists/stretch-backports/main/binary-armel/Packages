@@ -19,18 +19,18 @@ Description: Linux kernel headers for 4.12.13 on armel
 
 Package: linux-headers-4.19.67
 Source: linux-4.19.67
-Version: 4.19.67-1
+Version: 4.19.67-3
 Architecture: armel
 Maintainer: jeremy <jeremy@earth>
-Installed-Size: 72236
+Installed-Size: 72237
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.19.67/linux-headers-4.19.67_4.19.67-1_armel.deb
-Size: 10997186
-SHA256: 4f5e7fdf7de68f56acf0ed33fa3cd928c9e35dd1d837ec509391d53da5675bc9
-SHA1: 88db41ed7be83918f61dfabd04e01d724ab5944b
-MD5sum: 85e9eaa7388288eaf50ec275d1685b0b
+Filename: pool/main/l/linux-4.19.67/linux-headers-4.19.67_4.19.67-3_armel.deb
+Size: 10997272
+SHA256: 7cf6386826a0d050d7c20fb7b071beaab3280f04106550f5322d3df6bafbf856
+SHA1: a74b24d3dbf81da33118ffeafb34df3aa35043e3
+MD5sum: 3281ed94725435e01aa4084aa3faf1eb
 Description: Linux kernel headers for 4.19.67 on armel
  This package provides kernel header files for 4.19.67 on armel
  .
@@ -57,18 +57,18 @@ Description: Linux kernel, version 4.12.13
 
 Package: linux-image-4.19.67
 Source: linux-4.19.67
-Version: 4.19.67-1
+Version: 4.19.67-3
 Architecture: armel
 Maintainer: jeremy <jeremy@earth>
-Installed-Size: 101465
+Installed-Size: 101468
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.19.67/linux-image-4.19.67_4.19.67-1_armel.deb
-Size: 23991454
-SHA256: a64ea7952fbf8aedfeb2acb1ba996c2b47d65938c5bd2dd0d2b1f4bc92dc27c0
-SHA1: ad57a7f9ce62b8e2335022fc8d8661a5042d0ed1
-MD5sum: 6106fa7914ebea769f39321d90cc6593
+Filename: pool/main/l/linux-4.19.67/linux-image-4.19.67_4.19.67-3_armel.deb
+Size: 23977660
+SHA256: 87638c771113bc29b4b794677451f46c46afa7740dc60dbfd050fc1298baa4da
+SHA1: 76ce0df2369d2ec506c99fea9ee1022c6b5bd91a
+MD5sum: 20a23e74fc75326ca3ab3d9f0c52d89d
 Description: Linux kernel, version 4.19.67
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.19.67.
