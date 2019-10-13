@@ -1,8 +1,9 @@
 ##requires uboot-tools, gzip, faketime, rsync, wget, cpio, libarchive-cpio-perl
 ## making this smaller via a PPA sounds like fun.
+
 dtb_dir="../../device_trees"
 tools_dir="../../../Tools"
-distro="buster"
+distro="stretch"
 
 mkdir output 2>/dev/null
 mkdir armel-files 2>/dev/null
@@ -12,24 +13,23 @@ if [ -d "tmp" ]; then
 fi
 
 wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz"
-wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armel/Packages.gz"
-rngd_deb_url="$(zcat Packages.gz | grep rng-tools | grep Filename | head -n 1 | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$rngd_deb_url"
-rndg_deb="$(basename "$rngd_deb_url")"
 
-dpkg --extract $rndg_deb ../armel-payload/
-
+#wget -N "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages"
+#kernel_deb_url="$(cat Packages | grep linux-image-4 | grep Filename | gawk '{print $2}' | tail -n 1)"
+#echo $kernel_deb_url
+#wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url"
+#kernel_deb="$(basename $kernel_deb_url)"
+#kernel_ver="$(echo $kernel_deb | gawk -F[-_] '{print $3}')"
 
 mkdir tmp
 
-dpkg --extract linux-image.deb tmp/
+dpkg --extract linux-image-tsxl.deb tmp/
 if [ $? -ne 0 ]; then
         echo "failed to unpack kernel, quitting"
         exit
 fi
 cd ..
-
-rm -r payload-armel/lib/modules/*
+rm -r payload/lib/modules/*
 rsync -rtWhmv --include "*/" \
 --include="*/drivers/md/*" \
 --include="m25p80.ko" \
@@ -79,11 +79,6 @@ rsync -rtWhmv --include "*/" \
 --include="sata_mv.ko" \
 --include="libata.ko" \
 --include="scsi_mod.ko" \
---include="des_generic" \
---include="evdev" \
---include="gpio_keys" \
---include="marvell_cesa" \
---include="orion_wdt" \
 --exclude="*" armel-files/tmp/lib/ armel-payload/lib/
 if [ $? -ne 0 ]; then
         echo "failed to copy module files, quitting"
@@ -97,21 +92,27 @@ if [ $? -ne 0 ]; then
 fi
 
 rm -r armel-payload/source/micon_scripts/
-cp -vrp $tools_dir/micon_scripts_armel/ armel-payload/source/micon_scripts/
+cp -vrp $tools_dir/micon_scripts armel-payload/source/
 if [ $? -ne 0 ]; then
-        echo "failed to copy tools, quitting"
+        echo "failed to copy micon tools, quitting"
         exit
 fi
-cp -v $dtb_dir/*.dtb armel-payload/source/
+cp -v $dtb_dir/{orion,kirkwood}*.dtb armel-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy dtb files, quitting"
-        exit
+        #exit
 fi
 cp -v $tools_dir/*.db armel-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy device db, quitting"
         exit
 fi
+cp -v $tools_dir/micro-evtd-armel armel-payload/source/micro-evtd
+if [ $? -ne 0 ]; then
+        echo "failed to copy micro-evtd , quitting"
+        exit
+fi
+
 
 zcat armel-files/initrd.gz | cpio-filter --exclude "lib/modules/*" > initrd
 if [ $? -ne 0 ]; then
@@ -127,30 +128,42 @@ if [ $? -ne 0 ]; then
         exit
 fi
 cd ..
-gzip initrd
+
+cat initrd | xz --check=crc32 -9 > initrd.xz
 if [ $? -ne 0 ]; then
         echo "failed to pack initrd, quitting"
         exit
 fi
-
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n installer-initrd -d initrd.gz output/initrd_armel.buffalo"
+mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n installer-initrd -d initrd.xz output/initrd.buffalo.armel
 if [ $? -ne 0 ]; then
         echo "failed to create initrd.buffalo, quitting"
         exit
 fi
 
-dtb_list="$(ls $dtb_dir/kirkwood*.dtb)"
-cp "$(ls armel-files/tmp/boot/vmlinu*)" vmlinuz
+cp "$(ls armel-files/tmp/boot/vmlinuz*)" vmlinuz
 
+devio 'wl 0xe3a01c0a,4' 'wl 0xe3811089,4' > machtype
+cat machtype vmlinuz > katkern
+mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n installer-kernel -d  katkern output/uImage.buffalo.tsxl
+
+devio 'wl 0xe3a01c06,4' 'wl 0xe3811030,4' > machtype
+cat machtype vmlinuz > katkern
+mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d  katkern output/uImage.buffalo.ts2pro
+
+dtb_list="$(ls $dtb_dir/*{orion,kirkwood}*dtb)"
 
 for dtb in $dtb_list
 do
-model="$(echo $dtb | gawk -F- '{print $3}' | gawk -F. '{print $1}')"
+model="$(echo $dtb | gawk -F- '{print $NF}' | gawk -F. '{print $1}')"
 cat vmlinuz $dtb > tmpkern
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
+mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model
 done
 
+rm machtype
+rm katkern
 rm tmpkern
+rm initrd
 rm vmlinuz
-rm initrd.gz
+rm initrd.xz
+rm -r armel-payload/lib/modules/*
 mv output/uImage.buffalo.tsxel output/uImage-88f6281.buffalo.tsxel
