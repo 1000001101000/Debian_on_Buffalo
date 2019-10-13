@@ -1,3 +1,5 @@
+*.db
+lib/*
 micon_scripts
 physcan.sh
 ls400_restart.sh

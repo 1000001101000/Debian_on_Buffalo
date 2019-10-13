@@ -1,0 +1,14 @@
+#!/bin/sh
+
+ETHTOOL=/sbin/ethtool
+
+test -x $ETHTOOL || exit 0
+
+[ "$IFACE" != "lo" ] || exit 0
+
+# Gather together the mixed bag of settings applied with -s/--change
+SETTINGS="\
+${IF_ETHERNET_PORT:+ port $IF_ETHERNET_PORT}\
+${IF_DRIVER_MESSAGE_LEVEL:+ msglvl $IF_DRIVER_MESSAGE_LEVEL}\
+"
+[ -z "$SETTINGS" ] || $ETHTOOL --change "$IFACE" $SETTINGS

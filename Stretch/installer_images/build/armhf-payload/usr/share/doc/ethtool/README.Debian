@@ -1,0 +1,55 @@
+ethtool for Debian
+------------------
+
+Most settings that can be controlled through ethtool can be specified
+in /etc/network/interfaces.  They will then be applied to interfaces
+that are brought up automatically at boot time or using the 'ifup'
+command.  The following settings are supported:
+
+Link mode (--change):
+	link-speed <speed>
+	link-duplex half|full
+
+Ethernet settings (--change):
+	ethernet-autoneg on|off|<mask>
+	ethernet-port <port>
+	ethernet-wol <mode> [<pass-key>]
+
+Driver control (--change):
+	driver-message-level <level>
+
+Ethernet flow control (--pause):
+	ethernet-pause-rx on|off
+	ethernet-pause-tx on|off
+	ethernet-pause-autoneg on|off
+
+Protocol offload (--offload):
+	offload-rx on|off
+	offload-tx on|off
+	offload-sg on|off
+	offload-tso on|off
+	offload-ufo on|off
+	offload-gso on|off
+	offload-lro on|off
+	(etc.)
+
+Hardware tuning (--coalesce, --ring):
+	hardware-irq-coalesce-adaptive-rx on|off
+	hardware-irq-coalesce-adaptive-tx on|off
+	hardware-irq-coalesce-rx-usecs <n>
+	hardware-irq-coalesce-rx-frames <n>
+	(etc.)
+	hardware-dma-ring-rx <size>
+	hardware-dma-ring-rx-mini <size>
+	hardware-dma-ring-rx-jumbo <size>
+	hardware-dma-ring-tx <size>
+
+Example:
+
+iface eth0 inet dhcp
+	link-speed 100
+	link-duplex full
+	ethernet-autoneg off
+	ethernet-wol s 46:65:62:69:61:6e
+
+ -- Ben Hutchings <ben@decadent.org.uk>, Sat,  4 Jun 2011 20:37:08 +0100

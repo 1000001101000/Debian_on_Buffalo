@@ -133,12 +133,21 @@ Required-Packages: u-boot-tools
 Bootloader-Sets-Incorrect-Root: yes
 
 Machine: Buffalo Terastation III
-#U-Boot-Kernel-Address: 0x00008000
-#U-Boot-Initrd-Address: 0x0
-#Machine-Id: 2697
-#Boot-Kernel-Path: /boot/uImage.buffalo
-#Boot-Initrd-Path: /boot/initrd.buffalo
-#Required-Packages: u-boot-tools devio
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Machine-Id: 2697
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools devio
+Bootloader-Sets-Incorrect-Root: yes
+
+Machine: Buffalo Nas WXL
+U-Boot-Kernel-Address: 0x00008000
+U-Boot-Initrd-Address: 0x0
+Machine-Id: 2697
+Boot-Kernel-Path: /boot/uImage.buffalo
+Boot-Initrd-Path: /boot/initrd.buffalo
+Required-Packages: u-boot-tools devio
 Bootloader-Sets-Incorrect-Root: yes
 
 Machine: Buffalo Terastation TS-XEL
@@ -152,7 +161,7 @@ Boot-Initrd-Path: /boot/initrd.buffalo
 Required-Packages: u-boot-tools
 Bootloader-Sets-Incorrect-Root: yes
 
-Machine: Buffalo Terastation II
+Machine: Buffalo Terastation Pro II/Live
 U-Boot-Kernel-Address: 0x00008000
 U-Boot-Initrd-Address: 0x0
 Machine-Id: 1584

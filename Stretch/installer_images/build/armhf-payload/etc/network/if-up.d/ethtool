@@ -1,0 +1,55 @@
+#!/bin/sh
+
+ETHTOOL=/sbin/ethtool
+
+test -x $ETHTOOL || exit 0
+
+[ "$IFACE" != "lo" ] || exit 0
+
+# Find settings with a given prefix and print them as they appeared in
+# /etc/network/interfaces, only with the prefix removed.
+# This actually prints each name and value on a separate line, but that
+# doesn't matter to the shell.
+gather_settings () {
+    set | sed -n "
+/^IF_$1[A-Za-z0-9_]*=/ {
+    h;                             # hold line
+    s/^IF_$1//; s/=.*//; s/_/-/g;  # get name without prefix
+    y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/;  # lower-case
+    p;
+    g;                             # restore line
+    s/^[^=]*=//; s/^'\(.*\)'/\1/;  # get value
+    p;
+}"
+}
+
+# Gather together the mixed bag of settings applied with -s/--change
+SETTINGS="\
+${IF_LINK_SPEED:+ speed $IF_LINK_SPEED}\
+${IF_LINK_DUPLEX:+ duplex $IF_LINK_DUPLEX}\
+"
+
+# WOL has an optional pass-key
+set -- $IF_ETHERNET_WOL
+SETTINGS="$SETTINGS${1:+ wol $1}${2:+ sopass $2}"
+
+# Autonegotiation can be on|off or an advertising mask
+case "$IF_ETHERNET_AUTONEG" in
+'')	;;
+on|off)	SETTINGS="$SETTINGS autoneg $IF_ETHERNET_AUTONEG" ;;
+*)	SETTINGS="$SETTINGS autoneg on advertise $IF_ETHERNET_AUTONEG" ;;
+esac
+
+[ -z "$SETTINGS" ] || $ETHTOOL --change "$IFACE" $SETTINGS
+
+SETTINGS="$(gather_settings ETHERNET_PAUSE_)"
+[ -z "$SETTINGS" ] || $ETHTOOL --pause "$IFACE" $SETTINGS
+
+SETTINGS="$(gather_settings HARDWARE_IRQ_COALESCE_)"
+[ -z "$SETTINGS" ] || $ETHTOOL --coalesce "$IFACE" $SETTINGS
+
+SETTINGS="$(gather_settings HARDWARE_DMA_RING_)"
+[ -z "$SETTINGS" ] || $ETHTOOL --set-ring "$IFACE" $SETTINGS
+
+SETTINGS="$(gather_settings OFFLOAD_)"
+[ -z "$SETTINGS" ] || $ETHTOOL --offload "$IFACE" $SETTINGS

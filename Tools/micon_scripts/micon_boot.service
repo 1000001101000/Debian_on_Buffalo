@@ -1,0 +1,11 @@
+[Unit]
+Description=Tell Terastation it finished booting so it doesnt shutdown
+Wants=network-online.target                                                                                  
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/micon_scripts/micon_startup.py
+
+[Install]
+WantedBy=multi-user.target
