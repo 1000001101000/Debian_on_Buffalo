@@ -1,0 +1,20 @@
+Origin: 1000001101000
+Label: Terastation III Kernel
+Suite: stable
+Codename: buster
+Date: Sun, 13 Oct 2019 06:52:44 UTC
+Architectures: armel
+Components: main
+Description: Custom Kernel for MV78100 devices
+MD5Sum:
+ b52d4b188cf3bd0ec2343ddef50a673b 2367 main/binary-armel/Packages
+ 978ed91cb42b835f4c3b8820c0ee866c 965 main/binary-armel/Packages.gz
+ a1102104ac8498157c71eecfdcec4031 151 main/binary-armel/Release
+SHA1:
+ bc3387680a768d09f758fec241d1d941ec6ad3f3 2367 main/binary-armel/Packages
+ f915ee1509d21068b278dc12d7615a1840c09024 965 main/binary-armel/Packages.gz
+ aab14b6a6a5004e557613a2b6b891914ccbdb3b8 151 main/binary-armel/Release
+SHA256:
+ 1586f1e158e898125070a10099ddfb08ec90db5600d90dfaf2235d17bd58ffe3 2367 main/binary-armel/Packages
+ 19cea350071f16300f4d1cd8b8bf501e2a769545a1fe19dcddf9f496ccd04122 965 main/binary-armel/Packages.gz
+ 07ea8103c7befda541074b613390edcd46a83d32315c97736f8e463e348fa3bd 151 main/binary-armel/Release

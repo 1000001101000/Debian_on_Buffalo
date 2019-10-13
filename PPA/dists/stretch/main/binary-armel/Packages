@@ -1,0 +1,72 @@
+Package: linux-headers-4.9.189
+Source: linux-4.9.189
+Version: 4.9.189-5
+Architecture: armel
+Maintainer: Anonymous <root@earth>
+Installed-Size: 73130
+Provides: linux-headers, linux-headers-2.6
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9.189/linux-headers-4.9.189_4.9.189-5_armel.deb
+Size: 10728114
+SHA256: 5161d12080d38fca34e6f11f673ceb52e7c6021b7ca3958d17ec074bd455a1c4
+SHA1: baadad70af6f2bca2fc9d56841039b0dea67ba52
+MD5sum: 4b971d20db4c2e5335b0da51b479e7d1
+Description: Linux kernel headers for 4.9.189 on armel
+ This package provides kernel header files for 4.9.189 on armel
+ .
+ This is useful for people who need to build external modules
+
+Package: linux-image-4.9.189
+Source: linux-4.9.189
+Version: 4.9.189-5
+Architecture: armel
+Maintainer: Anonymous <root@earth>
+Installed-Size: 91689
+Suggests: linux-firmware-image-4.9.189
+Provides: linux-image, linux-image-2.6, linux-modules-4.9.189
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9.189/linux-image-4.9.189_4.9.189-5_armel.deb
+Size: 21843160
+SHA256: 3648e923357bf62b6784cf59835eb7af345b5d8fc44e75ac47e64d4b6f7e4a7f
+SHA1: 2a68dee2937eed1eeba9e7a6a5f446253f85fcfe
+MD5sum: e9ae4a46108acda8a481337c22f1d2e6
+Description: Linux kernel, version 4.9.189
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.9.189.
+
+Package: linux-image-tswxl
+Version: 4.9-0
+Architecture: armel
+Maintainer: Jeremy J. Peper <jeremy@earth>
+Installed-Size: 9
+Depends: linux-image-4.9.189
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-0_armel.deb
+Size: 2094
+SHA256: d6188db794cf4d7bb560d35f131c1458894099cd8d20965abbe2d361135aa3ba
+SHA1: e946cbcfb60c4dc67b3a444a6c35a6f0c5813cfc
+MD5sum: d7c15912fe87aadbf05794c91cb41d4c
+Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)
+
+Package: linux-image-tsxl
+Version: 4.9-0
+Architecture: armel
+Maintainer: Jeremy J. Peper <jeremy@earth>
+Installed-Size: 9
+Depends: linux-image-4.9.189
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9-0_armel.deb
+Size: 2076
+SHA256: 024fd6685006b8d95a63e972d2560edc244989fb2b5c04aa2840e3dee4efe859
+SHA1: fc8d265d39b0cc75227dc93dbaa2c563d5253965
+MD5sum: 195b61343d6c22760f159d35d94315ba
+Description: linux-image metapackage for custom Terastation III kernels
+

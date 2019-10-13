@@ -1,0 +1,70 @@
+Package: linux-headers-4.12.13
+Source: linux-4.12.13
+Version: 4.12.13-3
+Architecture: armel
+Maintainer: Anonymous <root@earth>
+Installed-Size: 74328
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.12.13/linux-headers-4.12.13_4.12.13-3_armel.deb
+Size: 10929054
+SHA256: 68fd1facb077c576a1c3d26b13e4b341cc1fd4c4f2e1efd850440fe73dfecffe
+SHA1: 27ba7db6710df4289f1e59e8fe0c13b5fdbce80a
+MD5sum: e446686ecd51be70b61ff87ca3d130ef
+Description: Linux kernel headers for 4.12.13 on armel
+ This package provides kernel header files for 4.12.13 on armel
+ .
+ This is useful for people who need to build external modules
+
+Package: linux-image-4.12.13
+Source: linux-4.12.13
+Version: 4.12.13-3
+Architecture: armel
+Maintainer: Anonymous <root@earth>
+Installed-Size: 93465
+Suggests: linux-firmware-image-4.12.13
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-3_armel.deb
+Size: 22324432
+SHA256: 6669d47f0eb7f8d87897cf8c77684a7bc1b5959bd318169985da429805b0f561
+SHA1: 674c9bfd2ef22165f007d0a80157738aa78b55bc
+MD5sum: de300ea1984480347389287fc5b33516
+Description: Linux kernel, version 4.12.13
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.12.13.
+
+Package: linux-image-tswxl
+Version: 4.19-0
+Architecture: armel
+Maintainer: Jeremy J. Peper <jeremy@earth>
+Installed-Size: 9
+Depends: linux-image-4.19.67
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.19-0_armel.deb
+Size: 2100
+SHA256: 06e86735abb827f9efc9a5917593c582ff7048647b443c3c91d3ae97666072f5
+SHA1: d6a32599ea3f07b1759a222a89ee171720159a06
+MD5sum: a213a01432f0480b17e0e3dd13cafff5
+Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)
+
+Package: linux-image-tsxl
+Version: 4.12-0
+Architecture: armel
+Maintainer: Jeremy J. Peper <jeremy@earth>
+Installed-Size: 9
+Depends: linux-image-4.12.13
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.12-0_armel.deb
+Size: 2078
+SHA256: d6268ddcf11c01cee5d535e2be9a069eafaa2cefd1812422b6e081bd7e1d543e
+SHA1: adb697e25d1f6b5dbbbdb0e636b8fb5124e5c975
+MD5sum: 9d85bb539b1d10d544ea593bc745d6c7
+Description: linux-image metapackage for custom Terastation III kernels
+

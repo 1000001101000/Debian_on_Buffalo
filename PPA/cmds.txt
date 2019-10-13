@@ -1,0 +1,3 @@
+reprepro -v --component main includedeb stretch deb-build/*.deb
+
+

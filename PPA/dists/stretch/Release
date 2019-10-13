@@ -1,0 +1,20 @@
+Origin: 1000001101000
+Label: Terastation III Kernel
+Suite: oldstable
+Codename: stretch
+Date: Sun, 13 Oct 2019 06:45:56 UTC
+Architectures: armel
+Components: main
+Description: Custom Kernel for MV78100 devices
+MD5Sum:
+ 84992f93ca4a320644bd37b0334540b3 2468 main/binary-armel/Packages
+ 19841d3510b1cd22582bc57cfd449aea 977 main/binary-armel/Packages.gz
+ d385e9cf4883effbcbe3cf07b2ed019f 154 main/binary-armel/Release
+SHA1:
+ 410e8ef727c7112687bf0a9a5e91769dbc798651 2468 main/binary-armel/Packages
+ 88623587f45f23741c07b06c1ab56429b19e48ff 977 main/binary-armel/Packages.gz
+ 274564810bcc9b03e6910230596019bbb4af156d 154 main/binary-armel/Release
+SHA256:
+ 2a917187ee5f558e5abd28ce4e4ca2579b781f38d18eb3a87c51e53c32010cf8 2468 main/binary-armel/Packages
+ a5ee1655b7a0e8f71539de140d36b19c527dab386fb0611a114ff01b919cebd2 977 main/binary-armel/Packages.gz
+ 32f239563cf43bf3eabb077a6df50cbdb6222e5f38ca4564515ee5c2b49a9458 154 main/binary-armel/Release
