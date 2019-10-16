@@ -3,7 +3,7 @@
 
 dtb_dir="../../device_trees"
 tools_dir="../../../Tools"
-distro="stretch"
+distro="buster"
 
 mkdir output 2>/dev/null
 mkdir armel-files 2>/dev/null
@@ -32,53 +32,106 @@ cd ..
 rm -r payload/lib/modules/*
 rsync -rtWhmv --include "*/" \
 --include="*/drivers/md/*" \
---include="m25p80.ko" \
---include="spi_nor.ko" \
---include="ehci_orion.ko" \
---include="ehci_hcd.ko" \
---include="sg.ko" \
---include="marvell.ko" \
---include="usbcore.ko" \
---include="usb_common.ko" \
---include="mvmdio.ko" \
---include="mv643xx_eth.ko" \
---include="of_mdio.ko" \
---include="fixed_phy.ko" \
---include="libphy.ko" \
---include="ip_tables.ko" \
---include="x_tables.ko" \
---include="ipv6.ko" \
---include="autofs4.ko" \
---include="ext4.ko" \
---include="msdos.ko" \
---include="fat.ko" \
---include="vfat.ko" \
---include="xfs.ko" \
---include="crc16.ko" \
---include="jbd2.ko" \
---include="fscrypto.ko" \
---include="ecb.ko" \
---include="mbcache.ko" \
---include="raid10.ko" \
---include="raid456.ko" \
---include="libcrc32c.ko" \
---include="crc32c_generic.ko" \
---include="async_raid6_recov.ko" \
+--include="dm-persistent-data.ko" \
+--include="af_alg.ko" \
+--include="af_packet.ko" \
+--include="algif_skcipher.ko" \
+--include="arc4.ko" \
 --include="async_memcpy.ko" \
 --include="async_pq.ko" \
---include="async_xor.ko" \
---include="xor.ko" \
+--include="async_raid6_recov.ko" \
 --include="async_tx.ko" \
---include="raid6_pq.ko" \
---include="raid0.ko" \
---include="multipath.ko" \
---include="linear.ko" \
---include="raid1.ko" \
---include="md_mod.ko" \
---include="sd_mod.ko" \
---include="sata_mv.ko" \
+--include="async_xor.ko" \
+--include="autofs4.ko" \
+--include="bch.ko" \
+--include="bcache.ko" \
+--include="blowfish_common.ko" \
+--include="blowfish_generic.ko" \
+--include="cbc.ko" \
+--include="ccm.ko" \
+--include="cfi_probe.ko" \
+--include="cfi_util.ko" \
+--include="chipreg.ko" \
+--include="crc16.ko" \
+--include="crc32c_generic.ko" \
+--include="crc64.ko" \
+--include="crc7.ko" \
+--include="crc-ccitt.ko" \
+--include="crc-itu-t.ko" \
+--include="ctr.ko" \
+--include="dax.ko" \
+--include="dm-bio-prison.ko" \
+--include="dm-bufio.ko" \
+--include="dm-cache.ko" \
+--include="dm-cache-smq.ko" \
+--include="dm-crypt.ko" \
+--include="dm-delay.ko" \
+--include="dm-era.ko" \
+--include="dm-flakey.ko" \
+--include="dm-log.ko" \
+--include="dm-log-userspace.ko" \
+--include="dm-log-writes.ko" \
+--include="dm-mirror.ko" \
+--include="dm-mod.ko" \
+--include="dm-multipath.ko" \
+--include="dm-queue-length.ko" \
+--include="dm-raid.ko" \
+--include="dm-region-hash.ko" \
+--include="dm-round-robin.ko" \
+--include="dm-service-time.ko" \
+--include="dm-snapshot.ko" \
+--include="dm-switch.ko" \
+--include="dm-thin-pool.ko" \
+--include="dm-verity.ko" \
+--include="dm-zero.ko" \
+--include="ecb.ko" \
+--include="ext4.ko" \
+--include="fat.ko" \
+--include="faulty.ko" \
+--include="firmware_class.ko" \
+--include="fscrypto.ko" \
+--include="gen_probe.ko" \
+--include="ip_tables.ko" \
+--include="ipv6.ko" \
+--include="jbd2.ko" \
 --include="libata.ko" \
+--include="libcrc32c.ko" \
+--include="linear.ko" \
+--include="marvell.ko" \
+--include="mbcache.ko" \
+--include="md-mod.ko" \
+--include="mii.ko" \
+--include="msdos.ko" \
+--include="multipath.ko" \
+--include="mv643xx_eth.ko" \
+--include="mvmdio.ko" \
+--include="nls_base.ko" \
+--include="nls_utf8.ko" \
+--include="ofpart.ko" \
+--include="omap-rng.ko" \
+--include="physmap_of.ko" \
+--include="pps_core.ko" \
+--include="ptp.ko" \
+--include="raid0.ko" \
+--include="raid10.ko" \
+--include="raid1.ko" \
+--include="raid456.ko" \
+--include="raid6_pq.ko" \
+--include="rng-core.ko" \
+--include="sata_mv.ko" \
 --include="scsi_mod.ko" \
+--include="sd_mod.ko" \
+--include="serpent_generic.ko" \
+--include="sg.ko" \
+--include="sha256_generic.ko" \
+--include="twofish_common.ko" \
+--include="twofish_generic.ko" \
+--include="vfat.ko" \
+--include="xfs.ko" \
+--include="xor.ko" \
+--include="x_tables.ko" \
+--include="xts.ko" \
+--include="zlib_deflate.ko" \
 --exclude="*" armel-files/tmp/lib/ armel-payload/lib/
 if [ $? -ne 0 ]; then
         echo "failed to copy module files, quitting"
@@ -114,7 +167,8 @@ if [ $? -ne 0 ]; then
 fi
 
 
-zcat armel-files/initrd.gz | cpio-filter --exclude "lib/modules/*" > initrd
+zcat armel-files/initrd.gz | cpio-filter --exclude "lib/modules/*" > initrd1
+cat initrd1 | cpio-filter --exclude "sbin/wpa_supplicant" > initrd
 if [ $? -ne 0 ]; then
         echo "failed to unpack initrd, quitting"
         exit
@@ -162,8 +216,10 @@ done
 rm machtype
 rm katkern
 rm tmpkern
-rm initrd
+#rm initrd
 rm vmlinuz
+rm initrd
+rm initrd1
 rm initrd.xz
 rm -r armel-payload/lib/modules/*
 mv output/uImage.buffalo.tsxel output/uImage-88f6281.buffalo.tsxel
