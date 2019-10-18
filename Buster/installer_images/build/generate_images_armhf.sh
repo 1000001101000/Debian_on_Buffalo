@@ -18,10 +18,10 @@ kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filen
 wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
 
-rngd_deb_url="$(zcat Packages.gz | grep rng-tools | grep Filename | head -n 1 | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$rngd_deb_url"
-rndg_deb="$(basename "$rngd_deb_url")"
-dpkg --extract $rndg_deb ../armhf-payload/
+#rngd_deb_url="$(zcat Packages.gz | grep rng-tools | grep Filename | head -n 1 | gawk '{print $2}')"
+#wget -N "http://ftp.debian.org/debian/$rngd_deb_url"
+#rndg_deb="$(basename "$rngd_deb_url")"
+#dpkg --extract $rndg_deb ../armhf-payload/
 
 eth_deb_url="$(zcat Packages.gz | grep ethtool | grep Filename | head -n 1 | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$eth_deb_url"
@@ -56,9 +56,14 @@ if [ $? -ne 0 ]; then
 fi
 
 rm -r armhf-payload/source/micon_scripts/
-cp -vrp $tools_dir/micon_scripts_armhf/ armhf-payload/source/micon_scripts/
+cp -vrp $tools_dir/micon_scripts/ armhf-payload/source/micon_scripts/
 if [ $? -ne 0 ]; then
         echo "failed to copy tools, quitting"
+        exit
+fi
+cp -v $tools_dir/micro-evtd-armhf armhf-payload/source/micro-evtd
+if [ $? -ne 0 ]; then
+        echo "failed to copy micro-evtd , quitting"
         exit
 fi
 cp -v $tools_dir/buffalo_devices.db armhf-payload/source/
@@ -72,7 +77,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 rm -r "armhf-files/tmp/"
-##need to parse backports packages to get backports files
 
 cp armhf-files/initrd.gz .
 if [ $? -ne 0 ]; then
@@ -91,17 +95,19 @@ if [ $? -ne 0 ]; then
         exit
 fi
 cd ..
-gzip initrd
+cat initrd | xz --check=crc32 -9 > initrd.xz
 if [ $? -ne 0 ]; then
         echo "failed to pack initrd, quitting"
         exit
 fi
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n initrd -d initrd.gz output/initrd.buffalo"
+faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n initrd -d initrd.xz output/initrd.buffalo.armhf"
 if [ $? -ne 0 ]; then
         echo "failed to create initrd.buffalo, quitting"
         exit
 fi
+rm initrd.xz
 rm initrd.gz
+rm initrd
 rm armhf-payload/source/*.dtb
 rm armhf-payload/source/buffalo_devices.db
 rm armhf-payload/source/*.deb
