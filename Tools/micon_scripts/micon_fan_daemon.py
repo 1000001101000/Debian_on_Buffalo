@@ -8,6 +8,7 @@ import configparser
 import os
 
 config_file="/etc/micon_fan.conf"
+alt_sensor="/sys/devices/virtual/thermal/thermal_zone0/temp"
 
 config = configparser.ConfigParser()
 if os.path.exists(config_file):
@@ -49,6 +50,12 @@ while True:
 	try:
 		test = libmicon.micon_api(port)
 		micon_temp=int.from_bytes(test.send_read_cmd(0x37),byteorder='big')
+		if (micon_temp == 0xF4):
+			if os.path.exists(alt_sensor):
+				f = open(alt_sensor)
+				tmp_temp=f.read()
+				micon_temp=int(int(tmp_temp)/1000)
+
 		##set speed based on thresholds
 		fan_speed=1
 		if micon_temp > med_temp:
@@ -62,6 +69,7 @@ while True:
 			print("Fan Speed ",fan_speed," Temperature ",micon_temp,"C")
 
 		current_speed=int.from_bytes(test.send_read_cmd(0x33),byteorder='big') + int.from_bytes(test.send_read_cmd(0x38),byteorder='big')
+
 		if current_speed==0:
 			print("Fan Stopped!")
 			test.set_lcd_buffer(0x90,"Warning:","Fan Stopped!!!!")
@@ -72,7 +80,8 @@ while True:
 				test.set_lcd_color(libmicon.LCD_COLOR_RED)
 
 		test.port.close()
-	except:
+	except Exception as e:
+		print(e)
 		print("Fan get/set failed, retrying")
 		time.sleep(10)
 		continue
