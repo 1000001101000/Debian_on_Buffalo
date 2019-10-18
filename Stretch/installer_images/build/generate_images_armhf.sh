@@ -11,7 +11,6 @@ if [ -d "tmp" ]; then
 fi
 
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
-#wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/vmlinuz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
@@ -23,7 +22,6 @@ wget -N "http://ftp.debian.org/debian/$eth_deb_url"
 eth_deb="$(basename "$eth_deb_url")"
 dpkg --extract $eth_deb ../armhf-payload/
 
-
 mkdir tmp
 dpkg --extract $kernel_deb tmp/
 if [ $? -ne 0 ]; then
@@ -31,6 +29,7 @@ if [ $? -ne 0 ]; then
 	exit
 fi
 cd ..
+mkdir armhf-payload/lib/ 2>/dev/null
 rm -r armhf-payload/lib/modules/*
 rsync -rtWhmv --include "*/" \
 --include="mtdblock.ko" --include="mtd_blkdevs.ko" --include="spi-nor.ko" --include="m25p80.ko" --include="spi-orion.ko" \
@@ -51,9 +50,14 @@ if [ $? -ne 0 ]; then
 fi
 
 rm -r armhf-payload/source/micon_scripts/
-cp -vrp $tools_dir/micon_scripts_armhf/ armhf-payload/source/micon_scripts/
+cp -vrp $tools_dir/micon_scripts/ armhf-payload/source/micon_scripts/
 if [ $? -ne 0 ]; then
         echo "failed to copy tools, quitting"
+        exit
+fi
+cp -v $tools_dir/micro-evtd-armhf armhf-payload/source/micro-evtd
+if [ $? -ne 0 ]; then
+        echo "failed to copy micro-evtd , quitting"
         exit
 fi
 cp -v $tools_dir/buffalo_devices.db armhf-payload/source/
@@ -67,7 +71,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 rm -r "armhf-files/tmp/"
-##need to parse backports packages to get backports files
 
 cp armhf-files/initrd.gz .
 if [ $? -ne 0 ]; then
@@ -86,17 +89,19 @@ if [ $? -ne 0 ]; then
         exit
 fi
 cd ..
-gzip initrd
+cat initrd | xz --check=crc32 -9 > initrd.xz
 if [ $? -ne 0 ]; then
         echo "failed to pack initrd, quitting"
         exit
 fi
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n initrd -d initrd.gz output/initrd.buffalo"
+faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n initrd -d initrd.xz output/initrd.buffalo.armhf"
 if [ $? -ne 0 ]; then
         echo "failed to create initrd.buffalo, quitting"
         exit
 fi
+rm initrd.xz
 rm initrd.gz
+rm initrd
 rm armhf-payload/source/*.dtb
 rm armhf-payload/source/buffalo_devices.db
 rm armhf-payload/source/*.deb

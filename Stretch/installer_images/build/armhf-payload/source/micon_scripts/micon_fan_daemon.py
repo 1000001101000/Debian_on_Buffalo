@@ -14,8 +14,8 @@ config = configparser.ConfigParser()
 if os.path.exists(config_file):
 	config.read(config_file)
 else:
-	config['Rackmount'] = {'MediumTempC': '40', 'HighTempC': '50', 'ShutdownTempC': '65'}
-	config['Desktop'] = {'MediumTempC': '25', 'HighTempC': '35', 'ShutdownTempC': '65'}
+	config['Rackmount'] = {'MediumTempC': '40', 'HighTempC': '50', 'ShutdownTempC': '75'}
+	config['Desktop'] = {'MediumTempC': '25', 'HighTempC': '35', 'ShutdownTempC': '75'}
 	with open(config_file, 'w') as configfile:
 		config.write(configfile)
 
@@ -34,7 +34,7 @@ for port in ["/dev/ttyS1","/dev/ttyS3"]:
 
 version=version.decode('utf-8')
 
-if ((version.find("TS-RXL") != -1) or (version.find("TS-MR") != -1) or (version.find("1400R") != -1)):
+if ((version.find("TS-RXL") != -1) or (version.find("TS-MR") != -1) or (version.find("1400R") != -1) or (version.find("RHTGL") != -1)):
 	med_temp=int(config['Rackmount']['MediumTempC'])
 	high_temp=int(config['Rackmount']['HighTempC'])
 	shutdown_temp=int(config['Rackmount']['ShutdownTempC'])
@@ -68,14 +68,16 @@ while True:
 		if debug == "debug":
 			print("Fan Speed ",fan_speed," Temperature ",micon_temp,"C")
 
-		current_speed=int.from_bytes(test.send_read_cmd(0x33),byteorder='big')
+		current_speed=int.from_bytes(test.send_read_cmd(0x33),byteorder='big') + int.from_bytes(test.send_read_cmd(0x38),byteorder='big')
+
 		if current_speed==0:
 			print("Fan Stopped!")
-			test.set_lcd_buffer(libmicon.lcd_set_buffer0,"Warning:","Fan Stopped!!!!")
+			test.set_lcd_buffer(0x90,"Warning:","Fan Stopped!!!!")
 			test.cmd_force_lcd_disp(libmicon.lcd_disp_buffer0)
-			test.set_lcd_color(libmicon.LCD_COLOR_RED)
 			test.set_lcd_brightness(libmicon.LCD_BRIGHT_FULL)
 			test.cmd_sound(libmicon.BZ_MUSIC2)
+			if (version.find("HTGL") == -1):
+				test.set_lcd_color(libmicon.LCD_COLOR_RED)
 
 		test.port.close()
 	except Exception as e:

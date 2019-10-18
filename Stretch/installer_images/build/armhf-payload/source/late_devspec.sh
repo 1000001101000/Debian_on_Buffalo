@@ -1,18 +1,9 @@
-##special stuff for ts3000
-grep TS3 /proc/device-tree/model > /dev/null
-if [ $? -eq 0 ]; then
-	cp -r /source/micon_scripts "/target/usr/local/bin/"
-	cp /source/micon_scripts/*.service /target/etc/systemd/system/
-	cp /source/micon_scripts/micon_restart.sh /target/lib/systemd/system-shutdown/
-        chmod 755 /target/lib/systemd/system-shutdown/micon_restart.sh
-fi
-
-grep TS14 /proc/device-tree/model > /dev/null
-if [ $? -eq 0 ]; then
+##special stuff for devices with microcontroller
+if [ "$(/source/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
         cp -r /source/micon_scripts "/target/usr/local/bin/"
         cp /source/micon_scripts/*.service /target/etc/systemd/system/
-	cp /source/micon_scripts/micon_restart.sh /target/lib/systemd/system-shutdown/
-        chmod 755 /target/lib/systemd/system-shutdown/micon_restart.sh
+        cp /source/micon_scripts/micon_shutdown.py /target/lib/systemd/system-shutdown/
+        chmod 755 /target/lib/systemd/system-shutdown/micon_shutdown.py
 fi
 
 grep LS4 /proc/device-tree/model > /dev/null
