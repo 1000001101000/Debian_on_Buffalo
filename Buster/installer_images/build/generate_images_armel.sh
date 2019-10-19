@@ -14,13 +14,6 @@ fi
 
 wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz"
 
-#wget -N "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages"
-#kernel_deb_url="$(cat Packages | grep linux-image-4 | grep Filename | gawk '{print $2}' | tail -n 1)"
-#echo $kernel_deb_url
-#wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url"
-#kernel_deb="$(basename $kernel_deb_url)"
-#kernel_ver="$(echo $kernel_deb | gawk -F[-_] '{print $3}')"
-
 mkdir tmp
 
 dpkg --extract linux-image-tsxl.deb tmp/
@@ -216,7 +209,6 @@ done
 rm machtype
 rm katkern
 rm tmpkern
-#rm initrd
 rm vmlinuz
 rm initrd
 rm initrd1

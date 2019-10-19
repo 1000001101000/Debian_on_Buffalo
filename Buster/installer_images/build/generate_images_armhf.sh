@@ -11,17 +11,11 @@ if [ -d "tmp" ]; then
 fi
 
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
-#wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/vmlinuz"
 kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
 wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
-
-#rngd_deb_url="$(zcat Packages.gz | grep rng-tools | grep Filename | head -n 1 | gawk '{print $2}')"
-#wget -N "http://ftp.debian.org/debian/$rngd_deb_url"
-#rndg_deb="$(basename "$rngd_deb_url")"
-#dpkg --extract $rndg_deb ../armhf-payload/
 
 eth_deb_url="$(zcat Packages.gz | grep ethtool | grep Filename | head -n 1 | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$eth_deb_url"

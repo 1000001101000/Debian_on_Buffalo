@@ -28,7 +28,13 @@ case $machine in
         wget -qO - https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/KEY.gpg | apt-key add -
         echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ buster main" > /etc/apt/sources.list.d/tsxl_kernel.list
         apt-get update
-        apt-get install -y linux-image-tsxl;;
+	has_pci="$(lspci | wc -c)"
+	if [ $has_pci -ne 0 ]; then
+           apt-get install -y linux-image-tsxl
+	else
+	   apt-get install -y linux-image-tswxl
+	fi
+	;;
         *)
         apt-get install -y linux-image-marvell;;
 esac
