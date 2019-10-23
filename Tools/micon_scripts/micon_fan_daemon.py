@@ -55,6 +55,9 @@ while True:
 				f = open(alt_sensor)
 				tmp_temp=f.read()
 				micon_temp=int(int(tmp_temp)/1000)
+			else:
+				time.sleep(10)
+				continue
 
 		##set speed based on thresholds
 		fan_speed=1
