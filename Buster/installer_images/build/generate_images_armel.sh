@@ -87,6 +87,8 @@ rsync -rtWhmv --include "*/" \
 --include="ip_tables.ko" \
 --include="ipv6.ko" \
 --include="jbd2.ko" \
+--include="leds-gpio.ko" \
+--include="ledtrig-gpio.ko" \
 --include="libata.ko" \
 --include="libcrc32c.ko" \
 --include="linear.ko" \
@@ -196,6 +198,15 @@ mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n install
 devio 'wl 0xe3a01c06,4' 'wl 0xe3811030,4' > machtype
 cat machtype vmlinuz > katkern
 mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d  katkern output/uImage.buffalo.ts2pro
+
+dtb_list="$(ls armel-files/dtb/*{orion,kirkwood}*dtb)"
+
+for dtb in $dtb_list
+do
+model="$(echo $dtb | gawk -F- '{print $NF}' | gawk -F. '{print $1}')"
+cat vmlinuz $dtb > tmpkern
+mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model
+done
 
 dtb_list="$(ls $dtb_dir/*{orion,kirkwood}*dtb)"
 
