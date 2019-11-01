@@ -6,3 +6,4 @@ etc/network/*
 fw_printenv
 usr/*
 sbin/*
+*.py

@@ -1,6 +1,9 @@
 *.db
+*.dtb
+*.py
 lib/*
 micon_scripts
 physcan.sh
 ls400_restart.sh
 build-modules-armhf.sh
+micro-evtd
