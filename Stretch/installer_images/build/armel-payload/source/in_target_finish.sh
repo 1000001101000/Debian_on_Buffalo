@@ -23,7 +23,7 @@ case $machine in
 	apt-get -y remove $(dpkg -l | grep linux-image | gawk '{print $2}')
 	apt-get install -y apt-transport-https gnupg
         wget -qO - https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/KEY.gpg | apt-key add -
-        echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ buster main" > /etc/apt/sources.list.d/tsxl_kernel.list
+        echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ stretch main" > /etc/apt/sources.list.d/tsxl_kernel.list
         apt-get update
 	has_pci="$(lspci | wc -c)"
 	if [ $has_pci -ne 0 ]; then
