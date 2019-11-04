@@ -4,6 +4,8 @@ tools_dir="../../../Tools"
 distro="stretch"
 
 mkdir output 2>/dev/null
+rm -r armhf-payload/*
+mkdir -p armhf-payload/source/ 2>/dev/null
 mkdir armhf-files 2>/dev/null
 cd armhf-files
 if [ -d "tmp" ]; then
@@ -38,6 +40,11 @@ if [ $? -ne 0 ]; then
         echo "failed to copy module files, quitting"
         exit
 fi
+
+mkdir -p armhf-payload/etc/modprobe.d/
+echo "install pxa3xx_nand /bin/false" >> armhf-payload/etc/modprobe.d/blacklist.conf
+echo "install marvell_nand /bin/false" >> armhf-payload/etc/modprobe.d/blacklist.conf
+
 cp -v $dtb_dir/*.dtb armhf-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy dtb files, quitting"
@@ -60,9 +67,24 @@ if [ $? -ne 0 ]; then
         echo "failed to copy micro-evtd , quitting"
         exit
 fi
+cp -v $tools_dir/fw_printenv_armhf armhf-payload/source/fw_printenv
+if [ $? -ne 0 ]; then
+        echo "failed to copy fw_printenv , quitting"
+        exit
+fi
+cp -v $tools_dir/phytool-armhf armhf-payload/source/phytool
+if [ $? -ne 0 ]; then
+        echo "failed to copy phytool , quitting"
+        exit
+fi
 cp -v $tools_dir/buffalo_devices.db armhf-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy device db, quitting"
+        exit
+fi
+cp -v preseed-armhf.cfg armhf-payload/preseed.cfg
+if [ $? -ne 0 ]; then
+        echo "failed to copy preseed, quitting"
         exit
 fi
 cp -v "armhf-files/tmp/boot/vmlinuz-$kernel_ver" .

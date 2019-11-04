@@ -1,8 +1,0 @@
-micon_scripts
-physcan.sh
-build-modules-armhf.sh
-micro-evtd
-etc/network/*
-fw_printenv
-usr/*
-sbin/*
