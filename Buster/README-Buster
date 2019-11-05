@@ -9,9 +9,11 @@ Buster Notes:
 
 Fan gpios inverted:
 For some reason the values required for the gpio-fan functionality have inverted with the current kernel I've updated the device trees to re-invert them so that they continue to function normally. I don't know which way is the "correct" way but will watch for further changes in future kernels.
+**update: it looks like the older code used to ignore polarity and just assume ACTIVE_HIGH, this should mean that the my Buster DTBs are correct and won't change in the future.
 
 lack of entropy for rng at boot:
 For security reasons Debian has disabled CONFIG_RANDOM_TRUST_CPU for their kernels. Without a sufficient source of entropy the random number generator can take > 30minutes to initialize on these devices which will delay sshd from starting. To correct this I've set up the installer to install haveged which generates entropy to allow things to work normally.
+**recently Debian has modified their installer images to run haveged by default so I've removed the code I was using for that purpose. The installer will still install haveged at the end to prevent delays at reboot.
 
 This issue is discussed in detail here:
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=898814
