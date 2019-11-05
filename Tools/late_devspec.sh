@@ -17,7 +17,11 @@ grep LS4 /proc/device-tree/model > /dev/null
 is_ls400=$?
 grep TS12 /proc/device-tree/model > /dev/null
 is_ts1200=$?
-if [ $is_ls400 -eq 0 ] || [ $is_ts1200 -eq 0 ]; then
+grep VL /proc/device-tree/model > /dev/null
+is_vseries=$?
+grep XL /proc/device-tree/model > /dev/null
+is_xseries=$?
+if [ $is_ls400 -eq 0 ] || [ $is_ts1200 -eq 0 ] || [ $is_vseries -eq 0 ] || [ $is_xseries -eq 0 ]; then
       cp /source/phy_restart.sh /target/usr/local/bin/
 fi
 

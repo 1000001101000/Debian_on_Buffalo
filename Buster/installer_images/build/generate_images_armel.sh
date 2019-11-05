@@ -171,12 +171,17 @@ if [ $? -ne 0 ]; then
         echo "failed to copy preseed, quitting"
         exit
 fi
-
 cp -v $tools_dir/micro-evtd-armel armel-payload/source/micro-evtd
 if [ $? -ne 0 ]; then
         echo "failed to copy micro-evtd , quitting"
         exit
 fi
+cp -v $tools_dir/phytool-armel armel-payload/source/phytool
+if [ $? -ne 0 ]; then
+        echo "failed to copy phytool , quitting"
+        exit
+fi
+
 
 zcat armel-files/initrd.gz | cpio-filter --exclude "lib/modules/*" > initrd1
 cat initrd1 | cpio-filter --exclude "sbin/wpa_supplicant" > initrd
