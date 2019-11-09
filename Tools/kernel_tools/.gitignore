@@ -1,0 +1,4 @@
+*.deb
+*.changes
+vanilla-source*
+linux-source*
