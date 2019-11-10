@@ -2,3 +2,5 @@
 *.changes
 vanilla-source*
 linux-source*
+dts
+dtb
