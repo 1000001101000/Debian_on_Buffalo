@@ -1,2 +1,3 @@
 linux-image-* linguist-language=text
 custom-config-* linguist-language=text
+*.cfg linguist-language=text
