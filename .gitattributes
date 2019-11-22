@@ -1,3 +1,4 @@
-linux-image-* linguist-language=text
-custom-config-* linguist-language=text
-*.cfg linguist-language=text
+$ cat .gitattributes
+linux-image-* linguist-documentation
+custom-config-* linguist-documentation
+*.cfg linguist-documentation
