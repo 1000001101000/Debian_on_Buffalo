@@ -6,12 +6,13 @@ svpwd="$(pwd)"
 for distro in $distros
 do
   curl "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/latest.txt
-  diff /tmp/latest.txt $distro/installer-images/build/last_build_armhf.txt 2>/dev/null
+  diff /tmp/latest.txt $distro/installer_images/build/last_build_armhf.txt 2>/dev/null
   if [ $? -eq 0 ]; then
     echo "image is up to date"
     continue
   else
-    cd $distro/installer-images/build/
+    cd $distro/installer_images/build/
+    echo $(pwd)
     ./generate_images_armhf.sh
   fi
   if [ $? -eq 0 ]; then
