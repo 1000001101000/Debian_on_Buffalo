@@ -19,6 +19,8 @@ jobs:
       run: git config user.name "workflow@github" 
     - name: set git user email
       run: git config user.email "workflow@github" 
+    - name: enable script execution if needed
+      run: chmod +x .github/scripts/*.sh
     - name: check for updated debian installer
       run: .github/scripts/update_check_armhf.sh
       id: build_images
