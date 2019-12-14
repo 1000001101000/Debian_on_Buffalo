@@ -1,0 +1,25 @@
+name: Update base installer
+
+on: [push]
+#  schedule:
+#    - cron: 32 20 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v1
+    - name: update apt
+      run: sudo apt-get update || exit 0
+    - name: ensure build packages are installed
+      run: sudo apt-get install gzip rsync wget cpio uboot-tools faketime
+    - name: set git user name
+      run: git config user.name "workflow@github" 
+    - name: set git user email
+      run: git config user.email "workflow@github" 
+    - name: check for updated debian installer
+      run: .github/scripts/update_check_armhf.sh
+      id: build_images
+    - name: commit new images
+      if: steps.build_images.outputs.commit_needed == 'yes'
+      run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
