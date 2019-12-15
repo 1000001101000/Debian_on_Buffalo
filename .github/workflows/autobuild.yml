@@ -12,7 +12,7 @@ jobs:
     - name: update apt
       run: sudo apt-get update || exit 0
     - name: ensure build packages are installed
-      run: sudo apt-get install gzip rsync wget cpio faketime
+      run: sudo apt-get install gzip rsync wget cpio faketime u-boot-tools
     - name: install uboot tools
       run: sudo snap install uboot-tools
     - name: set git user name
