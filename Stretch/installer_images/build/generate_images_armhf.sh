@@ -12,15 +12,15 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz"
-kernel_ver="$(zcat initrd.gz | cpio -t | grep lib/modules/ | head -n 1 | gawk -F/ '{print $3}')"
-wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz"
+wget -N "http://ftp.debian.org/debian/dists/$distro/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null
+kernel_ver="$(zcat initrd.gz | cpio -t | grep -m 1 lib/modules/ | gawk -F/ '{print $3}')"
+wget -N "http://ftp.debian.org/debian/dists/$distro/main/binary-armhf/Packages.gz" 2>/dev/null
 kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filename | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$kernel_deb_url"
+wget -N "http://ftp.debian.org/debian/$kernel_deb_url" 2>/dev/null
 kernel_deb="$(basename $kernel_deb_url)"
 
 eth_deb_url="$(zcat Packages.gz | grep ethtool | grep Filename | head -n 1 | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$eth_deb_url"
+wget -N "http://ftp.debian.org/debian/$eth_deb_url" 2>/dev/null
 eth_deb="$(basename "$eth_deb_url")"
 dpkg --extract $eth_deb ../armhf-payload/
 
