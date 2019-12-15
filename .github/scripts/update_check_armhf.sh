@@ -16,6 +16,7 @@ do
   fi
   if [ $? -eq 0 ]; then
     echo "copy to proper dir"
+    ls output/
     #cp "/tmp/latest.txt" "last_build.txt"
     #git commit -a -m "generate images based on latest debian installer" 
     #echo "::set-output name=commit_needed::yes"
