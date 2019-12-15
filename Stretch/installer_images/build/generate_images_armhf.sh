@@ -4,7 +4,7 @@ tools_dir="../../../Tools"
 distro="stretch"
 
 mkdir output 2>/dev/null
-rm -r armhf-payload/*
+rm -r armhf-payload/* 2>/dev/null
 mkdir -p armhf-payload/source/ 2>/dev/null
 mkdir armhf-files 2>/dev/null
 cd armhf-files
@@ -19,7 +19,7 @@ kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filen
 wget -N "http://ftp.debian.org/debian/$kernel_deb_url" 2>/dev/null
 kernel_deb="$(basename $kernel_deb_url)"
 
-eth_deb_url="$(zcat Packages.gz | grep ethtool | grep Filename | head -n 1 | gawk '{print $2}')"
+eth_deb_url="$(zcat Packages.gz | grep ethtool | grep -m 1 Filename | gawk '{print $2}')"
 wget -N "http://ftp.debian.org/debian/$eth_deb_url" 2>/dev/null
 eth_deb="$(basename "$eth_deb_url")"
 dpkg --extract $eth_deb ../armhf-payload/
@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 mkdir armhf-payload/lib/ 2>/dev/null
-rm -r armhf-payload/lib/modules/*
+rm -r armhf-payload/lib/modules/* 2>/dev/null
 rsync -rtWhmv --include "*/" \
 --include="mtdblock.ko" --include="mtd_blkdevs.ko" --include="spi-nor.ko" --include="m25p80.ko" --include="spi-orion.ko" \
 --exclude="*" armhf-files/tmp/lib/ armhf-payload/lib/
@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
         exit
 fi
 
-rm -r armhf-payload/source/micon_scripts/
+rm -r armhf-payload/source/micon_scripts/ 2>/dev/null
 cp -vrp $tools_dir/micon_scripts/ armhf-payload/source/micon_scripts/
 if [ $? -ne 0 ]; then
         echo "failed to copy tools, quitting"
@@ -92,7 +92,7 @@ if [ $? -ne 0 ]; then
         echo "failed to copy kernel, quitting"
         exit
 fi
-rm -r "armhf-files/tmp/"
+rm -r "armhf-files/tmp/" 2>/dev/null
 
 cp armhf-files/initrd.gz .
 if [ $? -ne 0 ]; then
@@ -122,7 +122,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 rm initrd.xz
-rm initrd.gz
 rm initrd
 rm armhf-payload/source/*.dtb
 rm armhf-payload/source/buffalo_devices.db
