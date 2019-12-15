@@ -16,10 +16,11 @@ do
   fi
   if [ $? -eq 0 ]; then
     echo "copy to proper dir"
-    ls output/
-    #cp "/tmp/latest.txt" "last_build.txt"
-    #git commit -a -m "generate images based on latest debian installer" 
-    #echo "::set-output name=commit_needed::yes"
+    cp -v output/initrd.buffalo.armhf ../armhf_devices/
+    cp -v output/uImage.buffalo.* ../armhf_devices/
+    cp "/tmp/latest.txt" "last_build.txt"
+    git commit -a -m "generate images based on latest debian installer" 
+    echo "::set-output name=commit_needed::yes"
   fi
   cd "$svpwd"
 done
