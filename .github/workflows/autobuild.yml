@@ -1,6 +1,6 @@
 name: Update base installer
 
-on: [push] 
+on: [push]
 #  schedule:
 #    - cron: 32 20 * * *
 
