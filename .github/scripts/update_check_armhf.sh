@@ -12,7 +12,6 @@ do
     continue
   else
     cd $distro/installer_images/build/
-    echo $(pwd)
     ./generate_images_armhf.sh
   fi
   if [ $? -eq 0 ]; then
