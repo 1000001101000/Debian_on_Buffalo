@@ -16,9 +16,10 @@ do
   fi
   if [ $? -eq 0 ]; then
     echo "copy to proper dir"
-    #cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo
-    #cp -v output/uImage.buffalo.* ../armel_devices/
-    #cp "/tmp/latest.txt" "last_build_armel.txt"
+    cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo
+    cp -v output/uImage*buffalo.* ../armel_devices/
+    cp -v output/vmlinuz-armel ../armel_devices/vmlinuz
+    cp "/tmp/latest.txt" "last_build_armel.txt"
     git commit -a -m "generate images based on latest debian installer" 
     #echo "::set-output name=commit_needed::yes"
   fi
