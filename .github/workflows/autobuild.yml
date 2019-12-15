@@ -12,7 +12,7 @@ jobs:
     - name: update apt
       run: sudo apt-get update || exit 0
     - name: ensure build packages are installed
-      run: sudo apt-get install gzip rsync wget cpio faketime u-boot-tools
+      run: sudo apt-get install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl
     - name: set git user name
       run: git config user.name "workflow@github" 
     - name: set git user email
