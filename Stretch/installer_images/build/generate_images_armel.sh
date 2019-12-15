@@ -5,7 +5,7 @@ tools_dir="../../../Tools"
 distro="stretch"
 
 mkdir output 2>/dev/null
-rm -r armel-payload/*
+rm -r armel-payload/* 2>/dev/null
 mkdir armel-files 2>/dev/null
 mkdir -p armel-payload/source/ 2>/dev/null
 cd armel-files
@@ -13,13 +13,13 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz"
+wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null
 
-wget -N https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages
+wget -N https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages 2>/dev/null
 searchfrom="$(grep -n Package:\ linux-image-tsxl Packages | cut -d ':' -f 1)"
-kpkg="$(tail -n +$searchfrom Packages | grep Depends: | head -n 1 | cut -d ' ' -f 2)"
+kpkg="$(tail -n +$searchfrom Packages | grep -m 1 Depends: | cut -d ' ' -f 2)"
 kernel_deb_url="$(cat Packages | grep Filename: | grep $kpkg | gawk '{print $2}')"
-wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url"
+wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url" 2>/dev/null
 kernel_deb="$(basename $kernel_deb_url)"
 
 mkdir tmp
@@ -30,7 +30,7 @@ if [ $? -ne 0 ]; then
         exit
 fi
 cd ..
-rm -r armel-payload/lib/modules/*
+rm -r armel-payload/lib/modules/* 2>/dev/null
 rsync -rtWhmv --include "*/" \
 --include="*/drivers/md/*" \
 --include="dm-persistent-data.ko" \
@@ -150,7 +150,7 @@ if [ $? -ne 0 ]; then
         exit
 fi
 
-rm -r armel-payload/source/micon_scripts/
+rm -r armel-payload/source/micon_scripts/ 2>/dev/null
 cp -vrp $tools_dir/micon_scripts armel-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy micon tools, quitting"
