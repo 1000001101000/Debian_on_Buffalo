@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 mkdir armhf-payload/lib/ 2>/dev/null
-rm -r armhf-payload/lib/modules/*
+rm -r armhf-payload/lib/modules/* 2>/dev/null
 rsync -rtWhmv --include "*/" \
 --include="mtdblock.ko" --include="mtd_blkdevs.ko" --include="spi-nor.ko" --include="m25p80.ko" --include="spi-orion.ko" \
 --exclude="*" armhf-files/tmp/lib/ armhf-payload/lib/
@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
         exit
 fi
 
-rm -r armhf-payload/source/micon_scripts/
+rm -r armhf-payload/source/micon_scripts/ 2>/dev/null
 cp -vrp $tools_dir/micon_scripts/ armhf-payload/source/micon_scripts/
 if [ $? -ne 0 ]; then
         echo "failed to copy tools, quitting"
@@ -122,7 +122,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 rm initrd.xz
-rm initrd.gz
 rm initrd
 rm armhf-payload/source/*.dtb
 rm armhf-payload/source/buffalo_devices.db
