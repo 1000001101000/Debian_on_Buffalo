@@ -21,7 +21,7 @@ do
     cp -v output/vmlinuz-armel ../armel_devices/vmlinuz
     cp "/tmp/latest.txt" "last_build_armel.txt"
     git commit -a -m "generate images based on latest debian installer" 
-    #echo "::set-output name=commit_needed::yes"
+    echo "::set-output name=commit_needed::yes"
   fi
   cd "$svpwd"
 done
