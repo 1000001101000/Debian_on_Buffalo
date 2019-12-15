@@ -16,7 +16,7 @@ do
   fi
   if [ $? -eq 0 ]; then
     echo "copy to proper dir"
-    cp -v output/initrd.buffalo.armhf ../armhf_devices/
+    cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo
     cp -v output/uImage.buffalo.* ../armhf_devices/
     cp "/tmp/latest.txt" "last_build.txt"
     git commit -a -m "generate images based on latest debian installer" 
