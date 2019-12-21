@@ -1,0 +1,64 @@
+ame: Update Components
+
+##trying to do this all in yaml, even though it is deeply painful
+##also trying to avoid uneeded clones
+
+on: [push]
+  #schedule: 
+  #  - cron: 32 * * * *
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      commit_needed: no
+      repo_dir: .
+    steps: 
+    - name: check for micro-etvd-armel update
+      run: wget -O /tmp/micro-evtd-armel "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-armel" 2>/dev/null; cat /tmp/micro-evtd-armel | md5sum > /tmp/source 
+    - name: check for micro-etvd-armel update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micro-evtd-armel 2>/dev/null | md5sum > /tmp/dest
+    - name: check for micro-etvd-armel update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
+      
+    - name: check for micro-etvd-armhf update
+      run: wget -O /tmp/micro-evtd-armhf "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-armhf" 2>/dev/null; cat /tmp/micro-evtd-armhf | md5sum > /tmp/source 
+    - name: check for micro-etvd-armhf update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micro-evtd-armhf 2>/dev/null | md5sum > /tmp/dest
+    - name: check for micro-etvd-armhf update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
+      
+    - name: check for phytool-armel update
+      run: wget -O /tmp/phytool-armel "https://github.com/1000001101000/phytool/raw/master/bins/phytool-armel" 2>/dev/null; cat /tmp/phytool-armel | md5sum > /tmp/source 
+    - name: check for phytool-armel update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/phytool-armel 2>/dev/null | md5sum > /tmp/dest
+    - name: check for phytool-armel update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
+      
+    - name: check for phytool-armhf update
+      run: wget -O /tmp/phytool-armhf "https://github.com/1000001101000/phytool/raw/master/bins/phytool-armhf" 2>/dev/null; cat /tmp/phytool-armhf | md5sum > /tmp/source 
+    - name: check for phytool-armhf update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/phytool-armhf 2>/dev/null | md5sum > /tmp/dest
+    - name: check for phytool-armhf update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
+      
+    - name: check for libmicon.py update
+      run: wget -O /tmp/libmicon.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/libmicon.py" 2>/dev/null; cat /tmp/libmicon.py | md5sum > /tmp/source 
+    - name: check for libmicon.py update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/libmicon.py  2>/dev/null | md5sum > /tmp/dest
+    - name: check for libmicon.py update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"  
+      
+    - name: check for micon_startup.py update
+      run: wget -O /tmp/micon_startup.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/micon_startup.py" 2>/dev/null; cat /tmp/micon_startup.py | md5sum > /tmp/source 
+    - name: check for micon_startup.py update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_startup.py  2>/dev/null | md5sum > /tmp/dest
+    - name: check for micon_startup.py update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes" 
+      
+    - name: check for micon_shutdown.py update
+      run: wget -O /tmp/micon_shutdown.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/micon_shutdown.py" 2>/dev/null; cat /tmp/micon_shutdown.py | md5sum > /tmp/source 
+    - name: check for micon_shutdown.py update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_shutdown.py  2>/dev/null | md5sum > /tmp/dest
+    - name: check for micon_shutdown.py update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
