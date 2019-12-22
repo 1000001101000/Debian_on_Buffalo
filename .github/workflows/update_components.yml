@@ -68,6 +68,6 @@ jobs:
     - name: check for updated stretch armel installer
       run: curl -sL "http://ftp.nl.debian.org/debian/dists/stretch/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
     - name: check for updated stretch armel installer
-      run: wget -O /tmp/dest "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/Stretch/installer_images/build/last_build_armel.txt"  
+      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Stretch/installer_images/build/last_build_armel.txt"  
     - name: check for updated stretch installer
       run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes" 
