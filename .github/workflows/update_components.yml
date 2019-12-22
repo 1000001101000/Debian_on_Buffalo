@@ -122,7 +122,6 @@ jobs:
       run: cp -v /tmp/phytool-arm* Tools/
       working-directory: "${{env.repo_dir}}"
 
-
     - name: if needed, setup git
       if: env.commit_needed == 'yes'
       run: git config user.name "workflow@github"; git config user.email "workflow@github"
@@ -138,7 +137,7 @@ jobs:
       run: git commit -a -m "update files from external projects"
       working-directory: "${{env.repo_dir}}"
       
-    #- name: if needed, push
-    #  if: env.commit_needed == 'yes'
-    #  run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
-    #  working-directory: "${{env.repo_dir}}"
+    - name: if needed, push
+      if: env.commit_needed == 'yes'
+      run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
+      working-directory: "${{env.repo_dir}}"
