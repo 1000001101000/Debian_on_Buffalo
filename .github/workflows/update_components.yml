@@ -83,7 +83,25 @@ jobs:
       if: env.commit_needed == 'yes'
       run: git clone https://github.com/${{github.repository}}; echo "::set-env name=repo_dir::$(ls -rt | tail -n 1)"
 
-
+    - name: if needed, copy file to repo
+      if: env.commit_needed == 'yes'
+      run: cp -v /tmp/libmicon.py Tools/micon_scripts/libmicon.py
+      working-directory: "${{env.repo_dir}}"
+      
+    - name: if needed, copy file to repo
+      if: env.commit_needed == 'yes'
+      run: cp -v /tmp/micon_startup.py Tools/micon_scripts/micon_startup.py
+      working-directory: "${{env.repo_dir}}"
+      
+    - name: if needed, copy file to repo
+      if: env.commit_needed == 'yes'
+      run: cp -v /tmp/micon_shutdown.py Tools/micon_scripts/micon_shutdown.py
+      working-directory: "${{env.repo_dir}}"
+      
+    - name: if needed, copy file to repo
+      if: env.commit_needed == 'yes'
+      run: cp -v /tmp/micro-evtd-arm* Tools/
+      working-directory: "${{env.repo_dir}}"
 
 
     - name: if needed, setup git
