@@ -140,7 +140,7 @@ jobs:
       
     - name: if needed, commit
       if: env.commit_needed == 'yes'
-      run: git commit -a -m "update files from external projects"
+      run: git commit -a -m "update files from external projects" || exit 0
       working-directory: "${{env.repo_dir}}"
       
     - name: if needed, push
