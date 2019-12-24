@@ -3,9 +3,9 @@ name: Update Components
 ##trying to do this all in yaml, even though it is deeply painful
 ##also trying to avoid uneeded clones
 
-on: [push]
-  #schedule: 
-  #  - cron: 32 * * * *
+on: #[push]
+  schedule: 
+    - cron: 32 * * * *
 
 jobs:
   check:
