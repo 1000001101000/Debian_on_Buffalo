@@ -53,7 +53,7 @@ jobs:
     
     - name: if needed, commit
       if: env.build_needed == 'yes'
-      run: git commit -v -a -m "update installer images"
+      run: git diff; git commit -v -a -m "update installer images"
       working-directory: "${{env.repo_dir}}"
     
     #- name: commit new images
