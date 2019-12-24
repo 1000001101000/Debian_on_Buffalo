@@ -38,14 +38,23 @@ jobs:
       
     - name: build stretch armel installer
       if: env.build_needed == 'yes'
-      run: cd Stretch/installer_images/build/; ./generate_images_armel.sh
-      working-directory: "${{env.repo_dir}}"
+      run: ./generate_images_armel.sh
+      working-directory: "${{env.repo_dir}}Stretch/installer_images/build/"
+    
+    - name: copy new images
+      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz
+      working-directory: "${{env.repo_dir}}Stretch/installer_images/build/"
       
     - name: build stretch armhf installer
       if: env.build_needed == 'yes'
       run: cd Stretch/installer_images/build/; ./generate_images_armhf.sh
       working-directory: "${{env.repo_dir}}"
     
+    
+    - name: if needed, commit
+      if: env.build_needed == 'yes'
+      run: git commit -v -a -m "update installer images"
+      working-directory: "${{env.repo_dir}}"
     
     #- name: commit new images
     #  if: steps.build_images.outputs.commit_needed == 'yes'
