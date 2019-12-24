@@ -46,6 +46,7 @@ jobs:
       run: cd Stretch/installer-images/build/; ./generate_images_armhf.sh
       working-directory: "${{env.repo_dir}}"
     
+    
     #- name: commit new images
     #  if: steps.build_images.outputs.commit_needed == 'yes'
     #  run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
