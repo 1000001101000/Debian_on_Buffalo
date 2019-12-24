@@ -23,9 +23,6 @@ jobs:
     - name: check for the build needed flag
       run: echo "::set-env name=build_needed::$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  
     
-    - name: update apt
-      if: env.build_needed == 'yes'
-      run: sudo apt-get update || exit 0
     - name: ensure build packages are installed
       if: env.build_needed == 'yes'
       run: apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git
