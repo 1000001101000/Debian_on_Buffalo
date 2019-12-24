@@ -29,7 +29,7 @@ jobs:
     
     - name: if needed, clone the repo for build
       if: env.build_needed == 'yes'
-      run: git clone https://github.com/${{github.repository}}; echo "::set-env name=repo_dir::$(ls -rt | tail -n 1)"
+      run: git clone --depth 1 https://github.com/${{github.repository}}; echo "::set-env name=repo_dir::$(ls -rt | tail -n 1)"
     
     - name: set git user name
       if: env.build_needed == 'yes'
@@ -38,12 +38,12 @@ jobs:
       
     - name: build stretch armel installer
       if: env.build_needed == 'yes'
-      run: cd Stretch/installer-images/build/; ./generate_images_armel.sh
+      run: cd Stretch/installer_images/build/; ./generate_images_armel.sh
       working-directory: "${{env.repo_dir}}"
       
     - name: build stretch armhf installer
       if: env.build_needed == 'yes'
-      run: cd Stretch/installer-images/build/; ./generate_images_armhf.sh
+      run: cd Stretch/installer_images/build/; ./generate_images_armhf.sh
       working-directory: "${{env.repo_dir}}"
     
     
