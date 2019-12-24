@@ -1,3 +1,4 @@
+#!/bin/bash
 ##requires uboot-tools, gzip, faketime, rsync, wget, cpio, libarchive-cpio-perl
 
 dtb_dir="../../device_trees"
