@@ -7,7 +7,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: 'debian:9'
+    container: 'debian:10'
     env:
       repo_dir: .
       build_needed: no
