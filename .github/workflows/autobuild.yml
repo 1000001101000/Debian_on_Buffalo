@@ -25,7 +25,7 @@ jobs:
     
     - name: ensure build packages are installed
       if: env.build_needed == 'yes'
-      run: apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk
+      run: apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
     
     - name: if needed, clone the repo for build
       if: env.build_needed == 'yes'
