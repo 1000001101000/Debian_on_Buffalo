@@ -24,9 +24,18 @@ jobs:
     ##apt-cache to get the latest source version
     - name: get current linux-source version
       run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee /tmp/stretch_kernel.txt
-    ## if not matched, download cross tools some where
+  
+    - name: nproc
+      run: nproc
+  
+  #  - name: download kernel source and build tools. 
+  #    run: apt-get -y install linux-source-4.9 libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev gcc-arm-linux-gnueabi build-essential git
+  
+    
+  
+  ## if not matched, download cross tools some where
     ## clone repo
-    ##auto bump verison?
+    ##auto bump verison? .. need to grab it first
     ##... configure build script for cross location?
     ## run the build, might take a while
     
