@@ -7,23 +7,23 @@ on: [push]
 jobs:
   build_stretch:
     runs-on: ubuntu-latest
-    container: 'debian:9'
+    #container: 'debian:9'
     env:
       repo_dir: .
       build_needed: no
     
     steps: 
-    - name: update apt
-      run: apt-get update
+   # - name: update apt
+   #   run: apt-get update
     
-    - name: install needed packages
-      run: apt-get -y install curl gawk
+   # - name: install needed packages
+   #   run: apt-get -y install curl gawk
       
     ##curl to get the last version we built
     
     ##apt-cache to get the latest source version
-    - name: get current linux-source version
-      run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee /tmp/stretch_kernel.txt
+   # - name: get current linux-source version
+   #   run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee /tmp/stretch_kernel.txt
   
     - name: nproc
       run: nproc
