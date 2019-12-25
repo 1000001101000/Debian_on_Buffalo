@@ -1,8 +1,8 @@
 name: Update installer images
 
-on: [push] 
- # schedule:
- #   - cron: 32 20 * * *
+on: #[push] 
+  schedule:
+    - cron: 10 * * * *
 
 jobs:
   build:
