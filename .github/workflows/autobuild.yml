@@ -94,12 +94,17 @@ jobs:
       if: env.build_needed == 'yes'
       run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
+      
+    - name: set rebuild needed flag 
+      if: env.build_needed == 'yes'
+      run: echo no > .rebuild
+      working-directory: "${{env.repo_dir}}"
     
     - name: if needed, commit
       if: env.build_needed == 'yes'
       run: git diff --compact-summary; git commit -v -a -m "update installer images"
       working-directory: "${{env.repo_dir}}"
     
-    #- name: commit new images
-    #  if: steps.build_images.outputs.commit_needed == 'yes'
-    #  run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
+    - name: commit new images
+      if: env.build_needed == 'yes'
+      run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
