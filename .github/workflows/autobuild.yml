@@ -42,7 +42,8 @@ jobs:
       working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
     
     - name: copy new images
-      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz
+      if: env.build_needed == 'yes'
+      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
       working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
       
     - name: record hash of base installer image
@@ -52,8 +53,18 @@ jobs:
       
     - name: build stretch armhf installer
       if: env.build_needed == 'yes'
-      run: cd Stretch/installer_images/build/; ./generate_images_armhf.sh
-      working-directory: "${{env.repo_dir}}"
+      run: ./generate_images_armhf.sh
+      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
+      
+    - name: copy new images
+      if: env.build_needed == 'yes'
+      run: cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armhf_devices/; rm output/*
+      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
+      
+    - name: record hash of base installer image
+      if: env.build_needed == 'yes'
+      run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
+      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
       
     - name: build buster armel installer
       if: env.build_needed == 'yes'
@@ -61,7 +72,7 @@ jobs:
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
     
     - name: copy new images
-      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz
+      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
       
     - name: record hash of base installer image
@@ -69,6 +80,20 @@ jobs:
       run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
     
+    - name: build buster armhf installer
+      if: env.build_needed == 'yes'
+      run: ./generate_images_armhf.sh
+      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
+      
+    - name: copy new images
+      if: env.build_needed == 'yes'
+      run: cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armhf_devices/; rm output/*
+      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
+      
+    - name: record hash of base installer image
+      if: env.build_needed == 'yes'
+      run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
+      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
     
     - name: if needed, commit
       if: env.build_needed == 'yes'
