@@ -23,7 +23,7 @@ jobs:
     
     ##apt-cache to get the latest source version
     - name: get current linux-source version
-      run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee > /tmp/stretch_kernel.txt
+      run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee /tmp/stretch_kernel.txt
     ## if not matched, download cross tools some where
     ## clone repo
     ##auto bump verison?
