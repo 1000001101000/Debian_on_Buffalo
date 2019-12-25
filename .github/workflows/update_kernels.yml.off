@@ -1,8 +1,8 @@
 name: Update installer images
 
-on: #[push] 
-  schedule:
-    - cron: 10 * * * *
+on: [push] 
+  #schedule:
+  #  - cron: 10 * * * *
 
 jobs:
   build_4.9:
@@ -16,12 +16,14 @@ jobs:
     - name: update apt
       run: apt-get update
     
-    - name: install curl
-      run: apt-get -y install curl
+    - name: install needed packages
+      run: apt-get -y install curl gawk
       
     ##curl to get the last version we built
     
     ##apt-cache to get the latest source version
+    - name: get current linux-source version
+      run: apt-cache show linux-source-4.9
     
     ## if not matched, download cross tools some where
     ## clone repo
