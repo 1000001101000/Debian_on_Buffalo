@@ -5,7 +5,7 @@ on: [push]
   #  - cron: 10 * * * *
 
 jobs:
-  build_4.9:
+  build_stretch:
     runs-on: ubuntu-latest
     container: 'debian:9'
     env:
