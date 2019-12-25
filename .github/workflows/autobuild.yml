@@ -72,6 +72,7 @@ jobs:
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
     
     - name: copy new images
+      if: env.build_needed == 'yes'
       run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
       
