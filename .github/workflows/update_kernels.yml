@@ -29,7 +29,7 @@ jobs:
       run: apt-get -y install linux-source-4.9 libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev gcc-arm-linux-gnueabi build-essential git
   
     - name: unpack kernel
-      run: tar xf linux-source-$kernel_ver.tar.xz
+      run: tar xf linux-source-4.9.tar.xz
       working-directory: /usr/src/
     
     - name: copy in config
