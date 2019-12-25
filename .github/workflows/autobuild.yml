@@ -105,7 +105,7 @@ jobs:
       run: git diff --compact-summary; git commit -v -a -m "update installer images"
       working-directory: "${{env.repo_dir}}"
     
-    - name: commit new images
+    - name: push changes
       if: env.build_needed == 'yes'
       run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
       working-directory: "${{env.repo_dir}}"
