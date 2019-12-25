@@ -1,0 +1,34 @@
+name: Update installer images
+
+on: #[push] 
+  schedule:
+    - cron: 10 * * * *
+
+jobs:
+  build_4.9:
+    runs-on: ubuntu-latest
+    container: 'debian:9'
+    env:
+      repo_dir: .
+      build_needed: no
+    
+    steps: 
+    - name: update apt
+      run: apt-get update
+    
+    - name: install curl
+      run: apt-get -y install curl
+      
+    ##curl to get the last version we built
+    
+    ##apt-cache to get the latest source version
+    
+    ## if not matched, download cross tools some where
+    ## clone repo
+    ##auto bump verison?
+    ##... configure build script for cross location?
+    ## run the build, might take a while
+    
+    ##copy/commit resulting deb somewhere for testing?
+    
+    ##should be able to do for 4.12, 4.19, 5.x in parellel via buster images.
