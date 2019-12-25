@@ -7,32 +7,41 @@ on: [push]
 jobs:
   build_stretch:
     runs-on: ubuntu-latest
-    #container: 'debian:9'
+    container: 'debian:9'
     env:
       repo_dir: .
       build_needed: no
     
     steps: 
-   # - name: update apt
-   #   run: apt-get update
+    - name: update apt
+      run: apt-get update
     
-   # - name: install needed packages
-   #   run: apt-get -y install curl gawk
+    - name: install needed packages
+      run: apt-get -y install curl gawk
       
     ##curl to get the last version we built
     
     ##apt-cache to get the latest source version
-   # - name: get current linux-source version
-   #   run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee /tmp/stretch_kernel.txt
+    - name: get current linux-source version
+      run: apt-cache show linux-source-4.9 | grep -m 1 Version | gawk '{print $2}' | tee /tmp/stretch_kernel.txt
   
-    - name: nproc
-      run: nproc
+    - name: download kernel source and build tools. 
+      run: apt-get -y install linux-source-4.9 libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev gcc-arm-linux-gnueabi build-essential git
   
-  #  - name: download kernel source and build tools. 
-  #    run: apt-get -y install linux-source-4.9 libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev gcc-arm-linux-gnueabi build-essential git
-  
+    - name: unpack kernel
+      run: tar xf linux-source-$kernel_ver.tar.xz
+      working-directory: /usr/src/
     
-  
+    - name: copy in config
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/kernel_tools/configs/custom-config-4.9 > .config
+      working-directory: /usr/src/linux-source-4.9/
+    
+    - name: make config
+      run: make ARCH=arm oldconfig
+    
+    - name: try make
+      run: make -j$(nproc) ARCH=arm KBUILD_DEBARCH=armel CROSS_COMPILE="arm-linux-gnueabi-" bindeb-pkg
+      
   ## if not matched, download cross tools some where
     ## clone repo
     ##auto bump verison? .. need to grab it first
