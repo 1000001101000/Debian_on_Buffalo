@@ -108,3 +108,4 @@ jobs:
     - name: commit new images
       if: env.build_needed == 'yes'
       run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
+      working-directory: "${{env.repo_dir}}"
