@@ -41,7 +41,7 @@ jobs:
       working-directory: /usr/src/linux-source-4.9/
       
     - name: try make
-      run: make -j4 ARCH=arm KBUILD_DEBARCH=armel CROSS_COMPILE="arm-linux-gnueabi-" bindeb-pkg
+      run: echo make -j$(nproc) ARCH=arm KBUILD_DEBARCH=armel CROSS_COMPILE="arm-linux-gnueabi-" bindeb-pkg
       working-directory: /usr/src/linux-source-4.9/
       
   ## if not matched, download cross tools some where
