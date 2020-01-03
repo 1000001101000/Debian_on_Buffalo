@@ -1,0 +1,37 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Origin: 1000001101000
+Label: Terastation III Kernel
+Suite: stable
+Codename: buster-backports
+Date: Fri, 03 Jan 2020 03:03:49 UTC
+Architectures: armel
+Components: main
+Description: Custom Kernel for MV78100 devices
+MD5Sum:
+ 7cec4f7ad5182e274558aba443dbbe12 539 main/binary-armel/Packages
+ 815178abc42b9f7ef69ba73b239bed14 386 main/binary-armel/Packages.gz
+ a1102104ac8498157c71eecfdcec4031 151 main/binary-armel/Release
+SHA1:
+ f7c1419755e91184a16301d1a9e4ad5c7b7447a4 539 main/binary-armel/Packages
+ 5fd780073b4185f91be6924c5141650cf9836637 386 main/binary-armel/Packages.gz
+ aab14b6a6a5004e557613a2b6b891914ccbdb3b8 151 main/binary-armel/Release
+SHA256:
+ cab54201a28cba2580e32cd6c64207f1cb76a7aebd143394f7f32184279b1bd6 539 main/binary-armel/Packages
+ 0542b342a50a7ea1e7152af6b05f366e16a04326a98762ab7990a669210be3b9 386 main/binary-armel/Packages.gz
+ 07ea8103c7befda541074b613390edcd46a83d32315c97736f8e463e348fa3bd 151 main/binary-armel/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCAAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAl4OrxUACgkQi1xOXH3M
+hYO3AQv/e+hz8RiLVnJIbO9zBQlb4tGz9Bs2sYtEyxtLyQNGTL5ehRKicHR3v3dZ
+RQxRs+Qv3QCiVsuRue3gLt06iHOjIpykZmdPu3Z6D9cti1CDBS9ZA4HqIwFHb9Ia
+b+cuPhhxtes+ctQ9Vvdp/KcQZbe8e/LndTo5ffzzspj+9xsiy25WOslXGhpepswc
+hp6GRLfUnvJFOtPfUKMydV3JSpff/9ehKaqu20Pnz80RrSBfjibv0mv9mbmT8ojM
+uLICFmuxhvMC8D67nbV2RBM8gqSMFtdmHxDqO2q1zc+RyJI3QhNJGFG7AlisFFrM
+X4eHg/wcKARlXgDZ5S7d4OZRTOEEa6M+TJgvN5wrB4WwaLAD2tzw0iw7O1EZf91w
+svo2RF4QABZ87JmtttjUnxsL1R4Z2UHjUeYAwBTb19KBOEo3Fhk5udd7xjAvDV7r
+zniq2q/tgvgUujVP8p++3czz4Z1U7znp4uNRZNilBySHK8aV4QyQYSjH8KcVHVuK
+FHyRIXf1
+=A599
+-----END PGP SIGNATURE-----
