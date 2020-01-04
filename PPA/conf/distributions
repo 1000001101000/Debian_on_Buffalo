@@ -33,3 +33,12 @@ Architectures: armel
 Components: main
 Description: Custom Kernel for MV78100 devices
 SignWith: i000001101000
+
+Origin: 1000001101000
+Label: Terastation III Kernel
+Suite: testing
+Codename: testing
+Architectures: armel
+Components: main
+Description: Custom Kernel for MV78100 devices
+SignWith: i000001101000
