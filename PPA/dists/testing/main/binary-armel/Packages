@@ -16,3 +16,21 @@ Description: Linux kernel, version 4.19.67
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.19.67.
 
+Package: linux-image-5.3.9
+Source: linux-5.3.9
+Version: 5.3.9-1
+Architecture: armel
+Maintainer: root <root@4dd2bc490ee5>
+Installed-Size: 102281
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.3.9/linux-image-5.3.9_5.3.9-1_armel.deb
+Size: 24287484
+SHA256: 3f5cf9a42415bb3d1c3902aeb7549946c2d7351a804dc260a0031a6ae66167af
+SHA1: 5cc0e0e7a95cb38d473d3ece2ee1acfb6a50db12
+MD5sum: 17cc3b0c7ad28bcadf1381c041844e10
+Description: Linux kernel, version 5.3.9
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.3.9.
+
