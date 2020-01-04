@@ -1,0 +1,6 @@
+Archive: testing
+Component: main
+Origin: 1000001101000
+Label: Terastation III Kernel
+Architecture: armel
+Description: Custom Kernel for MV78100 devices
