@@ -54,3 +54,21 @@ Description: Linux kernel, version 5.3.9
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.3.9.
 
+Package: linux-image-5.4.6
+Source: linux-5.4.6
+Version: 5.4.6-1
+Architecture: armel
+Maintainer: root <root@7fbe6899240f>
+Installed-Size: 101368
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.4.6/linux-image-5.4.6_5.4.6-1_armel.deb
+Size: 24187524
+SHA256: 4905459600f35ea114f147c8ab747c64de61be6f880824a952f10287e067c90c
+SHA1: 6464fa49181e3afb0c593834bf5cae2f3155bf90
+MD5sum: b92ad882e7499ca2472d4f8b24fc03f2
+Description: Linux kernel, version 5.4.6
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.4.6.
+
