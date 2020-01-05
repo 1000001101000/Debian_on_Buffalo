@@ -57,18 +57,18 @@ Description: Linux kernel, version 4.12.13
 
 Package: linux-image-4.19.67
 Source: linux-4.19.67
-Version: 4.19.67-3
+Version: 4.19.67-4
 Architecture: armel
-Maintainer: jeremy <jeremy@earth>
-Installed-Size: 101468
+Maintainer: root <root@4dd2bc490ee5>
+Installed-Size: 100710
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.19.67/linux-image-4.19.67_4.19.67-3_armel.deb
-Size: 23977660
-SHA256: 87638c771113bc29b4b794677451f46c46afa7740dc60dbfd050fc1298baa4da
-SHA1: 76ce0df2369d2ec506c99fea9ee1022c6b5bd91a
-MD5sum: 20a23e74fc75326ca3ab3d9f0c52d89d
+Filename: pool/main/l/linux-4.19.67/linux-image-4.19.67_4.19.67-4_armel.deb
+Size: 23924076
+SHA256: 8adb14a82bdd3a643025793aa63af4ac1bee5ad466de0a05468562d6028717ba
+SHA1: 1a89545a98ebc61593fec637918bf08c74c9f98b
+MD5sum: 6d06f2655b7b2cb58bcd3a214455a3dc
 Description: Linux kernel, version 4.19.67
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.19.67.

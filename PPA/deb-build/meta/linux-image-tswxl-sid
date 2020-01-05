@@ -1,0 +1,13 @@
+### Commented entries have reasonable defaults.
+### Uncomment to edit them.
+# Source: <source package name; defaults to package name>
+Section: misc
+Priority: optional
+# Homepage: <enter URL here; no default>
+Standards-Version: 3.9.2
+
+Package: linux-image-tswxl
+Version: 1-sid1
+Depends: linux-image-5.4.6
+Architecture: armel
+Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)

@@ -1,0 +1,20 @@
+Origin: 1000001101000
+Label: Terastation III Kernel
+Suite: unstable
+Codename: sid
+Date: Sun, 05 Jan 2020 03:34:24 UTC
+Architectures: armel
+Components: main
+Description: Custom Kernel for MV78100 devices
+MD5Sum:
+ 9d8cb7663fc520a87b31fc027d245dfb 1134 main/binary-armel/Packages
+ 06bab4ecfddece7799cd8077dee4d466 633 main/binary-armel/Packages.gz
+ efc84fe4ef2d7a907f035163529450e3 153 main/binary-armel/Release
+SHA1:
+ 54f0f7531d0e889f6522b6799b4fd8429c12a295 1134 main/binary-armel/Packages
+ 44c28ba205b09260df08a012f4726286563fe758 633 main/binary-armel/Packages.gz
+ 6a86399e3ea3296e411975b6a4c1af57cb7b49c5 153 main/binary-armel/Release
+SHA256:
+ 654fb535f65b6ec5a02efcb7e37cbc0316120225892e1ab3fb9fbbf0a39b54f8 1134 main/binary-armel/Packages
+ 37524b5ccd9571e806f86dcaab130ec0d407507fd3349c9fcbeed0dd4acc9b18 633 main/binary-armel/Packages.gz
+ 228a274bce134b8dc284102e473b5414a1d365736dc3f2e4f8cbd9adc14920b5 153 main/binary-armel/Release
