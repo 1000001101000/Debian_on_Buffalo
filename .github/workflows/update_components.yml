@@ -127,6 +127,11 @@ jobs:
       
     - name: if needed, copy file to repo
       if: env.commit_needed == 'yes'
+      run: cp -v /tmp/micon_fan_daemon.py Tools/micon_scripts/micon_fan_daemon.py
+      working-directory: "${{env.repo_dir}}"
+      
+    - name: if needed, copy file to repo
+      if: env.commit_needed == 'yes'
       run: cp -v /tmp/micro-evtd-arm* Tools/
       working-directory: "${{env.repo_dir}}"
       
