@@ -69,6 +69,13 @@ jobs:
     - name: check for micon_shutdown.py update
       run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
       
+    - name: check for micon_fan_daemon.py update
+      run: wget -O /tmp/micon_fan_daemon.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/micon_fan_daemon.py" 2>/dev/null; cat /tmp/micon_fan_daemon.py | md5sum > /tmp/source 
+    - name: check for micon_fan_daemon.py update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_fan_daemon.py  2>/dev/null | md5sum > /tmp/dest
+    - name: check for micon_fan_daemon.py update
+      run: diff /tmp/source /tmp/dest || echo "::set-env name=commit_needed::yes"
+      
       ##fw_printenv?
         
     - name: check for updated stretch armel installer
