@@ -65,8 +65,8 @@ while True:
 			fan_speed=2
 		if micon_temp > high_temp:
 			fan_speed=3
-		if micon_temp > shutdown_temp:
-                        os.system('systemctl poweroff')
+		#if micon_temp > shutdown_temp:
+                #        os.system('systemctl poweroff')
 		test.send_write_cmd(1,0x33,fan_speed)
 		if debug == "debug":
 			print("Fan Speed ",fan_speed," Temperature ",micon_temp,"C")
