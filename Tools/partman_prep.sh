@@ -17,14 +17,14 @@ tail -n +$bottom $file >> $new
 
 cp $new $file
 
-echo "CREATE metadata=0.90" >> /etc/mdadm.conf
-echo "CREATE metadata=0.90" >> /tmp/mdadm.conf
+echo "CREATE metadata=1.0" >> /etc/mdadm.conf
+echo "CREATE metadata=1.0" >> /tmp/mdadm.conf
 
 mkdir -p /etc/mdadm/
 mkdir -p /etc/mdadm.conf.d/
 mkdir -p /tmp/mdadm.conf.d/
 
-echo "CREATE metadata=0.90" >> /etc/mdadm/mdadm.conf
-echo "CREATE metadata=0.90" >> /etc/mdadm.conf.d/mdadm.conf
-echo "CREATE metadata=0.90" >> /tmp/mdadm.conf.d/mdadm.conf
+echo "CREATE metadata=1.0" >> /etc/mdadm/mdadm.conf
+echo "CREATE metadata=1.0" >> /etc/mdadm.conf.d/mdadm.conf
+echo "CREATE metadata=1.0" >> /tmp/mdadm.conf.d/mdadm.conf
 exit 0
