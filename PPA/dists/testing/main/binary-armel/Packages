@@ -72,3 +72,21 @@ Description: Linux kernel, version 5.4.6
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.4.6.
 
+Package: linux-image-5.4.8
+Source: linux-5.4.8
+Version: 5.4.8-1
+Architecture: armel
+Maintainer: root <root@a6630dea70f9>
+Installed-Size: 101632
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.4.8/linux-image-5.4.8_5.4.8-1_armel.deb
+Size: 24244804
+SHA256: 5e81aa3969eb5baa49cca4260080e05ff8370014ec14d5d7a31be22206204df0
+SHA1: 94d17918989d7ab2041aee1906492dda389241d8
+MD5sum: 4d0b6312e84ee7a1b3269991a989435d
+Description: Linux kernel, version 5.4.8
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.4.8.
+
