@@ -54,6 +54,24 @@ Description: Linux kernel, version 5.3.9
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.3.9.
 
+Package: linux-image-5.4.13
+Source: linux-5.4.13
+Version: 5.4.13-1
+Architecture: armel
+Maintainer: root <root@8656eaff2cb9>
+Installed-Size: 101688
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.4.13/linux-image-5.4.13_5.4.13-1_armel.deb
+Size: 24249384
+SHA256: 72e40eec5ec347d5b0f5758148a0ed44a14dcc65f65de5902db9aab062c3b899
+SHA1: 53161d5003b558a595c1811cdca9f6f2b3993677
+MD5sum: 0a398b27a1429aadeb015553b17c30b9
+Description: Linux kernel, version 5.4.13
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.4.13.
+
 Package: linux-image-5.4.6
 Source: linux-5.4.6
 Version: 5.4.6-1
