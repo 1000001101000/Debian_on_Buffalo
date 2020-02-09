@@ -7,7 +7,7 @@ Priority: optional
 Standards-Version: 3.9.2
 
 Package: linux-image-tswxl
-Version: 1-sid1
-Depends: linux-image-5.4.6
+Version: 1-sid2
+Depends: linux-image-5.4.13
 Architecture: armel
 Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)

@@ -17,18 +17,18 @@ Description: Linux kernel, version 5.4.6
  files, version: 5.4.6.
 
 Package: linux-image-tswxl
-Version: 1-sid1
+Version: 1-sid2
 Architecture: armel
 Maintainer: Jeremy J. Peper <jeremy@earth>
 Installed-Size: 9
-Depends: linux-image-5.4.6
+Depends: linux-image-5.4.13
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_1-sid1_armel.deb
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_1-sid2_armel.deb
 Size: 2092
-SHA256: 0c4c55a1c3f6e897a0695dac04d031a1a3fd06b0d5d7bae4b6ee4b967d56ae33
-SHA1: af98512ff1d15125686bc0bb52bcb8feb4b067ee
-MD5sum: 72a07a5a0679f0893388042790d723cb
+SHA256: 2f17589a00dd2b9ec6a6d1b80714c89f3691fd1a70fd1e111828c04ba22a544a
+SHA1: 44028be70e4499a88044a93d930b37a7bbcc252e
+MD5sum: b970b30401c7528c0415c8c5fe56f675
 Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)
 
