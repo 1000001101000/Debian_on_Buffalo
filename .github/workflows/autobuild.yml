@@ -100,7 +100,12 @@ jobs:
       if: env.build_needed == 'yes'
       run: echo no > .rebuild
       working-directory: "${{env.repo_dir}}"
-    
+      
+    - name: add new images to repo if needed
+      if: env.build_needed == 'yes'
+      run: git add Buster/installer_images/*; git add Stretch/installer_images/*
+      working-directory: "${{env.repo_dir}}"
+       
     - name: if needed, commit
       if: env.build_needed == 'yes'
       run: git diff --compact-summary; git commit -v -a -m "update installer images"
