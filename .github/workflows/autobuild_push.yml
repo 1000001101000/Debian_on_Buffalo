@@ -1,0 +1,51 @@
+name: Update installer images on push
+
+on: 
+  push:
+    paths: 
+      - '*.dtb'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 'debian:10'
+    env:
+      repo_dir: .
+      build_needed: no
+    
+    steps: 
+    - name: update apt
+      run: apt-get update
+    
+    - name: install curl
+      run: apt-get -y install curl
+    
+    - name: ensure build packages are installed
+      run: apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
+    
+    - name: if needed, clone the repo for build
+      run: git clone --depth 1 https://github.com/${{github.repository}}; echo "::set-env name=repo_dir::$(ls -rt | tail -n 1)"
+    
+    - name: set git user name
+      run: git config user.name "workflow@github"; git config user.email "workflow@github"
+      working-directory: "${{env.repo_dir}}"
+      
+    - name: build buster armel kw installer
+      run: ./generate_images_armel_kw.sh
+      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
+    
+    - name: copy new images
+      run: cp -v output/initrd.buffalo.armel_kw ../armel_devices/kwtest/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/kwtest/;cp -v output/vmlinuz-armel_kw ../armel_devices/kwtest/vmlinuz; rm output/*
+      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"     
+      
+    - name: add new images to repo if needed
+      run: git add Buster/installer_images/*; git add Stretch/installer_images/*
+      working-directory: "${{env.repo_dir}}"
+       
+    - name: if needed, commit
+      run: git diff --compact-summary; git commit -v -a -m "update installer images"
+      working-directory: "${{env.repo_dir}}"
+    
+    - name: push changes
+      run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
+      working-directory: "${{env.repo_dir}}"
