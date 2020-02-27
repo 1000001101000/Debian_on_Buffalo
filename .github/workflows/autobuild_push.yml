@@ -3,7 +3,7 @@ name: Update installer images on push
 on: 
   push:
     paths: 
-      - '*.dtb'
+      - '**.dtb'
   schedule:
     - cron: 05 * * * *
 
