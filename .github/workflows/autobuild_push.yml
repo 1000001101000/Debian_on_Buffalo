@@ -4,6 +4,8 @@ on:
   push:
     paths: 
       - '*.dtb'
+  schedule:
+    - cron: 05 * * * *
 
 jobs:
   build:
