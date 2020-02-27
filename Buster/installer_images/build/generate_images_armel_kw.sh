@@ -255,3 +255,4 @@ rm initrd1
 rm initrd.xz
 rm -r armel-payload/lib/modules/*
 #mv output/uImage.buffalo.tsxel output/uImage-88f6281.buffalo.tsxel
+exit 0
