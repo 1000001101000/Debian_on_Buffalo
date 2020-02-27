@@ -241,7 +241,7 @@ for dtb in $dtb_list
 do
 model="$(echo $dtb | gawk -F- '{print $NF}' | gawk -F. '{print $1}')"
 cat vmlinuz $dtb > tmpkern
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
+faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x01A00000 -e 0x01A00000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
 done
 
 cp vmlinuz output/vmlinuz-armel_kw
