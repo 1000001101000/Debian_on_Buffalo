@@ -164,3 +164,21 @@ Description: Linux kernel, version 5.4.8
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.4.8.
 
+Package: linux-image-5.5.13
+Source: linux-5.5.13
+Version: 5.5.13-1
+Architecture: armel
+Maintainer: root <root@3b5b2e6e36ef>
+Installed-Size: 103180
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.5.13/linux-image-5.5.13_5.5.13-1_armel.deb
+Size: 24585768
+SHA256: b8ee503ef6256968417d070743a20158ee19a9bcbab7e3162605923da526b3de
+SHA1: e3a53e6a4fa024673dfc8419355e170168df5171
+MD5sum: b147566e349ee06feed6ef42b508ede8
+Description: Linux kernel, version 5.5.13
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.5.13.
+
