@@ -1,0 +1,132 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+*
+* Device Tree file for Buffalo Linkstation LS-XL
+*
+ */
+
+/dts-v1/;
+#include "kirkwood.dtsi"
+#include "kirkwood-6281.dtsi"
+
+/ {
+	model = "Buffalo Linkstation LS-XL";
+	compatible = "buffalo,lsxl", "marvell,kirkwood-88f6281", "marvell,kirkwood";
+
+	chosen
+	{
+		bootargs = "console=ttyS0,115200n8 earlyprintk";
+		stdout-path = &uart0;
+	};
+
+	memory
+	{
+		device_type = "memory"; 
+		reg = <0x00000000 0x04000000>; /* 64 MB */
+	};
+	
+	ocp@f1000000
+	{
+		spi@10600 
+		{
+			status = "okay";
+
+			m25p40@0
+			{
+				#address-cells = <1>;
+				#size-cells = <1>;
+				compatible = "st,m25p40", "jedec,spi-nor";
+				reg = <0>;
+				spi-max-frequency = <25000000>;
+				mode = <0>;
+
+				partition@0
+				{
+					reg = <0x0 0x70000>;
+					label = "uboot";
+					read-only;
+				};
+
+				partition@70000
+				{
+					reg = <0x70000 0x10000>;
+					label = "uboot_env";
+					read-only;
+				};
+			};
+		};
+		
+		pinctrl: pin-controller@10000
+		{
+			pmx_led_power: pmx-led-power
+			{
+				marvell,pins = "mpp17";
+				marvell,function = "gpio";
+			};
+		};
+				
+		serial@12000
+		{
+			status = "okay";
+		};
+		
+		sata@80000
+		{
+			nr-ports = <1>;
+			status = "okay";
+		};
+	};
+
+	gpio_leds
+	{
+		compatible = "gpio-leds";
+		pinctrl-0 = <&pmx_led_power>;
+		pinctrl-names = "default";
+
+		power
+		{
+			label = "lsxl:blue:power";
+			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+			default-state = "keep";
+		};
+	};
+
+	restart_poweroff
+	{
+		compatible = "restart-poweroff";
+	};
+};
+
+&mdio 
+{
+	status = "okay";
+	ethphy0: ethernet-phy@0 
+	{
+		device_type = "ethernet-phy";
+		reg = <0>;
+	};
+
+	ethphy1: ethernet-phy@8
+	{
+		device_type = "ethernet-phy";
+		reg = <8>;
+	};
+};
+
+&eth0 
+{
+	status = "okay";
+	ethernet0-port@0 
+	{
+		phy-handle = <&ethphy0>;
+	};
+};
+
+&eth1
+{
+	status = "okay";
+	ethernet1-port@0
+	{
+		phy-handle = <&ethphy1>;
+	};
+};
