@@ -182,3 +182,39 @@ Description: Linux kernel, version 5.5.13
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.5.13.
 
+Package: linux-image-5.5.17
+Source: linux-5.5.17
+Version: 5.5.17-1
+Architecture: armel
+Maintainer: root <root@97d97348f0c0>
+Installed-Size: 103192
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.5.17/linux-image-5.5.17_5.5.17-1_armel.deb
+Size: 24585036
+SHA256: 9946af8f6901e0f647da3828b4cf93c2d07dd20c798625aaa5694c7c3af31457
+SHA1: 92a00092107f722720385ba89bb4a6b0f7108809
+MD5sum: 23d1f19fce2bf8cf8861255009f9e272
+Description: Linux kernel, version 5.5.17
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.5.17.
+
+Package: linux-image-5.6.7
+Source: linux-5.6.7
+Version: 5.6.7-1
+Architecture: armel
+Maintainer: root <root@6e6a54902ef4>
+Installed-Size: 103043
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.6.7/linux-image-5.6.7_5.6.7-1_armel.deb
+Size: 24561000
+SHA256: e4bef51c8a3d76e512a933a8843810578ffedb4e2ac4437553668f2f3f31a7c9
+SHA1: 981081e35190fa50b0d34be37f201e591def0260
+MD5sum: ad086452549163644fd8bfeca779017a
+Description: Linux kernel, version 5.6.7
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.6.7.
+
