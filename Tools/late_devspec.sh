@@ -12,6 +12,7 @@ cp /source/phytool /target/usr/local/bin/
 cp /source/*.dtb /target/etc/flash-kernel/dtbs/
 cp /source/*.db /target/usr/share/flash-kernel/db/
 cp /source/in_target_finish.sh /target/tmp/
+cp /source/runsize.sh /etc/initramfs-tools/scripts/init-bottom/
 
 grep LS4 /proc/device-tree/model > /dev/null
 is_ls400=$?

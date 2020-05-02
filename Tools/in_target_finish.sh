@@ -33,8 +33,7 @@ run_size="$(busybox df -m /run | busybox tail -n 1 | busybox awk '{print $2}')"
 
 ##increase /run if default is too low
 if [ $run_size -lt 20 ]; then
-  echo "tmpfs /run tmpfs nosuid,noexec,size=26M,nr_inodes=4096 0  0" >> /etc/fstab
-  mount -o remount tmpfs
+  mount -o remount,nosuid,noexec,size=26M,nr_inodes=4096 /run
 fi
 
 if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" == "0" ]; then
