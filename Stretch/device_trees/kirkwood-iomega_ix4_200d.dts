@@ -1,0 +1,269 @@
+/*
+ *  Device tree file for the Iomega ix4-200d
+ *
+ * Copyright (c) 2016, bodhi <mibodhi at gmail.com>
+ * Copyright (c) 2015, DaMacc
+ *
+*/
+
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include "kirkwood.dtsi"      
+#include "kirkwood-6281.dtsi" 
+
+/ {
+	model = "Iomega ix4-200d";
+	compatible = "marvell,rd88f6281-a", "marvell,rd88f6281", "marvell,kirkwood-88f6281", "marvell,kirkwood";
+
+memory {                                    
+        device_type = "memory";             
+        reg = <0x00000000 0x20000000>;      
+};                                          
+                                            
+chosen {                                    
+        bootargs = "console=ttyS0,115200n8 earlyprintk";
+        stdout-path = &uart0;               
+};                                          
+                                            
+ocp@f1000000 {
+	pinctrl: pin-controller@10000
+	{
+		spi_pin1: spi-pin1
+		{
+			marvell,pins = "mpp12";
+			marvell,function = "gpio";
+		};
+
+		spi_pin2: spi-pin2
+                {
+                        marvell,pins = "mpp13";
+                        marvell,function = "gpio";
+                };
+
+		select_button_pin: select-button-pin
+                {
+                        marvell,pins = "mpp16";
+                        marvell,function = "gpio";
+                };
+
+		reset_button_pin: reset-button-pin
+                {
+                        marvell,pins = "mpp29";
+                        marvell,function = "gpio";
+                };
+
+		cancel_button_pin: cancel-button-pin
+                {
+                        marvell,pins = "mpp47";
+                        marvell,function = "gpio";
+                };
+
+		power_button_pin: power-button-pin
+                {
+                        marvell,pins = "mpp49";
+                        marvell,function = "gpio";
+                };
+	};
+
+	i2c@11000 {                                
+		status = "okay";                   
+						   
+		adt7473@2e {                       
+			compatible = "adi,adt7473";
+			reg = <0x2e>;              
+		};                                 
+	};
+
+	spi3 {
+		compatible = "spi-gpio";
+		status = "okay";
+		gpio-sck = <&gpio0 13 GPIO_ACTIVE_LOW>;
+		gpio-mosi = <&gpio0 12 GPIO_ACTIVE_LOW>;
+		cs-gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+		num-chipselects = <1>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		gpio_spi: gpio_spi@0 {
+			compatible = "fairchild,74hc595";
+			gpio-controller;
+			#gpio-cells = <2>;
+			reg = <0>;
+			registers-number = <1>;
+			spi-max-frequency = <100000>;
+		};
+	};                           
+
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+	//	led1 {
+	//		label = "led1";
+	//		gpios = <&gpio_spi 0 GPIO_ACTIVE_LOW>;
+	//		default-state = "off";
+	//	};
+
+	//	led2 {
+        //                label = "led2";
+        //                gpios = <&gpio_spi 1 GPIO_ACTIVE_LOW>;
+        //                default-state = "off";
+        //        };
+
+	//	led3 {
+        //                label = "led3";
+        //                gpios = <&gpio_spi 2 GPIO_ACTIVE_LOW>;
+        //                default-state = "off";
+        //        };
+
+	//	led4 {
+        //                label = "led4";
+        //                gpios = <&gpio_spi 3 GPIO_ACTIVE_LOW>;
+        //                default-state = "off";
+        //        };
+
+	//top white, or red?
+		led5 {
+                        label = "led5";
+                        gpios = <&gpio_spi 4 GPIO_ACTIVE_LOW>;
+                        default-state = "off";
+                };
+
+		led6 {
+                        label = "led6";
+                        gpios = <&gpio_spi 5 GPIO_ACTIVE_LOW>;
+                        default-state = "off";
+                };
+
+	//	led7 {
+        //                label = "led7";
+        //                gpios = <&gpio_spi 6 GPIO_ACTIVE_HIGH>;
+        //                default-state = "off";
+        //        };
+
+		led8 {
+                        label = "led8";
+                        gpios = <&gpio_spi 7 GPIO_ACTIVE_HIGH>;
+                        default-state = "on";
+                };
+	};              
+
+	gpio-keys {
+                compatible = "gpio-keys";
+                pinctrl-0 = <&power_button_pin &select_button_pin &cancel_button_pin &reset_button_pin>;
+                pinctrl-names = "default";
+
+                select-button {
+                        label = "Select Button";
+                        linux,code = <KEY_OPTION>;
+                        gpios = <&gpio0 16 GPIO_ACTIVE_HIGH>;
+                };
+
+		reset-button {
+                        label = "Reset Button";
+                        linux,code = <KEY_PROG1>;
+                        gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+                };
+
+                cancel-button {
+                        label = "Cancel Button";
+                        linux,code = <KEY_PROG2>;
+                        gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
+                };
+
+                power-button {
+                        label = "Power Button";
+                        linux,code = <KEY_ESC>;
+                        gpios = <&gpio1 17 GPIO_ACTIVE_LOW>;
+                };
+	};
+	
+        serial@12000 {                               
+                status = "ok";                       
+        };                                           
+                                                     
+        sata@80000 {                                 
+                status = "okay";
+		//status = "disabled";                     
+                nr-ports = <4>;                      
+        };                                           
+                                                     
+};
+
+};
+
+&nand {
+        chip-delay = <40>;
+        status = "okay";
+
+        partition@0 {
+                label = "u-boot";
+                reg = <0x00000000 0x000a0000>;
+                read-only;
+        };
+
+        partition@a0000 {
+                label = "env";
+                reg = <0x000a0000 0x00010000>;
+        };
+
+	partition@b0000 {
+                label = "zImage";
+                reg = <0x000b0000 0x00228000>;
+        };
+
+	partition@2d8000 {
+                label = "initrd";
+                reg = <0x002d8000 0x00300000>;
+        };
+
+        //partition@0500000 {
+        //        label = "rootfs";
+        //        reg = <0x0500000 0x2000000>;
+        //};
+//0x000000000000-0x0000000a0000 : "uboot"
+//0x0000000a0000-0x0000000b0000 : "env"
+//0x0000000b0000-0x0000002d8000 : "zImage"
+//0x0000002d8000-0x0000005d8000 : "initrd"
+//0x000000000000-0x000002000000 : "flash"
+};
+
+&mdio {
+	status = "okay";
+
+	ethphy0: ethernet-phy@8 {
+		device_type = "ethernet-phy";
+		reg = <8>;
+	};
+
+	ethphy1: ethernet-phy@9 {
+		device_type = "ethernet-phy";
+		reg = <9>;
+	};
+};
+
+&eth0 {
+	status = "okay";
+	ethernet0-port@0 {
+		phy-handle = <&ethphy0>;
+	};
+};
+
+&eth1 {
+	status = "okay";
+	ethernet1-port@0 {
+		phy-handle = <&ethphy1>;
+	};
+};
+
+&pciec {
+	status = "okay";
+};
+
+&pcie0 {
+	status = "okay";
+};
+
+
