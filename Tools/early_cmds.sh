@@ -7,6 +7,9 @@ set_mac()
 	ip link set dev "$1" up
 }
 
+depmod
+modprobe leds-gpio
+
 ##special stuff for terastations with mcu
 if [ "$(/source/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
    micon_version="$(/source/micro-evtd -s 8083)"
@@ -28,6 +31,12 @@ if [ "$(/source/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
      /source/micro-evtd -s 02500007,02510002
   fi
 
+  ##enable serial console on ts2pro
+  echo $micon_version | grep HTGL
+  if [ $? -eq 0 ]; then
+     /source/micro-evtd -s 000f
+  fi
+
   ##if device is rack mount set fan to medium (still loud) otherwise set high
   echo $micon_version | grep 'TS-RXL\|RHTGL\|TS-MR\|TS1400R'
   if [ $? -ne 0 ]; then
@@ -40,8 +49,6 @@ fi
 
 ###manually set mac addresses for armada370/xp devices
 if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
-   depmod
-   sleep 10
    rmmod mtdblock
    modprobe marvell
    modprobe spi_orion
