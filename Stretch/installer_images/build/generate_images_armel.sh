@@ -221,14 +221,14 @@ devio 'wl 0xe3a01c06,4' 'wl 0xe3811030,4' > machtype
 cat machtype vmlinuz > katkern
 faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d  katkern output/uImage.buffalo.ts2pro"
 
-dtb_list="$(ls armel-files/dtb/*{orion,kirkwood}*dtb)"
+#dtb_list="$(ls armel-files/dtb/*{orion,kirkwood}*dtb)"
 
-for dtb in $dtb_list
-do
-model="$(echo $dtb | gawk -F- '{print $NF}' | gawk -F. '{print $1}')"
-cat vmlinuz $dtb > tmpkern
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
-done
+#for dtb in $dtb_list
+#do
+#model="$(echo $dtb | gawk -F- '{print $NF}' | gawk -F. '{print $1}')"
+#cat vmlinuz $dtb > tmpkern
+#faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
+#done
 
 dtb_list="$(ls $dtb_dir/*{orion,kirkwood}*dtb)"
 
@@ -250,3 +250,4 @@ rm initrd1
 rm initrd.xz
 rm -r armel-payload/lib/modules/*
 mv output/uImage.buffalo.tsxel output/uImage-88f6281.buffalo.tsxel
+rm output/uImage.buffalo.lschlv2  output/uImage.buffalo.lswtgl  output/uImage.buffalo.lsxl
