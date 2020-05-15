@@ -91,5 +91,4 @@ if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
 
 fi
 
-echo 1 > /var/lib/lowmem
 exit 0
