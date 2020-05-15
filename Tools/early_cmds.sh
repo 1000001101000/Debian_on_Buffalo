@@ -9,6 +9,26 @@ set_mac()
 
 depmod
 modprobe leds-gpio
+modprobe sd_mod
+modprobe sata_mv
+modprobe libata
+modprobe scsi_mod
+sleep 1
+udevadm trigger
+sleep 5
+
+if [ -f "/var/lib/lowmem" ]; then
+  devs="$(ls /sys/block | grep -v mtd)"
+  for dev in $devs
+  do
+    swapon /dev/$dev
+    for x in 1 2 3 4 5 6 7 8
+    do
+      swapon /dev/$dev$x
+    done
+  done
+fi
+
 
 ##special stuff for terastations with mcu
 if [ "$(/source/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
@@ -71,4 +91,5 @@ if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
 
 fi
 
+echo 1 > /var/lib/lowmem
 exit 0
