@@ -2,7 +2,7 @@ name: Update installer images
 
 on: #[push] 
   schedule:
-    - cron: 25 * * * *
+    - cron: 59 * * * *
 
 jobs:
   build:
@@ -53,7 +53,7 @@ jobs:
       
     - name: copy new images
       if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armel-lowmem ../armel_devices/lowmem/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
+      run: cp -v output/initrd.buffalo.armel-lowmem ../armel_devices/lowmem/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/lowmem/; rm output/*
       working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
       
     - name: record hash of base installer image
@@ -93,7 +93,7 @@ jobs:
       
     - name: copy new images
       if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armel-lowmem ../armel_devices/lowmem/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
+      run: cp -v output/initrd.buffalo.armel-lowmem ../armel_devices/lowmem/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/lowmem/;cp -v output/vmlinuz-armel ../armel_devices/lowmem/vmlinuz; rm output/*
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
       
     - name: record hash of base installer image
