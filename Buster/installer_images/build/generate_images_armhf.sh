@@ -4,7 +4,8 @@ tools_dir="../../../Tools"
 distro="buster"
 
 mkdir output 2>/dev/null
-rm -r armhf-payload/*
+rm output/*
+rm -r armhf-payload/* 2>/dev/null
 mkdir -p armhf-payload/source/ 2>/dev/null
 mkdir armhf-files 2>/dev/null
 cd armhf-files
@@ -92,7 +93,7 @@ if [ $? -ne 0 ]; then
         echo "failed to copy kernel, quitting"
         exit
 fi
-rm -r "armhf-files/tmp/"
+rm -r "armhf-files/tmp/" 2>/dev/null
 
 cp armhf-files/initrd.gz .
 if [ $? -ne 0 ]; then

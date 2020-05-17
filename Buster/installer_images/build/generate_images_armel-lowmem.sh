@@ -3,7 +3,7 @@
 
 dtb_dir="../../device_trees"
 tools_dir="../../../Tools"
-distro="stretch"
+distro="buster"
 
 mkdir output 2>/dev/null
 rm output/*

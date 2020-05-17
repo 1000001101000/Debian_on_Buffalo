@@ -4,6 +4,7 @@ tools_dir="../../../Tools"
 distro="stretch"
 
 mkdir output 2>/dev/null
+rm output/*
 rm -r armhf-payload/* 2>/dev/null
 mkdir -p armhf-payload/source/ 2>/dev/null
 mkdir armhf-files 2>/dev/null
