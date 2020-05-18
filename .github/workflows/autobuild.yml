@@ -2,7 +2,7 @@ name: Update installer images
 
 on: #[push] 
   schedule:
-    - cron: 25 * * * *
+    - cron: 40 * * * *
 
 jobs:
   build:
