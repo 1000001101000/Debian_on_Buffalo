@@ -83,7 +83,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 
-#zcat armel-files/initrd.gz | cpio-filter --exclude "lib/modules/*" > initrd1
 zcat armel-files/initrd.gz | \
 cpio-filter --exclude "sbin/wpa_supplicant" | \
 cpio-filter --exclude "*/kernel/drivers/video" | \
@@ -105,22 +104,34 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 
-gzip initrd
+#pigz -9 -k initrd
+#if [ $? -ne 0 ]; then
+#        echo "failed to pack gz initrd, quitting"
+#        exit 99
+#fi
+
+xz --check=crc32 -2e initrd
 if [ $? -ne 0 ]; then
-        echo "failed to pack gz initrd, quitting"
+        echo "failed to pack xz initrd, quitting"
         exit 99
 fi
 
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n installer-initrd -d initrd.gz output/initrd.buffalo.armel-lowmem"
+#faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n installer-initrd -d initrd.gz output/initrd.buffalo.armel-lowmem-gz"
+#if [ $? -ne 0 ]; then
+#        echo "failed to create initrd.buffalo.armel-lowmem-gz, quitting"
+#        exit
+#fi
+
+faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T ramdisk -C gzip -a 0x0 -e 0x0 -n installer-initrd -d initrd.xz output/initrd.buffalo.armel-lowmem"
 if [ $? -ne 0 ]; then
-        echo "failed to create initrd.buffalo.armel-lowmem, quitting"
+        echo "failed to create initrd.buffalo.armel-lowmem-xz, quitting"
         exit
 fi
 
 cp "$(ls armel-files/tmp/boot/vmlinuz*)" vmlinuz
 
 dtb_list="$(ls armel-files/dtb/*{orion,kirkwood}*dtb)"
-dtb_list="$dtb_dir/kirkwood-linkstation-lsxl.dtb $dtb_dir/orion5x-linkstation-lswtgl.dtb $dtb_dir/kirkwood-lschlv2.dtb"
+dtb_list="$dtb_dir/kirkwood-linkstation-lsxl.dtb $dtb_dir/orion5x-linkstation-lswtgl.dtb $dtb_dir/kirkwood-lschlv2.dtb $dtb_dir/orion5x-linkstation-lsgl.dtb"
 
 for dtb in $dtb_list
 do
