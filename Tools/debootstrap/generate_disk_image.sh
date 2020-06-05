@@ -19,6 +19,8 @@ boot_size="512"
 swap_size="1024"
 root_size="2048"
 
+use_raid="Y"
+
 total_size=$((boot_size+swap_size+root_size+1))
 
 boot_size="+""$boot_size""M"
@@ -38,6 +40,10 @@ umount "$target/dev"
 umount "$target/proc"
 umount "$target/sys"
 umount "$target/"
+
+mdadm --stop /dev/md90
+mdadm --stop /dev/md91
+mdadm --stop /dev/md92
 
 ##create potential disk
 image_name="debian_""$distro""_""$arch"".img"
@@ -74,6 +80,15 @@ boot_dev="$base_dev""p1"
 swap_dev="$base_dev""p2"
 root_dev="$base_dev""p3"
 
+if [ "$use_raid" == "Y" ]; then
+  mdadm -C /dev/md90 --metadata=0.90 -l 1 -n 1 "$boot_dev" --force
+  boot_dev="/dev/md90"
+  mdadm -C /dev/md91 --metadata=0.90 -l 1 -n 1 "$swap_dev" --force
+  swap_dev="/dev/md91"
+  mdadm -C /dev/md92 --metadata=0.90 -l 1 -n 1 "$root_dev" --force
+  root_dev="/dev/md92"
+fi
+
 mkfs.ext3 -I 128 "$boot_dev"
 mkswap "$swap_dev"
 mkfs.ext4 "$root_dev"
@@ -88,7 +103,7 @@ mount "$root_dev" "$target"
 mkdir "$target/boot"
 mount "$boot_dev" "$target/boot"
 
-qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools "$distro" "$target" http://deb.debian.org/debian/
+qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm "$distro" "$target" http://deb.debian.org/debian/
 
 echo "$machine" > "$target/etc/flash-kernel/machine"
 
@@ -200,5 +215,10 @@ umount "$target/proc"
 umount "$target/sys"
 umount "$target/dev"
 umount "$target"
+
+mdadm --stop /dev/md90
+mdadm --stop /dev/md91
+mdadm --stop /dev/md92
+
 losetup -D
 
