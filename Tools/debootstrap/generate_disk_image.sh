@@ -32,7 +32,11 @@ if [ "$machine" == "Buffalo Terastation Pro II/Live" ] || [ "$machine" == "Buffa
   has_micon="Y"
 fi
 
-##now armhf devs
+if [ "$machine" == "Buffalo Terastation TS1400D" ] || [ "$machine" == "Buffalo Terastation TS1400R" ] || [ "$machine" == "Buffalo Terastation TS3200D" ]  || [ "$machine" == "Buffalo Terastation TS3400D" ] || [ "$machine" == "Buffalo Terastation TS3400R" ]; then
+  has_micon="Y"
+fi
+
+
 
 ##proably unmount etc in case of unclean exit
 umount "$target/boot"
@@ -103,7 +107,7 @@ mount "$root_dev" "$target"
 mkdir "$target/boot"
 mount "$boot_dev" "$target/boot"
 
-qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm "$distro" "$target" http://deb.debian.org/debian/
+qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial "$distro" "$target" http://deb.debian.org/debian/
 
 echo "$machine" > "$target/etc/flash-kernel/machine"
 
@@ -202,14 +206,25 @@ fi
 
 ##logic for which kernel? simple enough.
 if [ "$arch" == "armhf" ]; then
-   chroot "$target" /bin/bash -c "apt-get -y install linux-image-armmp"
+   if [ "$machine" == "Buffalo Terastation TS3200D" ] || [ "$machine" == "Buffalo Terastation TS3400D" ] || [ "$machine" == "Buffalo Terastation TS3400R" ]; then
+      chroot "$target" /bin/bash -c "apt-get -y install linux-image-armmp-lpae"
+   else
+      chroot "$target" /bin/bash -c "apt-get -y install linux-image-armmp"
+   fi
 fi
 
 if [ "$arch" == "armel" ]; then
-   chroot "$target" /bin/bash -c "apt-get -y install linux-image-marvell"
+   if [ "$machine" == "Buffalo Terastation Pro II/Live" ]; then
+      chroot "$target" /bin/bash -c "wget -O /etc/apt/custom_repo.gpg https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/KEY.gpg"
+      chroot "$target" /bin/bash -c "apt-key add /etc/apt/custom_repo.gpg"
+      echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ $distro main" > "$target/etc/apt/sources.list.d/tsxl_kernel.list"
+      chroot "$target" /bin/bash -c "apt-get update"
+      chroot "$target" /bin/bash -c "apt-get -y install linux-image-tsxl"
+   else
+      chroot "$target" /bin/bash -c "apt-get -y install linux-image-marvell"
+   fi
 fi
 
-##umount?
 umount "$target/boot"
 umount "$target/proc"
 umount "$target/sys"
