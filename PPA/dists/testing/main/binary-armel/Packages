@@ -254,3 +254,21 @@ Description: Linux kernel, version 5.6.7
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.6.7.
 
+Package: linux-image-5.7.6
+Source: linux-5.7.6
+Version: 5.7.6-1
+Architecture: armel
+Maintainer: root <root@9dc059687379>
+Installed-Size: 103159
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.7.6/linux-image-5.7.6_5.7.6-1_armel.deb
+Size: 24618148
+SHA256: 2679a4fdced3d09ce820222a827626c7bdffc718eff8fa9f9b57059960bafe02
+SHA1: 19e1b3131f1dbdf3c60b98f00cac2d14e35fe606
+MD5sum: 1772306bbf87acfec9bdfec6043d8fc9
+Description: Linux kernel, version 5.7.6
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.7.6.
+
