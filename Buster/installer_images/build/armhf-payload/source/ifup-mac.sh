@@ -13,3 +13,4 @@ fi
 
 ip link set dev eth0 address "$eth0mac"
 
+exit 0
