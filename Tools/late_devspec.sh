@@ -13,18 +13,8 @@ cp /source/*.dtb /target/etc/flash-kernel/dtbs/
 cp /source/*.db /target/usr/share/flash-kernel/db/
 cp /source/in_target_finish.sh /target/tmp/
 cp /source/runsize.sh /target/etc/initramfs-tools/scripts/init-bottom/
-
-grep LS4 /proc/device-tree/model > /dev/null
-is_ls400=$?
-grep TS12 /proc/device-tree/model > /dev/null
-is_ts1200=$?
-grep VL /proc/device-tree/model > /dev/null
-is_vseries=$?
-grep XL /proc/device-tree/model > /dev/null
-is_xseries=$?
-if [ $is_ls400 -eq 0 ] || [ $is_ts1200 -eq 0 ] || [ $is_vseries -eq 0 ] || [ $is_xseries -eq 0 ]; then
-      cp /source/phy_restart.sh /target/usr/local/bin/
-fi
+cp /source/phy_restart.sh /target/usr/local/bin/
+cp /source/rtc_restart.sh /target/usr/local/bin/
 
 machine=`sed -n '/Hardware/ {s/^Hardware\s*:\s//;p}' /proc/cpuinfo`
 case $machine in
@@ -37,6 +27,8 @@ case $machine in
 	echo "/dev/mtdblock1 0x00000 0x10000 0x10000" > /target/etc/fw_env.config ;;
 	"Buffalo Terastation Pro II/Live")
 	echo "/dev/mtdblock0 0x0003f000 0x1000 0x1000" > /target/etc/fw_env.config ;;
+	"Buffalo Linkstation LS-QL")
+	echo "/dev/mtdblock2 0x0000 0x1000" > /target/etc/fw_env.config ;;
 	"Buffalo Linkstation LS-WXL")
         echo "/dev/mtdblock2 0x00000 0x10000 0x10000" > /target/etc/fw_env.config ;;
 	*)
