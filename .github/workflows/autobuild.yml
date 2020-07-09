@@ -2,7 +2,7 @@ name: Update installer images
 
 on: #[push] 
   schedule:
-    - cron: 40 * * * *
+    - cron: 55 * * * *
 
 jobs:
   build:
@@ -46,16 +46,6 @@ jobs:
       run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
       working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
       
-    - name: build stretch armel lowmem installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armel-lowmem.sh
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armel-lowmem ../armel_devices/lowmem/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/lowmem/; rm output/*
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
     - name: record hash of base installer image
       if: env.build_needed == 'yes'
       run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
@@ -85,17 +75,7 @@ jobs:
       if: env.build_needed == 'yes'
       run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
       working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-      
-    - name: build buster armel lowmem installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armel-lowmem.sh
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-      
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armel-lowmem ../armel_devices/lowmem/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/lowmem/;cp -v output/vmlinuz-armel ../armel_devices/lowmem/vmlinuz; rm output/*
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-      
+        
     - name: record hash of base installer image
       if: env.build_needed == 'yes'
       run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
