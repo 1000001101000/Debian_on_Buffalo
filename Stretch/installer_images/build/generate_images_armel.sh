@@ -35,7 +35,6 @@ cd ..
 rm -r armel-payload/lib/modules/* 2>/dev/null
 rsync -rtWhmv --include "*/" \
 --include="*/drivers/md/*" \
---include="dm-persistent-data.ko" \
 --include="af_alg.ko" \
 --include="af_packet.ko" \
 --include="algif_skcipher.ko" \
@@ -63,30 +62,6 @@ rsync -rtWhmv --include "*/" \
 --include="crc-itu-t.ko" \
 --include="ctr.ko" \
 --include="dax.ko" \
---include="dm-bio-prison.ko" \
---include="dm-bufio.ko" \
---include="dm-cache.ko" \
---include="dm-cache-smq.ko" \
---include="dm-crypt.ko" \
---include="dm-delay.ko" \
---include="dm-era.ko" \
---include="dm-flakey.ko" \
---include="dm-log.ko" \
---include="dm-log-userspace.ko" \
---include="dm-log-writes.ko" \
---include="dm-mirror.ko" \
---include="dm-mod.ko" \
---include="dm-multipath.ko" \
---include="dm-queue-length.ko" \
---include="dm-raid.ko" \
---include="dm-region-hash.ko" \
---include="dm-round-robin.ko" \
---include="dm-service-time.ko" \
---include="dm-snapshot.ko" \
---include="dm-switch.ko" \
---include="dm-thin-pool.ko" \
---include="dm-verity.ko" \
---include="dm-zero.ko" \
 --include="ecb.ko" \
 --include="ext4.ko" \
 --include="fat.ko" \
@@ -201,7 +176,7 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 
-cat initrd | xz --check=crc32 -9e > initrd.xz
+cat initrd | xz --check=crc32 -7e > initrd.xz
 if [ $? -ne 0 ]; then
         echo "failed to pack initrd, quitting"
         exit
