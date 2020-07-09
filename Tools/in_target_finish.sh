@@ -68,23 +68,15 @@ if [ "$(/usr/local/bin/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
 
 	##signal restart rather than shutdown
 	/usr/local/bin/micro-evtd -s 013500,0003,000c,014618
-fi
-
-grep LS4 /proc/device-tree/model > /dev/null
-is_ls400=$?
-grep TS12 /proc/device-tree/model > /dev/null
-is_ts1200=$?
-grep VL /proc/device-tree/model > /dev/null
-is_vseries=$?
-grep XL /proc/device-tree/model > /dev/null
-is_xseries=$?
-if [ $is_ls400 -eq 0 ] || [ $is_ts1200 -eq 0 ] || [ $is_vseries -eq 0 ] || [ $is_xseries -eq 0 ]; then
-      ln -s /usr/local/bin/phy_restart.sh /lib/systemd/system-shutdown/phy_restart.sh
-fi
-
-if [ "$machine" == "Buffalo Linkstation LS441D" ] || [ "$machine" == "Buffalo Linkstation LS-QVL" ]; then
-   /usr/local/bin/phytool write eth0/0/22 3 && /usr/local/bin/phytool write eth0/0/16 0x0981
-   /usr/local/bin/phytool write eth0/0/22 0
+else
+  if [ "$machine" == "Buffalo Linkstation LS-QL" ]; then
+    ln -s /usr/local/bin/rtc_restart.sh /lib/systemd/system-shutdown/rtc_restart.sh
+    i2cset -y -f 0 0x32 0xB0 0x18
+  else
+    ln -s /usr/local/bin/phy_restart.sh /lib/systemd/system-shutdown/phy_restart.sh
+    /usr/local/bin/phytool write eth0/0/22 3 && /usr/local/bin/phytool write eth0/0/16 0x0981
+    /usr/local/bin/phytool write eth0/0/22 0
+  fi
 fi
 
 apt-get install -y flash-kernel

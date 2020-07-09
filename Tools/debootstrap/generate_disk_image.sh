@@ -107,7 +107,7 @@ mount "$root_dev" "$target"
 mkdir "$target/boot"
 mount "$boot_dev" "$target/boot"
 
-qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial "$distro" "$target" http://deb.debian.org/debian/
+qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial,i2c-tools,xz-utils "$distro" "$target" http://deb.debian.org/debian/
 
 echo "$machine" > "$target/etc/flash-kernel/machine"
 
@@ -138,6 +138,7 @@ cp ../micon_scripts/*.service "$target/etc/systemd/system/"
 chmod 755 "$target/usr/local/bin/micon_scripts/*.py"
 cp "../phytool-$arch" "$target/usr/local/bin/phytool"
 cp "../phy_restart.sh" "$target/usr/local/bin/"
+cp "../rtc_restart.sh" "$target/usr/local/bin/"
 cp "../ifup-mac.sh" "$target/usr/local/bin/"
 
 ##distro specific dtbs
@@ -201,7 +202,11 @@ if [ "$has_micon" == "Y" ]; then
    chroot "$target" /bin/bash -c "systemctl enable micon_boot.service"
    chroot "$target" /bin/bash -c "systemctl enable micon_fan_daemon.service"
 else
-   chroot "$target" /bin/bash -c "ln -s /usr/local/bin/phy_restart.sh /lib/systemd/system-shutdown/phy_restart.sh"
+   if [ "$machine" == "Buffalo Linkstation LS-QL" ]; then
+     chroot "$target" /bin/bash -c "ln -s /usr/local/bin/rtc_restart.sh /lib/systemd/system-shutdown/rtc_restart.sh"
+   else
+     chroot "$target" /bin/bash -c "ln -s /usr/local/bin/phy_restart.sh /lib/systemd/system-shutdown/phy_restart.sh"
+   fi
 fi
 
 ##logic for which kernel? simple enough.
