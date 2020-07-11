@@ -1,3 +1,18 @@
+#!/bin/sh
+PREREQ=""
+prereqs()
+{
+     echo "$PREREQ"
+}
+
+case $1 in
+prereqs)
+     prereqs
+     exit 0
+     ;;
+esac
+
+
 devs="$(ls /sys/block | grep -v mtd)"
 for dev in $devs
 do
