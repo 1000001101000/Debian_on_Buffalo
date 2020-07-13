@@ -19,7 +19,7 @@ boot_size="512"
 swap_size="1024"
 root_size="2048"
 
-use_raid="Y"
+use_raid="N"
 
 total_size=$((boot_size+swap_size+root_size+1))
 
@@ -160,8 +160,10 @@ echo m25p80 >> "$target/etc/modules"
 
 cp ../runsize.sh "$target/etc/initramfs-tools/scripts/init-bottom/"
 
-echo "sata_mv" >> "$target/etc/initramfs-tools/modules"
-echo "libata" >> "$target/etc/initramfs-tools/modules"
+for module in sata_mv libata ahci libahci
+do
+  echo $module >> "$target/etc/initramfs-tools/modules"
+done
 
 ##set users and passwords
 echo "#!/bin/bash" >> "$target/users.sh"
@@ -235,6 +237,10 @@ umount "$target/proc"
 umount "$target/sys"
 umount "$target/dev"
 umount "$target"
+
+umount /dev/md90
+umount /dev/md91
+umount /dev/md92
 
 mdadm --stop /dev/md90
 mdadm --stop /dev/md91
