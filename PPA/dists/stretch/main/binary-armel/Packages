@@ -38,6 +38,26 @@ Description: Linux kernel, version 4.9.189
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.9.189.
 
+Package: linux-image-4.9.228
+Source: linux-4.9.228
+Version: 4.9.228-2
+Architecture: armel
+Maintainer: Anonymous <root@1250ad89d154>
+Installed-Size: 91012
+Suggests: linux-firmware-image-4.9.228
+Provides: linux-image, linux-image-2.6, linux-modules-4.9.228
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9.228/linux-image-4.9.228_4.9.228-2_armel.deb
+Size: 21840032
+SHA256: 5c8d5e9aefb391368b4bded334f69c3fbdf7d97f16857277a40b87df6170ba61
+SHA1: 5dedec14d80b7303c9c6339d83c6e7ae23d5f95c
+MD5sum: cc50b476b7888cfcd115f6c8a57496ff
+Description: Linux kernel, version 4.9.228
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.9.228.
+
 Package: linux-image-tswxl
 Version: 4.9-4
 Architecture: armel
