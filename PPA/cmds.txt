@@ -1,3 +1,4 @@
+equivs-build --arch armel ns-control
 reprepro -v --component main includedeb stretch deb-build/*.deb
 
 

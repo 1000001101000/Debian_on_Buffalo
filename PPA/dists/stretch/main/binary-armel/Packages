@@ -39,34 +39,34 @@ Description: Linux kernel, version 4.9.189
  files, version: 4.9.189.
 
 Package: linux-image-tswxl
-Version: 4.9-2
+Version: 4.9-4
 Architecture: armel
 Maintainer: Jeremy J. Peper <jeremy@earth>
 Installed-Size: 9
-Depends: linux-image-4.9.210
+Depends: linux-image-4.9.228
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-2_armel.deb
-Size: 2096
-SHA256: 339477c92f44b06d996d735cfe29f98b3af7c885cfb8a6403c32ed1af3135b8b
-SHA1: c047159f1688646d8d8d40badc937baef63a49c4
-MD5sum: 605c7c9cc9f148cceca7570594337d9f
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-4_armel.deb
+Size: 2092
+SHA256: 8b5a0e7024dd5574d6c8b7ca34366b849ae4eea9ae3043619e37a3bf97b6e1a8
+SHA1: 77b8056b5364b35ffaa72648bc5d14229329a930
+MD5sum: 5639e884233359798c110927931f78b1
 Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)
 
 Package: linux-image-tsxl
-Version: 4.9-0
+Version: 4.9-4
 Architecture: armel
 Maintainer: Jeremy J. Peper <jeremy@earth>
 Installed-Size: 9
-Depends: linux-image-4.9.189
+Depends: linux-image-4.9.228
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9-0_armel.deb
-Size: 2076
-SHA256: 024fd6685006b8d95a63e972d2560edc244989fb2b5c04aa2840e3dee4efe859
-SHA1: fc8d265d39b0cc75227dc93dbaa2c563d5253965
-MD5sum: 195b61343d6c22760f159d35d94315ba
+Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9-4_armel.deb
+Size: 2084
+SHA256: e866953ba53372941f5d006d9667ad81de5ddab6a107e73468a8d0ff838ef617
+SHA1: e46925e880a818f4e93dd5619bdec7fb9fe9e759
+MD5sum: 06afa00c3cb5378a8226e3bf4d92074f
 Description: linux-image metapackage for custom Terastation III kernels
 
