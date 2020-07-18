@@ -110,19 +110,19 @@ Description: Linux kernel, version 4.19.98
  files, version: 4.19.98.
 
 Package: linux-image-tswxl
-Version: 4.19-2
+Version: 4.19-4
 Architecture: armel
 Maintainer: Jeremy J. Peper <jeremy@earth>
 Installed-Size: 9
-Depends: linux-image-4.19.98
+Depends: linux-image-4.19.118
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.19-2_armel.deb
-Size: 2096
-SHA256: 6f73afb78b09a4ce593d9105814acb8493634b2bf2713264376ff300adaeebaf
-SHA1: 73597441a843a0bbdfbbe3699cb19e39c85145df
-MD5sum: 455af9ca24ec6baa403033e1485968d0
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.19-4_armel.deb
+Size: 2102
+SHA256: a7a69e015797c95c01630e47f622e61e15c16197d50d4134f99508b582460b37
+SHA1: 9a92f12e6ceb98db5d9ea256e3d722b1f8d4eeeb
+MD5sum: 1d579f2a8c36cfe20bca744466d26937
 Description: linux-image metapackage for custom kernels for the TS-WXL only (no pci)
 
 Package: linux-image-tsxl
