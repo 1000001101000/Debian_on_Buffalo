@@ -20,23 +20,21 @@ swap_size="1024"
 root_size="2048"
 
 use_raid="N"
-
-total_size=$((boot_size+swap_size+root_size+1))
-
-boot_size="+""$boot_size""M"
-swap_size="+""$swap_size""M"
-
 has_micon="N"
 
 if [ "$machine" == "Buffalo Terastation Pro II/Live" ] || [ "$machine" == "Buffalo Terastation TS-XEL" ] || [ "$machine" == "Buffalo Nas WXL" ] || [ "$machine" == "Buffalo Terastation III" ] || [ "$machine" == "Buffalo Linkstation Pro/Live" ] || [ "$machine" == "Buffalo/Revogear Kurobox Pro" ]; then
   has_micon="Y"
 fi
 
+chroot_only="N"
+
 if [ "$machine" == "Buffalo Terastation TS1400D" ] || [ "$machine" == "Buffalo Terastation TS1400R" ] || [ "$machine" == "Buffalo Terastation TS3200D" ]  || [ "$machine" == "Buffalo Terastation TS3400D" ] || [ "$machine" == "Buffalo Terastation TS3400R" ]; then
   has_micon="Y"
 fi
 
-
+if [ "$machine" == "Buffalo Linkstation LS510D" ] || [ "$machine" == "Buffalo Linkstation LS520D" ]; then
+  chroot_only="Y"
+fi
 
 ##proably unmount etc in case of unclean exit
 umount "$target/boot"
@@ -49,10 +47,22 @@ mdadm --stop /dev/md90
 mdadm --stop /dev/md91
 mdadm --stop /dev/md92
 
+losetup -D
+
+if [ $chroot_only == "Y" ]; then
+  total_size=$((root_size+2))
+  root_size="+""$root_size""M"
+else
+  total_size=$((boot_size+swap_size+root_size+2))
+  boot_size="+""$boot_size""M"
+  swap_size="+""$swap_size""M"
+fi
+
 ##create potential disk
 image_name="debian_""$distro""_""$arch"".img"
 dd if=/dev/zero of="$image_name" bs=1M count=$total_size
 
+if [ $chroot_only != "Y" ]; then
 ##partition the disk image
 fdisk "$image_name" <<EOF
 
@@ -74,6 +84,19 @@ p
 p
 w
 EOF
+else
+fdisk "$image_name" <<EOF
+
+n
+p
+1
+
+$root_size
+
+p
+w
+EOF
+fi
 
 ##create loop devs out of partitions
 losetup -D
@@ -93,9 +116,14 @@ if [ "$use_raid" == "Y" ]; then
   root_dev="/dev/md92"
 fi
 
-mkfs.ext3 -I 128 "$boot_dev"
-mkswap "$swap_dev"
-mkfs.ext4 "$root_dev"
+if [ $chroot_only == "Y" ]; then
+  root_dev="$base_dev""p1"
+  mkfs.ext3 "$root_dev"
+else
+  mkfs.ext3 -I 128 "$boot_dev"
+  mkswap "$swap_dev"
+  mkfs.ext4 "$root_dev"
+fi
 
 boot_id="$(blkid -o export $boot_dev | grep -e ^UUID= | awk -F= '{print $2}')"
 swap_id="$(blkid -o export $swap_dev | grep -e ^UUID= | awk -F= '{print $2}')"
@@ -104,8 +132,11 @@ root_id="$(blkid -o export $root_dev | grep -e ^UUID= | awk -F= '{print $2}')"
 ##mount them as neeeded
 mkdir "$target"
 mount "$root_dev" "$target"
-mkdir "$target/boot"
-mount "$boot_dev" "$target/boot"
+
+if [ $chroot_only != "Y" ]; then
+  mkdir "$target/boot"
+  mount "$boot_dev" "$target/boot"
+fi
 
 qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial,i2c-tools,xz-utils "$distro" "$target" http://deb.debian.org/debian/
 
@@ -117,6 +148,15 @@ mount -o bind /dev "$target/dev/"
 
 #add prereq for qemu
 cp /usr/bin/qemu-arm-static "$target/usr/bin/"
+
+if [ $chroot_only != "Y" ]; then
+  umount "$target/proc"
+  umount "$target/sys"
+  umount "$target/dev"
+  umount "$target"
+  losetup -D
+  exit 0
+fi
 
 ##generate fstab
 echo -e "UUID=$root_id\t/\text4\terrors=remount-ro\t0\t1" >> "$target/etc/fstab"
