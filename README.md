@@ -1,5 +1,5 @@
 # Debian_on_Buffalo
-Tools for Installing/Running Debian on Buffalo Linkstation/Terastation (TS-XEL, LS4XX, LS2XX, TS1XXX and TS3X00) 
+Tools for Installing/Running Debian on all ARM-based Buffalo Linkstation/Terastation devices.
 
 If this project helps you click the Star at the top of the page to let me know!
 
