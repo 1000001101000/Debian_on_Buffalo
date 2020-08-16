@@ -308,14 +308,14 @@
 		{
 			label = "u-boot";
 			reg = <0x00000 0xf0000>;
-			read-only;
+
 		};
 
 		partition@f0000
 		{
 			label = "u-boot-env";
 			reg = <0xf0000 0x10000>;
-			read-only;
+
 		};
 	};
 };
