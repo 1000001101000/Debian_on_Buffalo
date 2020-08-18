@@ -149,7 +149,7 @@ mount -o bind /dev "$target/dev/"
 #add prereq for qemu
 cp /usr/bin/qemu-arm-static "$target/usr/bin/"
 
-if [ $chroot_only != "Y" ]; then
+if [ $chroot_only == "Y" ]; then
   umount "$target/proc"
   umount "$target/sys"
   umount "$target/dev"
