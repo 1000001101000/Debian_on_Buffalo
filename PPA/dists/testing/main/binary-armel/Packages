@@ -346,6 +346,24 @@ Description: Linux kernel, version 5.7.6
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.7.6.
 
+Package: linux-image-5.8.10
+Source: linux-5.8.10
+Version: 5.8.10-1
+Architecture: armel
+Maintainer: root <root@df3627e9f24b>
+Installed-Size: 104127
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.8.10/linux-image-5.8.10_5.8.10-1_armel.deb
+Size: 24846172
+SHA256: a587f69ebd5cbb741fef72847a8677e0580b81730c2d1a850f08adf997d3c1c6
+SHA1: 53b785dc720bd2df131fdf1b8f5eca5672ba701e
+MD5sum: 438f664c6cbc8efbd976a96c04b44c53
+Description: Linux kernel, version 5.8.10
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.8.10.
+
 Package: linux-image-5.8.7
 Source: linux-5.8.7
 Version: 5.8.7-1
