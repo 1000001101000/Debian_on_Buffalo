@@ -418,3 +418,21 @@ Description: Linux kernel, version 5.8.7
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.8.7.
 
+Package: linux-image-5.9.1
+Source: linux-5.9.1
+Version: 5.9.1-1
+Architecture: armel
+Maintainer: root <root@ab55029a07d7>
+Installed-Size: 104492
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.9.1/linux-image-5.9.1_5.9.1-1_armel.deb
+Size: 24959000
+SHA256: cc529ad22a046548d2737ac40252dd637eb5907001c551f54ded5ac8e73a8a11
+SHA1: 18b5b6c6eb2ca1cb348880ab68f85533010dc9d9
+MD5sum: 060b21fd7248d101a4129612b8a6d4b9
+Description: Linux kernel, version 5.9.1
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.9.1.
+
