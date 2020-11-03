@@ -38,19 +38,19 @@ Description: Linux kernel headers for 4.19.67 on armel
 
 Package: linux-image-4.12.13
 Source: linux-4.12.13
-Version: 4.12.13-3
+Version: 4.12.13-4
 Architecture: armel
 Maintainer: Anonymous <root@earth>
-Installed-Size: 93465
+Installed-Size: 92962
 Suggests: linux-firmware-image-4.12.13
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-3_armel.deb
-Size: 22324432
-SHA256: 6669d47f0eb7f8d87897cf8c77684a7bc1b5959bd318169985da429805b0f561
-SHA1: 674c9bfd2ef22165f007d0a80157738aa78b55bc
-MD5sum: de300ea1984480347389287fc5b33516
+Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-4_armel.deb
+Size: 22222754
+SHA256: 689389f693ad8d359147971ad9f73952aa98c2c523584ca3f0aa47c04c39c12d
+SHA1: 59333c3a887af432dfd2788d1c5c60ac57f305ac
+MD5sum: b58492b83ef772748a1763bad2524a6d
 Description: Linux kernel, version 4.12.13
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.12.13.
