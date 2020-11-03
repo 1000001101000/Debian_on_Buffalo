@@ -1,0 +1,12 @@
+diff -uNr vanilla-source-4.12/drivers/md/md.c linux-source-4.12/drivers/md/md.c
+--- vanilla-source-4.12/drivers/md/md.c	2020-11-03 14:02:32.578065104 -0600
++++ linux-source-4.12/drivers/md/md.c	2020-11-03 14:05:51.963060860 -0600
+@@ -2275,7 +2275,7 @@
+ 
+ static bool set_in_sync(struct mddev *mddev)
+ {
+-	WARN_ON_ONCE(!spin_is_locked(&mddev->lock));
++	WARN_ON_ONCE(NR_CPUS != 1 && !spin_is_locked(&mddev->lock));
+ 	if (!mddev->in_sync) {
+ 		mddev->sync_checkers++;
+ 		spin_unlock(&mddev->lock);

@@ -1,0 +1,94 @@
+diff -uNr vanilla-source-4.12/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c linux-source-4.12/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c
+--- vanilla-source-4.12/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c	2020-11-03 13:25:01.216065195 -0600
++++ linux-source-4.12/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c	2020-11-03 13:30:27.915112031 -0600
+@@ -122,6 +122,8 @@
+ 	mv78xx0_uart1_init();
+ 	mv78xx0_uart2_init();
+ 	mv78xx0_uart3_init();
++	mv78xx0_xor_init();
++	mv78xx0_crypto_init();
+ 	mv78xx0_i2c_init();
+ 	i2c_register_board_info(0, &db78x00_i2c_rtc, 1);
+ }
+diff -uNr vanilla-source-4.12/arch/arm/mach-mv78xx0/common.c linux-source-4.12/arch/arm/mach-mv78xx0/common.c
+--- vanilla-source-4.12/arch/arm/mach-mv78xx0/common.c	2020-11-03 13:25:01.216065195 -0600
++++ linux-source-4.12/arch/arm/mach-mv78xx0/common.c	2020-11-03 13:34:21.747568112 -0600
+@@ -344,6 +344,29 @@
+ 			IRQ_MV78XX0_TIMER_1, get_tclk());
+ }
+ 
++/****************************************************************************
++* XOR engine
++****************************************************************************/
++void __init mv78xx0_xor_init(void)
++{
++	orion_xor0_init(XOR_PHYS_BASE,
++		XOR_PHYS_BASE + 0x200,
++		IRQ_MV78XX0_XOR_0, IRQ_MV78XX0_XOR_1);
++}
++
++/****************************************************************************
++ * Cryptographic Engines and Security Accelerator (CESA)
++****************************************************************************/
++void __init mv78xx0_crypto_init(void)
++{
++	mvebu_mbus_add_window_by_id(MV78XX0_MBUS_SRAM_TARGET,
++				MV78XX0_MBUS_SRAM_ATTR,
++				MV78XX0_SRAM_PHYS_BASE,
++			MV78XX0_SRAM_SIZE);
++	orion_crypto_init(CRYPTO_PHYS_BASE, MV78XX0_SRAM_PHYS_BASE,
++		SZ_8K, IRQ_MV78XX0_CRYPTO);
++}
++
+ 
+ /*****************************************************************************
+  * General
+diff -uNr vanilla-source-4.12/arch/arm/mach-mv78xx0/common.h linux-source-4.12/arch/arm/mach-mv78xx0/common.h
+--- vanilla-source-4.12/arch/arm/mach-mv78xx0/common.h	2020-11-03 13:25:01.216065195 -0600
++++ linux-source-4.12/arch/arm/mach-mv78xx0/common.h	2020-11-03 13:35:11.814811624 -0600
+@@ -46,6 +46,8 @@
+ void mv78xx0_uart1_init(void);
+ void mv78xx0_uart2_init(void);
+ void mv78xx0_uart3_init(void);
++void mv78xx0_xor_init(void);
++void mv78xx0_crypto_init(void);
+ void mv78xx0_i2c_init(void);
+ void mv78xx0_restart(enum reboot_mode, const char *);
+ 
+diff -uNr vanilla-source-4.12/arch/arm/mach-mv78xx0/mv78xx0.h linux-source-4.12/arch/arm/mach-mv78xx0/mv78xx0.h
+--- vanilla-source-4.12/arch/arm/mach-mv78xx0/mv78xx0.h	2020-11-03 13:25:01.216065195 -0600
++++ linux-source-4.12/arch/arm/mach-mv78xx0/mv78xx0.h	2020-11-03 13:39:52.406574208 -0600
+@@ -52,9 +52,15 @@
+ #define MV78XX0_REGS_VIRT_BASE		IOMEM(0xfd000000)
+ #define MV78XX0_REGS_SIZE		SZ_1M
+ 
++#define MV78XX0_SRAM_PHYS_BASE          (0xf2200000)
++#define MV78XX0_SRAM_SIZE               SZ_8K
++
+ #define MV78XX0_PCIE_MEM_PHYS_BASE	0xc0000000
+ #define MV78XX0_PCIE_MEM_SIZE		0x30000000
+ 
++#define MV78XX0_MBUS_SRAM_TARGET       0x09
++#define MV78XX0_MBUS_SRAM_ATTR         0x00
++
+ /*
+  * Core-specific peripheral registers.
+  */
+@@ -101,6 +107,8 @@
+ #define USB1_PHYS_BASE		(MV78XX0_REGS_PHYS_BASE + 0x51000)
+ #define USB2_PHYS_BASE		(MV78XX0_REGS_PHYS_BASE + 0x52000)
+ 
++#define XOR_PHYS_BASE		(MV78XX0_REGS_PHYS_BASE + 0x60900)
++
+ #define GE00_PHYS_BASE		(MV78XX0_REGS_PHYS_BASE + 0x70000)
+ #define GE01_PHYS_BASE		(MV78XX0_REGS_PHYS_BASE + 0x74000)
+ 
+@@ -109,6 +117,8 @@
+ #define PCIE12_VIRT_BASE	(MV78XX0_REGS_VIRT_BASE + 0x88000)
+ #define PCIE13_VIRT_BASE	(MV78XX0_REGS_VIRT_BASE + 0x8c000)
+ 
++#define CRYPTO_PHYS_BASE	(MV78XX0_REGS_PHYS_BASE + 0x90000)
++
+ #define SATA_PHYS_BASE		(MV78XX0_REGS_PHYS_BASE + 0xa0000)
+ 
+ /*
