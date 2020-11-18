@@ -7,7 +7,7 @@ set_mac()
 	ip link set dev "$1" up
 }
 
-depmod
+depmod -a
 modprobe leds-gpio
 modprobe sd_mod
 modprobe sata_mv
@@ -29,9 +29,16 @@ if [ -f "/var/lib/lowmem" ]; then
   done
 fi
 
-
+###try a few times since this has been failing
+###not sure if we're waiting for devices to be created or what
+###only started when I added micro-evtd autosetect logic, may need to revisit
+sleep 10
+/source/micro-evtd -s 0003
+sleep 10
+/source/micro-evtd -s 8083
 ##special stuff for terastations with mcu
-if [ "$(/source/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
+if [ $? -eq 0 ]; then
+echo "debug: found micon"
    micon_version="$(/source/micro-evtd -s 8083)"
    ## diable startup watchdog
    /source/micro-evtd -s 0003
