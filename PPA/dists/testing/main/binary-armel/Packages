@@ -490,6 +490,24 @@ Description: Linux kernel, version 5.9.11
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.9.11.
 
+Package: linux-image-5.9.15
+Source: linux-5.9.15
+Version: 5.9.15-1
+Architecture: armel
+Maintainer: root <root@ff52608ee967>
+Installed-Size: 104436
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.9.15/linux-image-5.9.15_5.9.15-1_armel.deb
+Size: 24940168
+SHA256: 10c6c63af9429f780bf7506a7781489b9ea86f1bf24d2058474df716c5ae3837
+SHA1: 6454db9437ce23ff006915c0e373df47fd20e482
+MD5sum: 622a5c9da28418d2f156a49921f9eb01
+Description: Linux kernel, version 5.9.15
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.9.15.
+
 Package: linux-image-5.9.6
 Source: linux-5.9.6
 Version: 5.9.6-1
