@@ -220,6 +220,24 @@ Description: Linux kernel, version 5.10.5
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.10.5.
 
+Package: linux-image-5.10.9
+Source: linux-5.10.9
+Version: 5.10.9-1
+Architecture: armel
+Maintainer: root <root@eb5c4434697f>
+Installed-Size: 110555
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.9/linux-image-5.10.9_5.10.9-1_armel.deb
+Size: 25987632
+SHA256: 51b95813bd544f3b17577e3d35383861b8625e224687b1cb47cbf9f1658236ad
+SHA1: f2db40ee978de87bde4ddf871a031e016eb067b0
+MD5sum: 74a8bd73db7fcec91776546fc435b2d9
+Description: Linux kernel, version 5.10.9
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.9.
+
 Package: linux-image-5.3.9
 Source: linux-5.3.9
 Version: 5.3.9-2
