@@ -220,6 +220,24 @@ Description: Linux kernel, version 5.10.12
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.10.12.
 
+Package: linux-image-5.10.13
+Source: linux-5.10.13
+Version: 5.10.13-1
+Architecture: armel
+Maintainer: root <root@8392d7c9119e>
+Installed-Size: 110523
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.13/linux-image-5.10.13_5.10.13-1_armel.deb
+Size: 25975160
+SHA256: a0ff891d7d8231837c1e90674e3208a5ed3107a8767b328beff8a988f4914ce9
+SHA1: d495cec662534a10af62545724b75b4c30660d0e
+MD5sum: 8637d3a2cc17b2c1f9c41c8fb315a5a5
+Description: Linux kernel, version 5.10.13
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.13.
+
 Package: linux-image-5.10.4
 Source: linux-5.10.4
 Version: 5.10.4-1
