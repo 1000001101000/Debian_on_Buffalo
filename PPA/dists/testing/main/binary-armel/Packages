@@ -238,6 +238,24 @@ Description: Linux kernel, version 5.10.13
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.10.13.
 
+Package: linux-image-5.10.19
+Source: linux-5.10.19
+Version: 5.10.19-1
+Architecture: armel
+Maintainer: root <root@fbadb0d65ea8>
+Installed-Size: 110577
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.19/linux-image-5.10.19_5.10.19-1_armel.deb
+Size: 25972228
+SHA256: 6014fa3a09e42bb3b4d1246a77d5133ebe19d4ba44e4c0ae031cdb70d4b691a9
+SHA1: 4c74a7426ee55fa63a7933054c7645bb29235969
+MD5sum: face57da4b27e463740f5c847c8e52eb
+Description: Linux kernel, version 5.10.19
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.19.
+
 Package: linux-image-5.10.4
 Source: linux-5.10.4
 Version: 5.10.4-1
