@@ -81,8 +81,8 @@
 			3250    1
 			5000    0>;
 
-		gpios = <&gpio0 14 GPIO_ACTIVE_LOW
-			 &gpio0 17 GPIO_ACTIVE_LOW>;
+		gpios = <&gpio0 14 GPIO_ACTIVE_HIGH
+			 &gpio0 17 GPIO_ACTIVE_HIGH>;
 
 		alarm-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
 	};
