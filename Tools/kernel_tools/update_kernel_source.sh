@@ -19,10 +19,12 @@ cd linux-source-$kernel_ver
 for patch in $(ls ../patches/$kernel_ver)
 do
   patch -p1 < ../patches/$kernel_ver/$patch
-  if [ "$?" -ne 0 ]; then
-   exit 1
-  fi
 done
-cd ..
+for patch in $(ls ../patches/default)
+do
+  patch -p1 < ../patches/default/$patch
+done
 
+
+cd ..
 chown -R $user:$group linux-source-$kernel_ver
