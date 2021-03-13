@@ -17,25 +17,6 @@ Description: Linux kernel headers for 4.12.13 on armel
  .
  This is useful for people who need to build external modules
 
-Package: linux-headers-4.19.67
-Source: linux-4.19.67
-Version: 4.19.67-3
-Architecture: armel
-Maintainer: jeremy <jeremy@earth>
-Installed-Size: 72237
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.67/linux-headers-4.19.67_4.19.67-3_armel.deb
-Size: 10997272
-SHA256: 7cf6386826a0d050d7c20fb7b071beaab3280f04106550f5322d3df6bafbf856
-SHA1: a74b24d3dbf81da33118ffeafb34df3aa35043e3
-MD5sum: 3281ed94725435e01aa4084aa3faf1eb
-Description: Linux kernel headers for 4.19.67 on armel
- This package provides kernel header files for 4.19.67 on armel
- .
- This is useful for people who need to build external modules
-
 Package: linux-image-4.12.13
 Source: linux-4.12.13
 Version: 4.12.13-4
@@ -55,78 +36,6 @@ Description: Linux kernel, version 4.12.13
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.12.13.
 
-Package: linux-image-4.19.118
-Source: linux-4.19.118
-Version: 4.19.118-1
-Architecture: armel
-Maintainer: root <root@9683e7e752be>
-Installed-Size: 100838
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.118/linux-image-4.19.118_4.19.118-1_armel.deb
-Size: 23963052
-SHA256: 5dfc451ef8c4e104eeb54c717ba21730bf3ddede1c2f96bfd4707caf800e25b7
-SHA1: 47cc52a9bcc40831c57025c6ba4b4f248b2b63a4
-MD5sum: 1ad0d5076b4b611ca7441bde8f8bff21
-Description: Linux kernel, version 4.19.118
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.19.118.
-
-Package: linux-image-4.19.132
-Source: linux-4.19.132
-Version: 4.19.132-1
-Architecture: armel
-Maintainer: root <root@744e12c2fe40>
-Installed-Size: 100858
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.132/linux-image-4.19.132_4.19.132-1_armel.deb
-Size: 23962348
-SHA256: 94fd815a8edc08c844aff302cfe12cc0aba31a41921d72fad7f68194cd00ed47
-SHA1: 2516768ade970cd2a39e7594b02662360a9f68ca
-MD5sum: d0ff52f1f05eeed51a2099419fe9ea9e
-Description: Linux kernel, version 4.19.132
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.19.132.
-
-Package: linux-image-4.19.146
-Source: linux-4.19.146
-Version: 4.19.146-1
-Architecture: armel
-Maintainer: root <root@a62f2253d01c>
-Installed-Size: 100936
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.146/linux-image-4.19.146_4.19.146-1_armel.deb
-Size: 23980116
-SHA256: 95e674da2eb2195a9656f66c138a0491c246ffc5c47741f9859ef582da526978
-SHA1: 7bf5a7a91834ebabb788ab36d6061a2e94a8d07f
-MD5sum: 0d70a48704897334b12f5c8c994e1612
-Description: Linux kernel, version 4.19.146
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.19.146.
-
-Package: linux-image-4.19.152
-Source: linux-4.19.152
-Version: 4.19.152-1
-Architecture: armel
-Maintainer: root <root@4a2d9b588f7e>
-Installed-Size: 100941
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.152/linux-image-4.19.152_4.19.152-1_armel.deb
-Size: 23983492
-SHA256: 89f13fd506e6b8643319d18ddabb19e941eb5d9833d8a597b1828f4ae933c19e
-SHA1: e1895facd7484bbe0a452e278f7c3ed255b8a770
-MD5sum: 39c9f4759feffb6f2cc8a0059ac39931
-Description: Linux kernel, version 4.19.152
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.19.152.
-
 Package: linux-image-4.19.160
 Source: linux-4.19.160
 Version: 4.19.160-1
@@ -144,24 +53,6 @@ MD5sum: b67d5923ef29d91d42eafb21805fbf7d
 Description: Linux kernel, version 4.19.160
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.19.160.
-
-Package: linux-image-4.19.67
-Source: linux-4.19.67
-Version: 4.19.67-3
-Architecture: armel
-Maintainer: jeremy <jeremy@earth>
-Installed-Size: 101468
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.67/linux-image-4.19.67_4.19.67-3_armel.deb
-Size: 23977660
-SHA256: 87638c771113bc29b4b794677451f46c46afa7740dc60dbfd050fc1298baa4da
-SHA1: 76ce0df2369d2ec506c99fea9ee1022c6b5bd91a
-MD5sum: 20a23e74fc75326ca3ab3d9f0c52d89d
-Description: Linux kernel, version 4.19.67
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.19.67.
 
 Package: linux-image-tswxl
 Version: 4.19-6
