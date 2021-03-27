@@ -15,7 +15,7 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null
+wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz"
 
 wget -N https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages 2>/dev/null
 searchfrom="$(grep -n Package:\ linux-image-tsxl Packages | cut -d ':' -f 1)"
