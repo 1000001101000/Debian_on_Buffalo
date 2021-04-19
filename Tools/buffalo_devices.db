@@ -151,7 +151,6 @@ Required-Packages: u-boot-tools devio
 Bootloader-Sets-Incorrect-Root: yes
 
 Machine: Buffalo Terastation TS-XEL
-Kernel-Flavors: marvell kirkwood
 DTB-Id: kirkwood-terastation-tsxel.dtb
 DTB-Append: yes
 U-Boot-Kernel-Address: 0x00008000
@@ -171,7 +170,6 @@ Required-Packages: u-boot-tools
 Bootloader-Sets-Incorrect-Root: yes
 
 Machine: Buffalo Linkstation LS-XL
-Kernel-Flavors: marvell kirkwood
 DTB-Id: kirkwood-linkstation-lsxl.dtb
 DTB-Append: yes
 U-Boot-Kernel-Address: 0x00008000
@@ -192,7 +190,6 @@ Required-Packages: u-boot-tools
 Bootloader-Sets-Incorrect-Root: yes
 
 Machine: Buffalo Linkstation LS-QL
-Kernel-Flavors: marvell orion5x
 DTB-Id: orion5x-linkstation-lsql.dtb
 DTB-Append: yes
 U-Boot-Kernel-Address: 0x00008000
