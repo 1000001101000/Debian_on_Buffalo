@@ -1,0 +1,12 @@
+diff -uNr vanilla-source-4.19/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c linux-source-4.19/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c
+--- vanilla-source-4.19/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c	2021-05-21 22:22:15.160265356 -0500
++++ linux-source-4.19/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c	2021-05-21 22:24:03.098540484 -0500
+@@ -62,7 +62,7 @@
+ 	MPP12_GPIO,
+ 	MPP13_SYSRST_OUTn,
+ 	MPP14_SATA1_ACTn,
+-	MPP15_SATA0_ACTn,
++	MPP15_GPIO,
+ 	MPP16_GPIO,
+ 	MPP17_GPIO,
+ 	MPP18_GPIO,
