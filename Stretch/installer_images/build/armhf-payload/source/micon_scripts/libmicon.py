@@ -2,6 +2,7 @@
 
 import time
 import datetime
+import math
 import serial
 from serial import Serial
 
@@ -110,10 +111,10 @@ CMD_LED_ONOFF	= 0x51
 CMD_LED_BLINK	= 0x52
 
 POWER_LED	= [0x09,0x00]
-INFO_LED        = [0x02,0x00]
+INFO_LED	= [0x02,0x00]
 ERROR_LED       = [0x04,0x00]
 LAN1_LED	= [0x20,0x00]
-LAN2_LED        = [0x40,0x00]
+LAN2_LED	= [0x40,0x00]
 FUNC1_LED	= [0x10,0x00]
 FUNC2_LED	= [0x80,0x00]
 DISP_LED	= [0x00,0x80]
@@ -196,7 +197,7 @@ class micon_api:
 		if type(bytes) == int:
 			bytes = bytearray([bytes])
 		for byte in bytes:
-                	checksum += byte
+			checksum += byte
 		checksum%=256
 		return checksum
 
@@ -274,7 +275,7 @@ class micon_api:
 	def send_write_cmd(self, length, addrbyte, databytes=""):
 		#validate length or perhaps stop requiring it or something
 		if type(databytes) == int:
-                        databytes = bytearray([databytes])
+			databytes = bytearray([databytes])
 		cmdbytes=bytearray()
 		cmdbytes.append(length)
 		cmdbytes.append(addrbyte)
@@ -350,7 +351,7 @@ class micon_api:
 		self.send_write_cmd(1,lcd_set_bright,brightbyte)
 
 	def get_lcd_brightness(self):
-        	self.send_read_cmd(lcd_set_bright)
+		self.send_read_cmd(lcd_set_bright)
 
 	def set_lcd_color(self, colorbytes):
 		self.send_write_cmd(2,CMD_LED_CPU,bytearray([0x00,0x07]))
@@ -388,11 +389,11 @@ class micon_api:
 		self.send_write_cmd(32, bufferbyte,messagebytes)
 
 	def set_lcd_buffer_short(self, bufferbyte, message):
-        	message = message.ljust(16)
-        	message = message[:16]
-        	messagebytes = bytearray()
-        	messagebytes.extend(map(ord,message))
-        	self.send_write_cmd(16, bufferbyte,messagebytes)
+		message = message.ljust(16)
+		message = message[:16]
+		messagebytes = bytearray()
+		messagebytes.extend(map(ord,message))
+		self.send_write_cmd(16, bufferbyte,messagebytes)
 
 	def set_lcd_date(self):
 		currentDT = datetime.datetime.now()
@@ -409,3 +410,58 @@ class micon_api:
 
 	def set_lcd_drives(self, drive1, drive2, drive3, drive4):
 		self.send_write_cmd(4,lcd_set_disk_capacity,bytearray([drive1,drive2,drive3,drive4]))
+
+class micon_api_v3:
+	port = serial.Serial()
+	debug = 0
+	def __init__(self, serial_port="/dev/ttyS0",enable_debug=0):
+		self.debug = enable_debug
+		self.port = serial.Serial(serial_port, 57600, serial.EIGHTBITS, serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=0.25)
+
+	def send_miconv3(self,message):
+		output = bytearray()
+		output.extend(map(ord, message + "\r"))
+		self.port.write(output)
+		time.sleep(0.02)
+		return (self.recv_miconv3())
+
+	def recv_miconv3(self):
+		return self.port.readline()
+
+	def set_led(self, led, state, blinkrate=500):
+		cmd = "LED_" + state.upper() + " " + str(led) + " " + str(blinkrate)
+		return self.send_miconv3(cmd)
+
+	def set_lcd(self, linenum, msg):
+		cmd = "LCD_PUTS " + str(linenum) + " " + msg
+		return self.send_miconv3(cmd)
+
+	def sound(self, freq, duration):
+		cmd = "SOUND " + str(freq) + " " + str(duration)
+		return self.send_miconv3(cmd)
+
+	def eeprom_read(self, bytenum):
+		cmd = "EEPROM_READ " + str(bytenum) + " " + "1"
+		return self.send_miconv3(cmd)
+
+	def eeprom_print(self, bytecount):
+		width=16
+		lines=math.ceil(bytecount/width)
+		for y in range(lines):
+			hexline = " "
+			strline = ""
+			byte=(y*width)
+			print (f"{byte:#0{6}x}",end='')
+			for x in range(width):
+				byte=(y*width)+x
+				result = self.eeprom_read(byte)
+				resultint  = int(result)
+				resultbyte = resultint.to_bytes(1,'big')
+				resultchar = (str(resultbyte, 'utf-8'))
+				if not(resultchar.isprintable()):
+					resultchar="."
+				strline = strline + resultchar
+				resulthex  = resultbyte.hex()
+				hexline = hexline + " " + resulthex
+			print (hexline+" ", "|"+strline+"|")
+
