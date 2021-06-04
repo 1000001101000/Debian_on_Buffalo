@@ -17,6 +17,25 @@ Description: Linux kernel headers for 5.10.28 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-5.10.40
+Source: linux-5.10.40
+Version: 5.10.40-2
+Architecture: armel
+Maintainer: root <root@47d9fcc44109>
+Installed-Size: 46922
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.40/linux-headers-5.10.40_5.10.40-2_armel.deb
+Size: 7643284
+SHA256: 84e032414b48cbb2fcd5612790b8798fc246e22a322060e00c42a9f912541dd1
+SHA1: 354f86dc0515b73cf26c5596de33c35ad926f444
+MD5sum: c6a573e997df481adb2bdecc91c927e9
+Description: Linux kernel headers for 5.10.40 on armel
+ This package provides kernel header files for 5.10.40 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-image-4.19.171
 Source: linux-4.19.171
 Version: 4.19.171-11
@@ -109,38 +128,56 @@ Description: Linux kernel, version 5.10.28
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.10.28.
 
-Package: linux-image-tswxl
-Version: 5.10-1
+Package: linux-image-5.10.40
+Source: linux-5.10.40
+Version: 5.10.40-2
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@dae8af13c9d8>
+Maintainer: root <root@47d9fcc44109>
+Installed-Size: 110630
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.40/linux-image-5.10.40_5.10.40-2_armel.deb
+Size: 25904000
+SHA256: 7654b5aa1f526fba287d31ce01de752e390c7fe2161c6955446eb5da92ee055e
+SHA1: 28255458f0698e333521069253619fc95a6b059d
+MD5sum: ea645678c0bee12d48fac36a4d027847
+Description: Linux kernel, version 5.10.40
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.40.
+
+Package: linux-image-tswxl
+Version: 5.10-2
+Architecture: armel
+Maintainer: Equivs Dummy Package Generator <root@47d9fcc44109>
 Installed-Size: 9
-Depends: linux-image-5.10.28
+Depends: linux-image-5.10.40
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_5.10-1_armel.deb
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_5.10-2_armel.deb
 Size: 2204
-SHA256: 6444463977ef92ff33c52fe0eaba18e7ba1547b769fcd2529afb07ba065c298c
-SHA1: 33ef8125d54d140bf882d324bcfa16b85466bb3f
-MD5sum: 01764266f8bb76cd452b049e811db1af
+SHA256: 0893ec6fe99dfc109ea12638b3d470be13ce94cb70d85b88082f1e71771adee9
+SHA1: 0d3820e57ad991b121f8c60a92c81ce8c42772b4
+MD5sum: b1cddda37596230d55347de8b456cea3
 Description: linux-image metapackage for buffalo armel devices without PCI
 
 Package: linux-libc-dev
-Source: linux-5.10.28
-Version: 5.10.28-1
+Source: linux-5.10.40
+Version: 5.10.40-2
 Architecture: armel
-Maintainer: root <root@dae8af13c9d8>
-Installed-Size: 5733
+Maintainer: root <root@47d9fcc44109>
+Installed-Size: 5737
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-5.10.28/linux-libc-dev_5.10.28-1_armel.deb
-Size: 1104516
-SHA256: 854b093eab349dc2730a472d803231a849455699c519ba02d89316b9f79d3c27
-SHA1: 99a46cd3e98177051aefa659148232441cc12a44
-MD5sum: db86b1de6d5170e7745a1e41a8954eba
+Filename: pool/main/l/linux-5.10.40/linux-libc-dev_5.10.40-2_armel.deb
+Size: 1105024
+SHA256: 91b3c44f83859e04d0765c0e80d22684ecd063c179bac6560b4a7ec9d72e1fd4
+SHA1: 52f2b8f679b364d785f5eaf2092032672a28f4f3
+MD5sum: d6cff4e43e39a815f963cfac67cdc2d2
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
