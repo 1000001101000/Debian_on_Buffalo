@@ -76,7 +76,6 @@ for port in ["/dev/ttyUSB0","/dev/ttyS1","/dev/ttyS0"]:
 	except:
 		continue
 	micon_version = test.send_miconv3("VER_GET")
-	print (micon_version)
 	if micon_version:
 		test.port.close()
 		startupV3(port)
