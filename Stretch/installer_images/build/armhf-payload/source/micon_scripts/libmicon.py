@@ -451,7 +451,8 @@ class micon_api_v3:
 			hexline = " "
 			strline = ""
 			byte=(y*width)
-			print (f"{byte:#0{6}x}",end='')
+			prefix="0x"+ hex(byte).split("x")[1].rjust(4,"0")
+			print (prefix + " ",end='')
 			for x in range(width):
 				byte=(y*width)+x
 				result = self.eeprom_read(byte)
