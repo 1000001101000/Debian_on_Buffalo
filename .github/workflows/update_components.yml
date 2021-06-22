@@ -34,6 +34,13 @@ jobs:
     - name: check for micro-etvd-armhf update
       run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
       
+    - name: check for micro-etvd-arm64 update
+      run: wget -O /tmp/micro-evtd-arm64 "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-arm64" 2>/dev/null; cat /tmp/micro-evtd-arm64 | md5sum > /tmp/source 
+    - name: check for micro-etvd-arm64 update
+      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micro-evtd-arm64 2>/dev/null | md5sum > /tmp/dest
+    - name: check for micro-etvd-arm64 update
+      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
+      
     - name: check for phytool-armel update
       run: wget -O /tmp/phytool-armel "https://github.com/1000001101000/phytool/raw/master/bins/phytool-armel" 2>/dev/null; cat /tmp/phytool-armel | md5sum > /tmp/source 
     - name: check for phytool-armel update
