@@ -18,6 +18,26 @@ Description: Linux kernel headers for 4.9.258 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-4.9.272
+Source: linux-4.9.272
+Version: 4.9.272-11
+Architecture: armel
+Maintainer: Anonymous <root@8e28aa5eae96>
+Installed-Size: 73192
+Provides: linux-headers, linux-headers-2.6
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9.272/linux-headers-4.9.272_4.9.272-11_armel.deb
+Size: 10743682
+SHA256: 7aeb773f98e62cf21d68369a13167db4046789ce7be731df152aac0dde63f694
+SHA1: f141a0ec275f31549f237df64e3024704343b841
+MD5sum: ea3744b9263d0bf4f28349a9cc36ee33
+Description: Linux kernel headers for 4.9.272 on armel
+ This package provides kernel header files for 4.9.272 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-image-4.9.258
 Source: linux-4.9.258
 Version: 4.9.258-10
@@ -38,20 +58,40 @@ Description: Linux kernel, version 4.9.258
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.9.258.
 
-Package: linux-image-tswxl
-Version: 4.9-9
+Package: linux-image-4.9.272
+Source: linux-4.9.272
+Version: 4.9.272-11
 Architecture: armel
-Maintainer: root <root@dd9049dd76ca>
+Maintainer: Anonymous <root@8e28aa5eae96>
+Installed-Size: 91345
+Suggests: linux-firmware-image-4.9.272
+Provides: linux-image, linux-image-2.6, linux-modules-4.9.272
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9.272/linux-image-4.9.272_4.9.272-11_armel.deb
+Size: 21808204
+SHA256: f57dafe2bbff93439a25d79ca337346dd22172243d5fcccef3047615d43b41fe
+SHA1: 80f0cc74eb29270efecacfba98357dfccb66ff4f
+MD5sum: bfc694d6bb68e2ceb67163ca34a9c086
+Description: Linux kernel, version 4.9.272
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.9.272.
+
+Package: linux-image-tswxl
+Version: 4.9-10
+Architecture: armel
+Maintainer: root <root@8e28aa5eae96>
 Installed-Size: 9
-Depends: linux-image-4.9.258
+Depends: linux-image-4.9.272
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-9_armel.deb
-Size: 2080
-SHA256: b4a63df649bcf6f6bd7e83c04d856a5de22846736cfbfff44cc1c37ddbdad613
-SHA1: 2e19f421ae2759c7f49af4ee75848238bb4dba39
-MD5sum: 4ce63df9caf7e2994cb3d5ecea46e762
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-10_armel.deb
+Size: 2072
+SHA256: 05d497893aee672bbf301bd904e8b43f9d9adb946b3502e91c35d3c94ee31fd5
+SHA1: f7175dc4007bdc2f4eec7483545f2b4348094fe4
+MD5sum: 50afb19d7af20c460063324a21469d8a
 Description: linux-image metapackage for buffalo armel devices without PCI
 
 Package: linux-image-tsxl
@@ -71,20 +111,20 @@ MD5sum: 62b7f8ec0e66d79db63cb092ca9e325e
 Description: linux-image metapackage for custom Terastation III kernels
 
 Package: linux-libc-dev
-Source: linux-4.9.258
-Version: 4.9.258-10
+Source: linux-4.9.272
+Version: 4.9.272-11
 Architecture: armel
-Maintainer: Anonymous <root@dd9049dd76ca>
+Maintainer: Anonymous <root@8e28aa5eae96>
 Installed-Size: 4448
 Provides: linux-kernel-headers
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-4.9.258/linux-libc-dev_4.9.258-10_armel.deb
-Size: 873554
-SHA256: db2e9ab7fb0da81b75305ba87cec62a31a7eaddf71f5f8774644c25198d207b6
-SHA1: 21736db8319178ae963d2dd58bd5038cf7bfa391
-MD5sum: 06008ccbc773ccb3d2b7059a8420eca0
+Filename: pool/main/l/linux-4.9.272/linux-libc-dev_4.9.272-11_armel.deb
+Size: 873556
+SHA256: 49d25e8f1966697ac1a4e155a0d9f2ee87d7d8ad8b4030196d05a421acbf6237
+SHA1: 16ae2b1238d159f07f3a72268399881523147e23
+MD5sum: 7ce4db9ee17461c3d1dd5084fe5f3f11
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
