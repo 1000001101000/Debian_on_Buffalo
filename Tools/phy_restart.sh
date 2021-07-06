@@ -8,7 +8,8 @@ phytool="/usr/local/bin/phytool"
 mount -o remount,rw /
 
 ifup --no-scripts --force eth0
-sleep 3
+sleep 2
+mount -o remount,ro /
 
 $phytool write eth0/0/22 3
 if [ "$1" == "halt" ] || [ "$1" == "poweroff" ]; then
@@ -17,9 +18,6 @@ else
     $phytool write eth0/0/16 0x0981
 fi
 $phytool write eth0/0/22 0
-
-ifdown --force eth0
-mount -o remount,ro /
 
 exit 0
 
