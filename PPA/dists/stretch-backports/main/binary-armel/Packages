@@ -1,17 +1,17 @@
 Package: linux-headers-4.12.13
 Source: linux-4.12.13
-Version: 4.12.13-3
+Version: 4.12.13-7
 Architecture: armel
 Maintainer: Anonymous <root@earth>
-Installed-Size: 74328
+Installed-Size: 74402
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-headers-4.12.13_4.12.13-3_armel.deb
-Size: 10929054
-SHA256: 68fd1facb077c576a1c3d26b13e4b341cc1fd4c4f2e1efd850440fe73dfecffe
-SHA1: 27ba7db6710df4289f1e59e8fe0c13b5fdbce80a
-MD5sum: e446686ecd51be70b61ff87ca3d130ef
+Filename: pool/main/l/linux-4.12.13/linux-headers-4.12.13_4.12.13-7_armel.deb
+Size: 10870808
+SHA256: b932e271bdf31de80993a9ade4188b5b0e3619004a2fcb0ba57bc144a97ab764
+SHA1: 990f4001be99a9857520432a9f9c8867eceed8e8
+MD5sum: 5501a692505916b45c96c8768de2b796
 Description: Linux kernel headers for 4.12.13 on armel
  This package provides kernel header files for 4.12.13 on armel
  .
@@ -19,19 +19,19 @@ Description: Linux kernel headers for 4.12.13 on armel
 
 Package: linux-image-4.12.13
 Source: linux-4.12.13
-Version: 4.12.13-4
+Version: 4.12.13-7
 Architecture: armel
 Maintainer: Anonymous <root@earth>
-Installed-Size: 92962
+Installed-Size: 92711
 Suggests: linux-firmware-image-4.12.13
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-4_armel.deb
-Size: 22222754
-SHA256: 689389f693ad8d359147971ad9f73952aa98c2c523584ca3f0aa47c04c39c12d
-SHA1: 59333c3a887af432dfd2788d1c5c60ac57f305ac
-MD5sum: b58492b83ef772748a1763bad2524a6d
+Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-7_armel.deb
+Size: 22270192
+SHA256: 684a81e639c5037ad66685f1476a2f6ec098dd7718e4b80d851f608b2ebf9b56
+SHA1: 28d2766b5db1e5c4b6494e0752501868562846f1
+MD5sum: 536fdd90f7ef898fb5ce5f41adfc71dc
 Description: Linux kernel, version 4.12.13
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.12.13.
@@ -85,4 +85,23 @@ SHA256: d6268ddcf11c01cee5d535e2be9a069eafaa2cefd1812422b6e081bd7e1d543e
 SHA1: adb697e25d1f6b5dbbbdb0e636b8fb5124e5c975
 MD5sum: 9d85bb539b1d10d544ea593bc745d6c7
 Description: linux-image metapackage for custom Terastation III kernels
+
+Package: linux-libc-dev
+Source: linux-4.12.13
+Version: 4.12.13-7
+Architecture: armel
+Maintainer: Anonymous <root@earth>
+Installed-Size: 4735
+Provides: linux-kernel-headers
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: devel
+Filename: pool/main/l/linux-4.12.13/linux-libc-dev_4.12.13-7_armel.deb
+Size: 919240
+SHA256: 9e21dbbbe3df6c507fdcfa62ab86361d7e44528ab7c8c1fa39f12c4f1ac4a019
+SHA1: 402ecd0e1e894b64a21c3ded58d9220ae93f55b6
+MD5sum: 0e76291f14be217e038427e4596ef09c
+Description: Linux support headers for userspace development
+ This package provides userspaces headers from the Linux kernel.  These headers
+ are used by the installed headers for GNU glibc and other system libraries.
 

@@ -1,17 +1,17 @@
 Package: linux-headers-4.12.13
 Source: linux-4.12.13
-Version: 4.12.13-3
+Version: 4.12.13-7
 Architecture: armel
 Maintainer: Anonymous <root@earth>
-Installed-Size: 74328
+Installed-Size: 74402
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-headers-4.12.13_4.12.13-3_armel.deb
-Size: 10929054
-SHA256: 68fd1facb077c576a1c3d26b13e4b341cc1fd4c4f2e1efd850440fe73dfecffe
-SHA1: 27ba7db6710df4289f1e59e8fe0c13b5fdbce80a
-MD5sum: e446686ecd51be70b61ff87ca3d130ef
+Filename: pool/main/l/linux-4.12.13/linux-headers-4.12.13_4.12.13-7_armel.deb
+Size: 10870808
+SHA256: b932e271bdf31de80993a9ade4188b5b0e3619004a2fcb0ba57bc144a97ab764
+SHA1: 990f4001be99a9857520432a9f9c8867eceed8e8
+MD5sum: 5501a692505916b45c96c8768de2b796
 Description: Linux kernel headers for 4.12.13 on armel
  This package provides kernel header files for 4.12.13 on armel
  .
@@ -76,7 +76,7 @@ Description: Linux kernel headers for 4.19.194 on armel
 
 Package: linux-image-4.12.13
 Source: linux-4.12.13
-Version: 4.12.13-6
+Version: 4.12.13-7
 Architecture: armel
 Maintainer: Anonymous <root@earth>
 Installed-Size: 92711
@@ -84,11 +84,11 @@ Suggests: linux-firmware-image-4.12.13
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-6_armel.deb
-Size: 22272860
-SHA256: 3403f9910dd9f154c7559dad83ccb4b62767c1118607c6688fba8f13f44461ae
-SHA1: b0a9752e2603d63f44654f8152622c3660bfcdd9
-MD5sum: 67a03620c89c24664daa3b230e3064d3
+Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-7_armel.deb
+Size: 22270192
+SHA256: 684a81e639c5037ad66685f1476a2f6ec098dd7718e4b80d851f608b2ebf9b56
+SHA1: 28d2766b5db1e5c4b6494e0752501868562846f1
+MD5sum: 536fdd90f7ef898fb5ce5f41adfc71dc
 Description: Linux kernel, version 4.12.13
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.12.13.
