@@ -1,9 +1,0 @@
-Section: misc
-Priority: optional
-Standards-Version: 3.9.2 
-
-Package: linux-image-tsxl
-Version: 4.9.272-12
-Depends: linux-image-4.9.272
-Architecture: armel
-Description: linux-image metapackage for buffalo armel with PCI
