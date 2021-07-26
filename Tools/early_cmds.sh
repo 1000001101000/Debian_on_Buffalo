@@ -86,16 +86,8 @@ if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
    sleep 2
    modprobe mtdblock
    sleep 2
-   mkdir /var/lock
-   echo "/dev/mtdblock0 0xF0000 0x10000 0x10000" > /etc/fw_env.config
-   ip link list | grep eth1
-   if [ $? -eq 0 ]; then
-      set_mac "eth0" "$(/source/fw_printenv -n ethaddr)"
-      set_mac "eth1" "$(/source/fw_printenv -n eth1addr)"
-   else
-      set_mac "eth0" "$(/source/fw_printenv -n eth1addr)"
-   fi
-
+   ln -s /usr/bin/arm-linux-gnueabihf-strings /bin/strings
+   /source/ifup-mac.sh
 fi
 
 exit 0

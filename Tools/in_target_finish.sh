@@ -16,6 +16,7 @@ echo "BOOT=local" > /usr/share/initramfs-tools/conf.d/localboot
 echo "MODULES=dep" > /etc/initramfs-tools/conf.d/modules
 echo mtdblock >> /etc/modules
 echo m25p80 >> /etc/modules
+echo spi_nor >> /etc/modules
 
 machine=`sed -n '/Hardware/ {s/^Hardware\s*:\s//;p}' /proc/cpuinfo`
 case $machine in

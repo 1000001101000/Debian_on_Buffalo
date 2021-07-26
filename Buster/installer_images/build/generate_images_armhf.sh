@@ -20,10 +20,13 @@ kernel_deb_url="$(zcat Packages.gz | grep linux-image-$kernel_ver\_ | grep Filen
 wget -N "http://ftp.debian.org/debian/$kernel_deb_url" 2>/dev/null
 kernel_deb="$(basename $kernel_deb_url)"
 
-eth_deb_url="$(zcat Packages.gz | grep ethtool | grep -m 1 Filename | gawk '{print $2}')"
-wget -N "http://ftp.debian.org/debian/$eth_deb_url" 2>/dev/null
-eth_deb="$(basename "$eth_deb_url")"
-dpkg --extract $eth_deb ../armhf-payload/
+for x in ethtool libbinutils binutils-arm-linux-gnueabihf binutils-common
+do
+  pkg_deb_url="$(zcat Packages.gz | grep $x | grep -m 1 Filename | gawk '{print $2}')"
+  wget -N "http://ftp.debian.org/debian/$pkg_deb_url" 2>/dev/null
+  pkg_deb="$(basename "$pkg_deb_url")"
+  dpkg --extract $pkg_deb ../armhf-payload/
+done
 
 mkdir tmp
 dpkg --extract $kernel_deb tmp/
