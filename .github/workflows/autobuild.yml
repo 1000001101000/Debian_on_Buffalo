@@ -103,32 +103,32 @@ jobs:
     #- name: build bullseye armel installer
     #  if: env.build_needed == 'yes'
     #  run: ./generate_images_armel.sh
-    #  working-directory: "${{env.repo_dir}}/bullseye/installer_images/build/"
+    #  working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
     
     #- name: copy new images
     #  if: env.build_needed == 'yes'
     #  run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
-    #  working-directory: "${{env.repo_dir}}/bullseye/installer_images/build/"
+    #  working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
         
     #- name: record hash of base installer image
     #  if: env.build_needed == 'yes'
     #  run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
-    #  working-directory: "${{env.repo_dir}}/bullseye/installer_images/build/"
+    #  working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
     
     - name: build bullseye armhf installer
       if: env.build_needed == 'yes'
       run: ./generate_images_armhf.sh
-      working-directory: "${{env.repo_dir}}/bullseye/installer_images/build/"
+      working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
       
     - name: copy new images
       if: env.build_needed == 'yes'
       run: cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armhf_devices/; rm output/*
-      working-directory: "${{env.repo_dir}}/bullseye/installer_images/build/"
+      working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
       
     - name: record hash of base installer image
       if: env.build_needed == 'yes'
       run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
-      working-directory: "${{env.repo_dir}}/bullseye/installer_images/build/"
+      working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
 
       
     - name: set rebuild needed flag 
