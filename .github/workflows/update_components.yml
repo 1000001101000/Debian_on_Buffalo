@@ -112,6 +112,20 @@ jobs:
       run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Buster/installer_images/build/last_build_armhf.txt"  
     - name: check for updated buster armhf installer
       run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
+      
+   # - name: check for updated bullseye armel installer
+   #   run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
+   # - name: check for updated bullseye armel installer
+   #   run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armel.txt"  
+   # - name: check for updated bullseye armel installer
+   #   run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
+      
+    - name: check for updated bullseye armhf installer
+      run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
+    - name: check for updated bullseye armhf installer
+      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armhf.txt"  
+    - name: check for updated bullseye armhf installer
+      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
        
     - name: if needed, clone the repo for update
       if: env.commit_needed == 'yes'
