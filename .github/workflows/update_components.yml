@@ -5,7 +5,7 @@ name: Update Components
 
 on: #[push]
   schedule: 
-    - cron: */20 * * * *
+    - cron: "*/20 * * * *"
 
 jobs:
   check:
