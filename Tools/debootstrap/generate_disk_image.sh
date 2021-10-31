@@ -7,6 +7,7 @@ target_hostname="lschlv2"
 #target_hostname="ls410d"
 machine="Buffalo Linkstation LS-CHLv2"
 #machine="Buffalo Linkstation LS410D"
+machine="Buffalo Linkstation LS-QVL"
 arch="armel"
 #arch="armhf"
 target_rootpw="changeme"
@@ -14,6 +15,7 @@ target_user="debian"
 target_userpw="changeme"
 #distro="stretch"
 distro="buster"
+distro="bullseye"
 
 boot_size="512"
 swap_size="1024"
@@ -98,9 +100,13 @@ w
 EOF
 fi
 
+echo "partitioning done"
+
 ##create loop devs out of partitions
 losetup -D
 losetup -f -P "$image_name"
+
+echo "block devs created"
 
 base_dev="$(losetup | grep $image_name | awk '{print $1}')"
 boot_dev="$base_dev""p1"
@@ -124,6 +130,8 @@ else
   mkswap "$swap_dev"
   mkfs.ext4 "$root_dev"
 fi
+
+echo "format done"
 
 boot_id="$(blkid -o export $boot_dev | grep -e ^UUID= | awk -F= '{print $2}')"
 swap_id="$(blkid -o export $swap_dev | grep -e ^UUID= | awk -F= '{print $2}')"
@@ -171,28 +179,24 @@ echo "iface eth0 inet dhcp" >> "$target/etc/network/interfaces"
 
 echo "$target_hostname" > "$target/etc/hostname"
 
-##my customixations micon/etc
+##my customizations micon/etc
 cp "../micro-evtd-$arch" "$target/usr/local/bin/micro-evtd"
 cp -r "../micon_scripts" "$target/usr/local/bin/"
 cp ../micon_scripts/*.service "$target/etc/systemd/system/"
-chmod 755 "$target/usr/local/bin/micon_scripts/*.py"
+chmod 755 $target/usr/local/bin/micon_scripts/*.py
 cp "../phytool-$arch" "$target/usr/local/bin/phytool"
 cp "../phy_restart.sh" "$target/usr/local/bin/"
 cp "../rtc_restart.sh" "$target/usr/local/bin/"
 cp "../ifup-mac.sh" "$target/usr/local/bin/"
 
-##distro specific dtbs
-if [ "$distro" == "stretch" ]; then
-   cp ../../Stretch/device_trees/*.dtb "$target/etc/flash-kernel/dtbs/"
-fi
-
-if [ "$distro" == "buster" ]; then
-   cp ../../Buster/device_trees/*.dtb "$target/etc/flash-kernel/dtbs/"
-fi
-
+cp ../../Bullseye/device_trees/*.dtb "$target/etc/flash-kernel/dtbs/"
+cp -v ../../${distro^}/device_trees/*.dtb "$target/etc/flash-kernel/dtbs/"
 cp ../*.db "$target/usr/share/flash-kernel/db/"
 
 ##initrd hooks/config for sure.
+echo "COMPRESS=xz"    > "$target/usr/share/initramfs-tools/conf.d/compress"
+echo "XZ_OPT=-2e"    >> "$target/usr/share/initramfs-tools/conf.d/compress"
+echo "export XZ_OPT" >> "$target/usr/share/initramfs-tools/conf.d/compress"
 echo "BOOT=local" > "$target/usr/share/initramfs-tools/conf.d/localboot"
 echo "MODULES=dep" > "$target/etc/initramfs-tools/conf.d/modules"
 echo mtdblock >> "$target/etc/modules"
