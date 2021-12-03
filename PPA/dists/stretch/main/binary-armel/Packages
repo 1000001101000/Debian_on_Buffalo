@@ -1,3 +1,23 @@
+Package: linux-headers-4.9+80+deb9u14-tsxl
+Source: linux-4.9+80+deb9u14-tsxl
+Version: 4.9+80+deb9u14-tsxl-14
+Architecture: armel
+Maintainer: Anonymous <root@295468ade0b5>
+Installed-Size: 73397
+Provides: linux-headers, linux-headers-2.6
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9+80+deb9u14-tsxl/linux-headers-4.9+80+deb9u14-tsxl_4.9+80+deb9u14-tsxl-14_armel.deb
+Size: 10740782
+SHA256: d88e3b7f4de303dd91d907c444ae4ed1b35e00bbe9c57b4d13e1119339828a57
+SHA1: cbe6d845fa0db32cc2c98327991773ade27c62bc
+MD5sum: 9d35d6699e3800cb4af37951101bf068
+Description: Linux kernel headers for 4.9+80+deb9u14-tsxl on armel
+ This package provides kernel header files for 4.9+80+deb9u14-tsxl on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-4.9.258
 Source: linux-4.9.258
 Version: 4.9.258-10
@@ -37,6 +57,26 @@ Description: Linux kernel headers for 4.9.272 on armel
  This package provides kernel header files for 4.9.272 on armel
  .
  This is useful for people who need to build external modules
+
+Package: linux-image-4.9+80+deb9u14-tsxl
+Source: linux-4.9+80+deb9u14-tsxl
+Version: 4.9+80+deb9u14-tsxl-14
+Architecture: armel
+Maintainer: Anonymous <root@295468ade0b5>
+Installed-Size: 91403
+Suggests: linux-firmware-image-4.9+80+deb9u14-tsxl
+Provides: linux-image, linux-image-2.6, linux-modules-4.9+80+deb9u14-tsxl
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9+80+deb9u14-tsxl/linux-image-4.9+80+deb9u14-tsxl_4.9+80+deb9u14-tsxl-14_armel.deb
+Size: 21807560
+SHA256: 1dcd1b2bd638848687cf1d636f192007dc8dfac9248ef35212599eddb3e5149b
+SHA1: 058ac09855e1000e27fd3c621774a548ee381fa6
+MD5sum: 5b94c6bb073dfd72611227654906f763
+Description: Linux kernel, version 4.9+80+deb9u14-tsxl
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.9+80+deb9u14-tsxl.
 
 Package: linux-image-4.9.258
 Source: linux-4.9.258
@@ -79,19 +119,19 @@ Description: Linux kernel, version 4.9.272
  files, version: 4.9.272.
 
 Package: linux-image-tswxl
-Version: 4.9-12
+Version: 4.9-13
 Architecture: armel
-Maintainer: root <root@70563fda5ed1>
+Maintainer: root <root@295468ade0b5>
 Installed-Size: 9
 Depends: linux-image-4.9.272
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-12_armel.deb
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9-13_armel.deb
 Size: 2078
-SHA256: 1712b0bc7bfba037442f6f9d24bc87bcdbc156e914398e194b362e6f45c83cc3
-SHA1: 0eff759a6e2490d4939274d6c25a585bf695093a
-MD5sum: 09c00989ba5c60dc5443de552380bb8d
+SHA256: 423ee1aa24b22e1ffd4c858481720104968f5384773fadf486461e999833f91f
+SHA1: ff5a16745a8e3f3cbc5443c2df6fe31054f63090
+MD5sum: d48cd0fcca65869fa22702bf6ee94f5d
 Description: linux-image metapackage for buffalo armel devices without PCI
 
 Package: linux-image-tsxl
