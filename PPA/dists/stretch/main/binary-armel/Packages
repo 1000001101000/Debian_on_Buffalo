@@ -175,19 +175,19 @@ MD5sum: 93217425961091a62c6ecc7874990ac1
 Description: linux-image metapackage for buffalo armel devices without PCI
 
 Package: linux-image-tsxl
-Version: 4.9.272-12
+Version: 4.9+80+deb9u14-ts3
 Architecture: armel
-Maintainer: Jeremy J. Peper <jeremy@earth>
+Maintainer: Equivs Dummy Package Generator <jeremy@earth>
 Installed-Size: 9
-Depends: linux-image-4.9.272
+Depends: linux-image-4.9+80+deb9u14-ts3
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9.272-12_armel.deb
-Size: 2156
-SHA256: a12bc3cfaa7160c4a741685187a1a3d03e4fc917f5707080955793db5d7a22f8
-SHA1: 8a0c2cf9e46143afaf847500c9d0ff4d5b1bcdc5
-MD5sum: 9fc781645d488f0ff161abf8b826e632
+Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9+80+deb9u14-ts3_armel.deb
+Size: 2208
+SHA256: 5f13a1d56ed850fb5e26e2898c8c3f9b440a70539778339e8edcf440384bb1d4
+SHA1: 8fcfbe661e8193b6b1632a70c910982e92eecf10
+MD5sum: e04fd1aa6d88792991638a633ec9a0c2
 Description: linux-image metapackage for buffalo armel with PCI
 
 Package: linux-libc-dev
