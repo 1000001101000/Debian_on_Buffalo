@@ -58,6 +58,26 @@ Description: Linux kernel headers for 4.9+80+deb9u15-ts3 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-4.9+80+deb9u16-ts3
+Source: linux-4.9+80+deb9u16-ts3
+Version: 4.9+80+deb9u16-ts3-17
+Architecture: armel
+Maintainer: Anonymous <root@8d81eafc4aa5>
+Installed-Size: 73405
+Provides: linux-headers, linux-headers-2.6
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9+80+deb9u16-ts3/linux-headers-4.9+80+deb9u16-ts3_4.9+80+deb9u16-ts3-17_armel.deb
+Size: 10746468
+SHA256: 992cc68887513e28c6f5f719d8a4f3377baa1bf6c87eed23b9d62d1601d8b334
+SHA1: 0bc1ebcf4393c407cbb866342815c2234e320369
+MD5sum: 36496f43801d00e016824f0411812d90
+Description: Linux kernel headers for 4.9+80+deb9u16-ts3 on armel
+ This package provides kernel header files for 4.9+80+deb9u16-ts3 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-4.9.258
 Source: linux-4.9.258
 Version: 4.9.258-10
@@ -158,6 +178,26 @@ Description: Linux kernel, version 4.9+80+deb9u15-ts3
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.9+80+deb9u15-ts3.
 
+Package: linux-image-4.9+80+deb9u16-ts3
+Source: linux-4.9+80+deb9u16-ts3
+Version: 4.9+80+deb9u16-ts3-17
+Architecture: armel
+Maintainer: Anonymous <root@8d81eafc4aa5>
+Installed-Size: 91437
+Suggests: linux-firmware-image-4.9+80+deb9u16-ts3
+Provides: linux-image, linux-image-2.6, linux-modules-4.9+80+deb9u16-ts3
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.9+80+deb9u16-ts3/linux-image-4.9+80+deb9u16-ts3_4.9+80+deb9u16-ts3-17_armel.deb
+Size: 21819476
+SHA256: ac457bdc446334fb6112cf41b4fbd880cd43b0bb566fb1cef71a4a70dfafeddb
+SHA1: 6ae79c28ad57c75efbdc4d889acac92502ea61db
+MD5sum: 5276626bd7c431c5baf921b7fbe042d8
+Description: Linux kernel, version 4.9+80+deb9u16-ts3
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.9+80+deb9u16-ts3.
+
 Package: linux-image-4.9.258
 Source: linux-4.9.258
 Version: 4.9.258-10
@@ -199,35 +239,35 @@ Description: Linux kernel, version 4.9.272
  files, version: 4.9.272.
 
 Package: linux-image-tswxl
-Version: 4.9+80+deb9u15-ts3
+Version: 4.9+80+deb9u16-ts3
 Architecture: armel
-Maintainer: root <root@0a7241f67def>
+Maintainer: root <root@8d81eafc4aa5>
 Installed-Size: 9
-Depends: linux-image-4.9+80+deb9u15-ts3
+Depends: linux-image-4.9+80+deb9u16-ts3
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9+80+deb9u15-ts3_armel.deb
-Size: 2102
-SHA256: 2485c8703cf3ab79a230d8e024e09b10e6f98cfdef091828d5d675e35a3c5060
-SHA1: 273f34c24d2cb012272c335ad0f68596540bf6cc
-MD5sum: 45ea34b33982fc0221e1e0e1b6f80321
+Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9+80+deb9u16-ts3_armel.deb
+Size: 2098
+SHA256: d0e934cd11da172256eb268a7822540e98baa13b0e31ee2424163570623ac54b
+SHA1: cf55136df40e43fa3733f1bf509cb9c1f5fb0725
+MD5sum: 4f3874d102a3e9f74320d8eb22dc1854
 Description: linux-image metapackage for buffalo armel devices without PCI
 
 Package: linux-image-tsxl
-Version: 4.9+80+deb9u15-ts3
+Version: 4.9+80+deb9u16-ts3
 Architecture: armel
-Maintainer: root <root@0a7241f67def>
+Maintainer: root <root@8d81eafc4aa5>
 Installed-Size: 9
-Depends: linux-image-4.9+80+deb9u15-ts3
+Depends: linux-image-4.9+80+deb9u16-ts3
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9+80+deb9u15-ts3_armel.deb
-Size: 2094
-SHA256: 28846187dea2e92e7acf8b2817bebf5224b7321a408e09b106b02699138b300c
-SHA1: 2c6837d62b2cb192ec9f395643182928f71e7abe
-MD5sum: fdfbfe82ce60a8031005d4aca8627701
+Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9+80+deb9u16-ts3_armel.deb
+Size: 2090
+SHA256: c08adff0796211798d96289ef1c45908f16b2b00b88b5a9cf3b2be6b40979952
+SHA1: 075d082ef263cb2357c465f6192bfd9407953480
+MD5sum: f3e32c1595d99912f6d01565328f9c61
 Description: linux-image metapackage for buffalo armel with PCI
 
 Package: linux-libc-dev
