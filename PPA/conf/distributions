@@ -1,6 +1,6 @@
 Origin: 1000001101000
 Label: Terastation III Kernel
-Suite: oldstable
+#Suite: oldoldstable
 Codename: stretch
 Architectures: armel
 Components: main
@@ -9,7 +9,7 @@ SignWith: i000001101000
 
 Origin: 1000001101000
 Label: Terastation III Kernel
-Suite: oldstable
+#Suite: oldoldstable
 Codename: stretch-backports
 Architectures: armel
 Components: main
@@ -18,7 +18,7 @@ SignWith: i000001101000
 
 Origin: 1000001101000
 Label: Terastation III Kernel
-Suite: stable
+#Suite: stable
 Codename: buster
 Architectures: armel
 Components: main
@@ -27,7 +27,7 @@ SignWith: i000001101000
 
 Origin: 1000001101000
 Label: Terastation III Kernel
-Suite: stable
+#Suite: stable
 Codename: buster-backports
 Architectures: armel
 Components: main
@@ -36,8 +36,8 @@ SignWith: i000001101000
 
 Origin: 1000001101000
 Label: Terastation III Kernel
-Suite: testing
-Codename: testing
+#Suite: testing
+Codename: bullseye
 Architectures: armel
 Components: main
 Description: Custom Kernel for MV78100 devices
@@ -45,7 +45,7 @@ SignWith: i000001101000
 
 Origin: 1000001101000
 Label: Terastation III Kernel
-Suite: unstable
+#Suite: unstable
 Codename: sid
 Architectures: armel
 Components: main
