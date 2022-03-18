@@ -1,0 +1,73 @@
+Package: linux-headers-5.10.103
+Source: linux-5.10.103
+Version: 5.10.103-1
+Architecture: armel
+Maintainer: root <root@2b42e85e570b>
+Installed-Size: 46972
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.103/linux-headers-5.10.103_5.10.103-1_armel.deb
+Size: 7651540
+SHA256: 873ba5b8a79da404df121744a8b57f4e22b0d7cd68c08be7b504b959bdf23fdd
+SHA1: ed1a6101ea3df77bfe09e07870aeacd600047973
+MD5sum: 7c8ec4e49157d6466d163430492067bd
+Description: Linux kernel headers for 5.10.103 on armel
+ This package provides kernel header files for 5.10.103 on armel
+ .
+ This is useful for people who need to build external modules
+
+Package: linux-image-5.10.103
+Source: linux-5.10.103
+Version: 5.10.103-1
+Architecture: armel
+Maintainer: root <root@2b42e85e570b>
+Installed-Size: 110122
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.103/linux-image-5.10.103_5.10.103-1_armel.deb
+Size: 25890588
+SHA256: d24910b869b154719f313fed602bd46ff8bf9318af975cfdfd9a9c2ddb247056
+SHA1: 5cef82a76f7791338276121fc970751a3ad2bfee
+MD5sum: f14690a6859d1e1351ff347052c16574
+Description: Linux kernel, version 5.10.103
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.103.
+
+Package: linux-image-marvell-buffalo
+Version: 5.10-1
+Architecture: armel
+Maintainer: Equivs Dummy Package Generator <root@2b42e85e570b>
+Installed-Size: 9
+Depends: linux-image-5.10.103
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_5.10-1_armel.deb
+Size: 2232
+SHA256: 8ba5d6be5795448455e18b5b36b2cc1b78d449aef76a88d3fb8d4b1a9574ce2a
+SHA1: fa7a15309cf925a5559db7c99a8176cdd8f43b67
+MD5sum: 42f478c2a0a4d1da50782a2376a8fbdb
+Description: linux-image metapackage for armel devices with tweaks for terastation support
+
+Package: linux-libc-dev
+Source: linux-5.10.103
+Version: 5.10.103-1
+Architecture: armel
+Maintainer: root <root@2b42e85e570b>
+Installed-Size: 5739
+Provides: linux-kernel-headers
+Multi-Arch: same
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: devel
+Filename: pool/main/l/linux-5.10.103/linux-libc-dev_5.10.103-1_armel.deb
+Size: 1105372
+SHA256: f5fde452df37e9a4aa8f5d7a666cccc300957c97e9d334d9abe4cb2cb11b94a1
+SHA1: 4955819fd20407ad36e5ffa1c620168bea538320
+MD5sum: b412f3f05d8c1be5a8dcecaaa7accfac
+Description: Linux support headers for userspace development
+ This package provides userspaces headers from the Linux kernel.  These headers
+ are used by the installed headers for GNU glibc and other system libraries.
+

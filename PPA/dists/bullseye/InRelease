@@ -1,0 +1,36 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: 1000001101000
+Label: Terastation III Kernel
+Codename: bullseye
+Date: Fri, 18 Mar 2022 06:04:40 UTC
+Architectures: armel
+Components: main
+Description: Custom Kernel for MV78100 devices
+MD5Sum:
+ e4181ec513ff57f6d5d54fb60402df95 2612 main/binary-armel/Packages
+ 041437153ef59e26782f943c97e5eb27 1040 main/binary-armel/Packages.gz
+ 42730e26634ec03ebdade2d0636e0520 135 main/binary-armel/Release
+SHA1:
+ 952091f92181c555982642acc71bca8e9289f268 2612 main/binary-armel/Packages
+ 603a917ce38db5d23749d48fa9f2648d7dabeafc 1040 main/binary-armel/Packages.gz
+ 5dc0f93a32382683b0842790cc0838172a3b322d 135 main/binary-armel/Release
+SHA256:
+ 90047693025eec79d9bf0e37426730653534d1547965bd03b18607a1d7629223 2612 main/binary-armel/Packages
+ ae9630eee7becf76bf9ec297fe0aa91b85c8b6cc4afc6c3ecdb939fd7a600ffc 1040 main/binary-armel/Packages.gz
+ 115d15b4bd5ef4b2bae36a939c230a37efad87c1701e7d50ae58412f693ba8d1 135 main/binary-armel/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAmI0IPgACgkQi1xOXH3M
+hYPAuwv+NhrUbvct87vDvOsGqdSclj+zF9fMnIgqJUL4wvv+mIYjqFDfCSgTCwjb
+OvpozKFo2L7KeSB0HExK3qIH8LSjc1ABDxtNdOtfUcJWZzRqqT6TCFQxuWoCxDjR
+rPBHUsrse9XR6kj9fCwdi1hfjKiRsVc/gYe5AdLZucApwceB+mlU1KaM6oXQDubA
+GgFk48boe50kn1LWc+HzTYhNjQkm2KhJbLmUvDoNTr7tKEvIWdmu8VYC9C3E6oHY
+6uUx/s5kNddrQJpJCdIcn48LHSuhzL6xRcl47r+vQD5UXcl84H3TQjVuFGGfgr+A
+SlvB/UnvCS9z3x0Es2jjURm1lysMPH9pEBfZQVCo+7cm6Jkx6sJ/6A9KU6F0Wm8U
+Ckr3ecLDSZNiPhkmpFQ9HnXthbe93pSRUZRCWJTqog9Ulb5r11945KDUGtiF0feW
+JElh6KmQDx29AGfeE/53s38rt2uMVEglWuMKEpLrGDP1uaumlEo6nCaF0fp0XXJV
+sbAuaSme
+=mDDa
+-----END PGP SIGNATURE-----
