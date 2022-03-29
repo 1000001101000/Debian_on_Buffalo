@@ -13,5 +13,9 @@ cd linux-source-$kernel_ver
 cp  ../configs/$config .config
 cat ../custom_configs_armel >> .config
 echo "$pkg_version" > .version
+sl="$(head -n 10 Makefile | grep -e ^SUBLEVEL.*$ | cut -d " " -f 3)"
+if [ $sl -gt 255 ]; then
+  sed -i 's/^SUBLEVEL.*$/SUBLEVEL = 255/g' Makefile
+fi
 make olddefconfig ARCH=arm
 make -j$(nproc) ARCH=arm KBUILD_DEBARCH=armel CROSS_COMPILE="arm-linux-gnueabi-" bindeb-pkg
