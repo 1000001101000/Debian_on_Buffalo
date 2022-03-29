@@ -36,6 +36,25 @@ Description: Linux kernel headers for 4.19.232 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-4.19.235
+Source: linux-4.19.235
+Version: 4.19.235-2
+Architecture: armel
+Maintainer: root <root@f0e14a4ba086>
+Installed-Size: 72440
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.19.235/linux-headers-4.19.235_4.19.235-2_armel.deb
+Size: 10964124
+SHA256: b9254426df2498d38c99ce6c80d06b8109fd0ed71dd72ee93f10ec69e977def5
+SHA1: 35996e782c35bd6e96dd6838b3c97d335076917a
+MD5sum: 19fd52995f404a65bbb5873c497eb38d
+Description: Linux kernel headers for 4.19.235 on armel
+ This package provides kernel header files for 4.19.235 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-image-4.12.13
 Source: linux-4.12.13
 Version: 4.12.13-7
@@ -73,6 +92,40 @@ Description: Linux kernel, version 4.19.232
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.19.232.
 
+Package: linux-image-4.19.235
+Source: linux-4.19.235
+Version: 4.19.235-2
+Architecture: armel
+Maintainer: root <root@f0e14a4ba086>
+Installed-Size: 97810
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.19.235/linux-image-4.19.235_4.19.235-2_armel.deb
+Size: 23771600
+SHA256: 564a6f7008717d71d70b5df107a0f6d5adec49abe2abaef30db898062228cb38
+SHA1: e406f491fe3fdb90ff1bcceaa58c9e4c69062e2e
+MD5sum: a58a70aef6f092a2157531f936f24d6f
+Description: Linux kernel, version 4.19.235
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.19.235.
+
+Package: linux-image-marvell-buffalo
+Version: 4.19-2
+Architecture: armel
+Maintainer: root <root@f0e14a4ba086>
+Installed-Size: 9
+Depends: linux-image-4.19.235
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_4.19-2_armel.deb
+Size: 2184
+SHA256: 8250bea1c067eb06ba19ede7bbac988fd8ea47116cb8964ad738c58b2c19ff1d
+SHA1: b397b5619602ac0ca5974eba5d74b7b5fba21be2
+MD5sum: 8ad5769e1990a4269785e2b404265923
+Description: linux-image metapackage for armel devices with tweaks for terastation support
+
 Package: linux-image-tswxl
 Version: 4.19-13
 Architecture: armel
@@ -104,4 +157,23 @@ SHA256: d6268ddcf11c01cee5d535e2be9a069eafaa2cefd1812422b6e081bd7e1d543e
 SHA1: adb697e25d1f6b5dbbbdb0e636b8fb5124e5c975
 MD5sum: 9d85bb539b1d10d544ea593bc745d6c7
 Description: linux-image metapackage for custom Terastation III kernels
+
+Package: linux-libc-dev
+Source: linux-4.19.235
+Version: 4.19.235-2
+Architecture: armel
+Maintainer: root <root@f0e14a4ba086>
+Installed-Size: 5187
+Provides: linux-kernel-headers
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: devel
+Filename: pool/main/l/linux-4.19.235/linux-libc-dev_4.19.235-2_armel.deb
+Size: 997624
+SHA256: 244c3a7f13695be3472cceba04539361be86f6fa46b894341852baa811a44cae
+SHA1: e5c93dd13bfb5caf5a450830071d5d40942e2f2a
+MD5sum: e39ef4c6a513e04b8499beb82a61756f
+Description: Linux support headers for userspace development
+ This package provides userspaces headers from the Linux kernel.  These headers
+ are used by the installed headers for GNU glibc and other system libraries.
 
