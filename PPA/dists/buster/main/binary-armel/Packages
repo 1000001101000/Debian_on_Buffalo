@@ -112,6 +112,25 @@ Description: Linux kernel headers for 4.19.232 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-4.19.235
+Source: linux-4.19.235
+Version: 4.19.235-1
+Architecture: armel
+Maintainer: root <root@dfc64b484e13>
+Installed-Size: 72440
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.19.235/linux-headers-4.19.235_4.19.235-1_armel.deb
+Size: 10964096
+SHA256: 2d5db7018323dd750138d2811d7c414ea4c712ce4aa06a431a29fb29fb29bc89
+SHA1: df380eb8f796dc3c5e4f6fd514700ec92bdf209a
+MD5sum: 4be25728d266881823eed474fc7208f6
+Description: Linux kernel headers for 4.19.235 on armel
+ This package provides kernel header files for 4.19.235 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-5.10.106
 Source: linux-5.10.106
 Version: 5.10.106-1
@@ -275,6 +294,24 @@ MD5sum: d10b59d68a241a27ac3c80d88c9cee42
 Description: Linux kernel, version 4.19.232
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.19.232.
+
+Package: linux-image-4.19.235
+Source: linux-4.19.235
+Version: 4.19.235-1
+Architecture: armel
+Maintainer: root <root@dfc64b484e13>
+Installed-Size: 97810
+Homepage: http://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-4.19.235/linux-image-4.19.235_4.19.235-1_armel.deb
+Size: 23770212
+SHA256: a983482ce0dffa547ecc4aca26b9bac844b78809b73c4b50d0ffeee37cf00ca1
+SHA1: 94c5393f163c90de95c8fa9e0b1185922ce7271f
+MD5sum: db54be1b61f6350a6578f9bc0f00b0bb
+Description: Linux kernel, version 4.19.235
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 4.19.235.
 
 Package: linux-image-5.10.106
 Source: linux-5.10.106
