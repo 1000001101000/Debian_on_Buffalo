@@ -1,22 +1,3 @@
-Package: linux-headers-5.10.103
-Source: linux-5.10.103
-Version: 5.10.103-2
-Architecture: armel
-Maintainer: root <root@ba17f786deb4>
-Installed-Size: 46963
-Homepage: https://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-5.10.103/linux-headers-5.10.103_5.10.103-2_armel.deb
-Size: 7651060
-SHA256: ee7794e013795b25903d7471a3b44da2368ac5c469f1b67a29d7280647e02457
-SHA1: ad61260fc93d230e98096ca86386f469b1e737dd
-MD5sum: 1bf95890c47e4a05ffa37e084a92956b
-Description: Linux kernel headers for 5.10.103 on armel
- This package provides kernel header files for 5.10.103 on armel
- .
- This is useful for people who need to build external modules
-
 Package: linux-headers-5.10.106
 Source: linux-5.10.106
 Version: 5.10.106-3
@@ -35,24 +16,6 @@ Description: Linux kernel headers for 5.10.106 on armel
  This package provides kernel header files for 5.10.106 on armel
  .
  This is useful for people who need to build external modules
-
-Package: linux-image-5.10.103
-Source: linux-5.10.103
-Version: 5.10.103-2
-Architecture: armel
-Maintainer: root <root@ba17f786deb4>
-Installed-Size: 107398
-Homepage: https://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-5.10.103/linux-image-5.10.103_5.10.103-2_armel.deb
-Size: 25682456
-SHA256: 405931a54636fe183a2afe7e525f20ea39e94cf0847ccac1d16cb7e8b932ef60
-SHA1: 2e0438d1b3a7e70e5be6010b102655e1024750f1
-MD5sum: 007f8396978a5737096560719ed97080
-Description: Linux kernel, version 5.10.103
- This package contains the Linux kernel, modules and corresponding other
- files, version: 5.10.103.
 
 Package: linux-image-5.10.106
 Source: linux-5.10.106

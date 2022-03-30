@@ -1,20 +1,20 @@
-Package: linux-headers-4.9.272
-Source: linux-4.9.272
-Version: 4.9.272-13
+Package: linux-headers-4.9.254
+Source: linux-4.9.254
+Version: 4.9.254-2
 Architecture: armel
-Maintainer: Anonymous <root@70563fda5ed1>
-Installed-Size: 73192
+Maintainer: Anonymous <root@earth>
+Installed-Size: 73368
 Provides: linux-headers, linux-headers-2.6
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.9.272/linux-headers-4.9.272_4.9.272-13_armel.deb
-Size: 10743168
-SHA256: 6fc1892eb33453b19639d30f9f35cfd2f2e9133a46d5a71923c37acf320983a2
-SHA1: e2da093a829bea8f0dcacdd082f9f2a39fe742fc
-MD5sum: f20c487ffafa564f813ace63208a992f
-Description: Linux kernel headers for 4.9.272 on armel
- This package provides kernel header files for 4.9.272 on armel
+Filename: pool/main/l/linux-4.9.254/linux-headers-4.9.254_4.9.254-2_armel.deb
+Size: 10696204
+SHA256: a41d9942da3decf07bd5048c5b840c8d9eae9124794a13a6abcd38a5d511d455
+SHA1: afdd634b4902d2d543b98846633eb205952a0787
+MD5sum: 87542a6e136ecf977bce89993ebef877
+Description: Linux kernel headers for 4.9.254 on armel
+ This package provides kernel header files for 4.9.254 on armel
  .
  This is useful for people who need to build external modules
 
@@ -38,25 +38,25 @@ Description: Linux kernel headers for 4.9.303 on armel
  .
  This is useful for people who need to build external modules
 
-Package: linux-image-4.9.272
-Source: linux-4.9.272
-Version: 4.9.272-13
+Package: linux-image-4.9.254
+Source: linux-4.9.254
+Version: 4.9.254-2
 Architecture: armel
-Maintainer: Anonymous <root@70563fda5ed1>
-Installed-Size: 91347
-Suggests: linux-firmware-image-4.9.272
-Provides: linux-image, linux-image-2.6, linux-modules-4.9.272
+Maintainer: Anonymous <root@earth>
+Installed-Size: 88183
+Suggests: linux-firmware-image-4.9.254
+Provides: linux-image, linux-image-2.6, linux-modules-4.9.254
 Homepage: http://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-4.9.272/linux-image-4.9.272_4.9.272-13_armel.deb
-Size: 21811966
-SHA256: 0744794a5a80ea04971e98e0bf7b7c393cb2f8248e8e73297f6a24644710dc2a
-SHA1: 774254ff7033f9f25034fae84fcb5be16a17f995
-MD5sum: 457e0cd15d09cc9625b74ed72711f1b9
-Description: Linux kernel, version 4.9.272
+Filename: pool/main/l/linux-4.9.254/linux-image-4.9.254_4.9.254-2_armel.deb
+Size: 21578388
+SHA256: 5c2539d07ebe0566c581ff531eca3a8d10d496ba281760f65f7ab33039463d24
+SHA1: 0da40b576886cfb2e6279021889465e98c39de0d
+MD5sum: f15645f5ce037e8e80fdf327c157b898
+Description: Linux kernel, version 4.9.254
  This package contains the Linux kernel, modules and corresponding other
- files, version: 4.9.272.
+ files, version: 4.9.254.
 
 Package: linux-image-4.9.303
 Source: linux-4.9.303
@@ -93,38 +93,6 @@ SHA256: 56ae0d8e313db168f62068150dda22de24d200d37ef01857f0da69ca99822127
 SHA1: d9d7c76e1c588493b0028e3c94f4ec426ebdec60
 MD5sum: 38d4b7d5c24e9ade22d28317991bb096
 Description: linux-image metapackage for armel devices with tweaks for terastation support
-
-Package: linux-image-tswxl
-Version: 4.9+80+deb9u16-ts3
-Architecture: armel
-Maintainer: root <root@8d81eafc4aa5>
-Installed-Size: 9
-Depends: linux-image-4.9+80+deb9u16-ts3
-Multi-Arch: foreign
-Priority: optional
-Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.9+80+deb9u16-ts3_armel.deb
-Size: 2098
-SHA256: d0e934cd11da172256eb268a7822540e98baa13b0e31ee2424163570623ac54b
-SHA1: cf55136df40e43fa3733f1bf509cb9c1f5fb0725
-MD5sum: 4f3874d102a3e9f74320d8eb22dc1854
-Description: linux-image metapackage for buffalo armel devices without PCI
-
-Package: linux-image-tsxl
-Version: 4.9+80+deb9u16-ts3
-Architecture: armel
-Maintainer: root <root@8d81eafc4aa5>
-Installed-Size: 9
-Depends: linux-image-4.9+80+deb9u16-ts3
-Multi-Arch: foreign
-Priority: optional
-Section: misc
-Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.9+80+deb9u16-ts3_armel.deb
-Size: 2090
-SHA256: c08adff0796211798d96289ef1c45908f16b2b00b88b5a9cf3b2be6b40979952
-SHA1: 075d082ef263cb2357c465f6192bfd9407953480
-MD5sum: f3e32c1595d99912f6d01565328f9c61
-Description: linux-image metapackage for buffalo armel with PCI
 
 Package: linux-libc-dev
 Source: linux-4.9.303

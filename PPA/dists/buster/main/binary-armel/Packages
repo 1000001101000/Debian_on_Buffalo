@@ -1,41 +1,3 @@
-Package: linux-headers-4.12.13
-Source: linux-4.12.13
-Version: 4.12.13-7
-Architecture: armel
-Maintainer: Anonymous <root@earth>
-Installed-Size: 74402
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-headers-4.12.13_4.12.13-7_armel.deb
-Size: 10870808
-SHA256: b932e271bdf31de80993a9ade4188b5b0e3619004a2fcb0ba57bc144a97ab764
-SHA1: 990f4001be99a9857520432a9f9c8867eceed8e8
-MD5sum: 5501a692505916b45c96c8768de2b796
-Description: Linux kernel headers for 4.12.13 on armel
- This package provides kernel header files for 4.12.13 on armel
- .
- This is useful for people who need to build external modules
-
-Package: linux-headers-4.19.232
-Source: linux-4.19.232
-Version: 4.19.232-3
-Architecture: armel
-Maintainer: root <root@c88e52193c80>
-Installed-Size: 72448
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.232/linux-headers-4.19.232_4.19.232-3_armel.deb
-Size: 10964432
-SHA256: 7f755c9280f6c04bc3bf45644a823f4883aff999c9b8489dbc3fe9881af1d021
-SHA1: 4e317897a97a02d59138b80a6a017014c9534c60
-MD5sum: be6eb4b322522dada602939aaccf210d
-Description: Linux kernel headers for 4.19.232 on armel
- This package provides kernel header files for 4.19.232 on armel
- .
- This is useful for people who need to build external modules
-
 Package: linux-headers-4.19.235
 Source: linux-4.19.235
 Version: 4.19.235-2
@@ -54,43 +16,6 @@ Description: Linux kernel headers for 4.19.235 on armel
  This package provides kernel header files for 4.19.235 on armel
  .
  This is useful for people who need to build external modules
-
-Package: linux-image-4.12.13
-Source: linux-4.12.13
-Version: 4.12.13-7
-Architecture: armel
-Maintainer: Anonymous <root@earth>
-Installed-Size: 92711
-Suggests: linux-firmware-image-4.12.13
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.12.13/linux-image-4.12.13_4.12.13-7_armel.deb
-Size: 22270192
-SHA256: 684a81e639c5037ad66685f1476a2f6ec098dd7718e4b80d851f608b2ebf9b56
-SHA1: 28d2766b5db1e5c4b6494e0752501868562846f1
-MD5sum: 536fdd90f7ef898fb5ce5f41adfc71dc
-Description: Linux kernel, version 4.12.13
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.12.13.
-
-Package: linux-image-4.19.232
-Source: linux-4.19.232
-Version: 4.19.232-3
-Architecture: armel
-Maintainer: root <root@c88e52193c80>
-Installed-Size: 101096
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.19.232/linux-image-4.19.232_4.19.232-3_armel.deb
-Size: 24018180
-SHA256: 9b56190c347e28751f7b0f99691e8ccd38aebb0a4e782cd5314b6e80a21252de
-SHA1: 7f311424cf8628d456705820c28a4affa7b4de64
-MD5sum: d10b59d68a241a27ac3c80d88c9cee42
-Description: Linux kernel, version 4.19.232
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.19.232.
 
 Package: linux-image-4.19.235
 Source: linux-4.19.235
@@ -125,38 +50,6 @@ SHA256: 8250bea1c067eb06ba19ede7bbac988fd8ea47116cb8964ad738c58b2c19ff1d
 SHA1: b397b5619602ac0ca5974eba5d74b7b5fba21be2
 MD5sum: 8ad5769e1990a4269785e2b404265923
 Description: linux-image metapackage for armel devices with tweaks for terastation support
-
-Package: linux-image-tswxl
-Version: 4.19-13
-Architecture: armel
-Maintainer: root <root@76a43ea898df>
-Installed-Size: 9
-Depends: linux-image-4.19.194
-Multi-Arch: foreign
-Priority: optional
-Section: misc
-Filename: pool/main/l/linux-image-tswxl/linux-image-tswxl_4.19-13_armel.deb
-Size: 2156
-SHA256: 55060d6632336d989ec86e79529e66138a00c7c5fedf7c978036055c6d97ab40
-SHA1: 8555732dda2f52ebd2e4428d01d8c1ebae9d37ec
-MD5sum: d0ceaff1952b18a7a7e947fbe57522b1
-Description: linux-image metapackage for buffalo armel devices without PCI
-
-Package: linux-image-tsxl
-Version: 4.12-0
-Architecture: armel
-Maintainer: Jeremy J. Peper <jeremy@earth>
-Installed-Size: 9
-Depends: linux-image-4.12.13
-Multi-Arch: foreign
-Priority: optional
-Section: misc
-Filename: pool/main/l/linux-image-tsxl/linux-image-tsxl_4.12-0_armel.deb
-Size: 2078
-SHA256: d6268ddcf11c01cee5d535e2be9a069eafaa2cefd1812422b6e081bd7e1d543e
-SHA1: adb697e25d1f6b5dbbbdb0e636b8fb5124e5c975
-MD5sum: 9d85bb539b1d10d544ea593bc745d6c7
-Description: linux-image metapackage for custom Terastation III kernels
 
 Package: linux-libc-dev
 Source: linux-4.19.235
