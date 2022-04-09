@@ -1,8 +1,8 @@
 name: build
 on: push
-env:
-  build_needed: no
-  versions: test
+#env:
+#  build_needed: no
+#  versions: test
   
 jobs:
   check:
