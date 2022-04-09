@@ -1,5 +1,8 @@
 name: build
-on: push 
+on: push
+env:
+  build_needed: no
+  versions: "test"
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -12,6 +15,6 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
+      matrix: ${{fromJSON(needs.check.outputs.matrix)}}
     steps:
       - run: echo "test"
