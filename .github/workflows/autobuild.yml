@@ -16,7 +16,7 @@ jobs:
         run: echo "build_needed=$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  >> $GITHUB_ENV
       - name: trigger builds  
         id: set-matrix
-        run: echo "::set-output name=matrix::{[{\"project\":\"Stretch\"},{\"project\":\"Buster\"}]}"
+        run: echo "::set-output name=matrix::{\"project\":\"Stretch\"},{\"project\":\"Buster\"}"
   build:
     needs: check
     runs-on: ubuntu-latest
