@@ -1,6 +1,9 @@
 name: Update installer images
 
 on: push
+env:
+  build_needed: no
+  versions: '{["Stretch", "Buster", "Bullseye"]}'
  # push:
  #   paths: 
  #     - '.rebuild'
@@ -13,10 +16,6 @@ jobs:
     container: 'debian:11'
     outputs:
       distros: ${{ steps.set-matrix.outputs.matrix }}
-    env:
-      repo_dir: .
-      build_needed: no
-      versions: '{["Stretch", "Buster", "Bullseye"]}'
       
     steps: 
     - name: update apt
@@ -40,7 +39,7 @@ jobs:
     container: 'debian:11'      
     strategy:
       matrix:
-        version: ${{ fromJson(needs.setup.outputs.distros) }}
+        version: ${{ fromJson(env.versions) }}
     steps:
       - name: ensure build packages are installed
         run: echo "test"
