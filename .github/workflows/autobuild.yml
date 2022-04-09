@@ -19,9 +19,11 @@ jobs:
   build:
     needs: check
     runs-on: ubuntu-latest
+    env:
+      repo_dir: .
     defaults:
       run:
-        working-directory: "${{ matrix.version }}/installer_images/build/"
+        working-directory: "${{env.repo_dir}}/${{ matrix.version }}/installer_images/build/"
     container: 'debian:11'
     strategy:
       matrix:
@@ -29,10 +31,14 @@ jobs:
         arch: ["armel","armhf"]
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: peterjgrainger/action-create-branch@v2.0.1
-        with:
-          branch: ${{matrix.version}}-autobuild"
+      #- uses: actions/checkout@v3
+      #- uses: peterjgrainger/action-create-branch@v2.0.1
+      #  with:
+      #    branch: "${{matrix.version}}-autobuild"
+      - name: clone repo 
+        run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$(ls -rt | tail -n 1)" >> $GITHUB_ENV
+      - name: checkout a branch
+        run: git checkout -b "${{matrix.version}}-autobuild"
       - name: install prereqs
         run: apt-get update; apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
       - name: build ${{ matrix.version }} ${{ matrix.arch }} installer
