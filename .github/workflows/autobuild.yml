@@ -1,11 +1,11 @@
 name: Update installer images
 
-on:
-  push:
-    paths: 
-      - '.rebuild'
-  schedule: 
-     - cron: "*/15 * * * *"
+on: push
+ # push:
+ #   paths: 
+ #     - '.rebuild'
+ # schedule: 
+ #    - cron: "*/15 * * * *"
 
 jobs:
   setup:
