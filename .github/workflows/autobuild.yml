@@ -1,9 +1,5 @@
 name: build
-on: push
-#env:
-#  build_needed: no
-#  versions: test
-  
+on: push 
 jobs:
   check:
     runs-on: ubuntu-latest
