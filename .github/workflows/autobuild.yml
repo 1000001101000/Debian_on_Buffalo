@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: install prereqs
-        run: apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
+        run: apt-get update; apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
       - name: build ${{ matrix.version }} ${{ matrix.arch }} installer
         run: ./generate_images_${{matrix.arch}}.sh
         working-directory: "./${{ matrix.version }}/installer_images/build/"
