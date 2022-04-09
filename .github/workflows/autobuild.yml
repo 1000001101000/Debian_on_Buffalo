@@ -11,7 +11,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: install curl
-        run: apt-get -y install curl
+        run: apt-get update; apt-get -y install curl
       - name: check for the build needed flag
         run: echo "build_needed=$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  >> $GITHUB_ENV
       - name: trigger builds  
