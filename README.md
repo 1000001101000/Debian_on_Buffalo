@@ -5,17 +5,23 @@ If this project helps you click the Star at the top of the page to let me know! 
 
 In addition to the Issues and Discussions tabs on GitHub we now also have a Discord channel at https://discord.gg/2Js7ezAbzm or our IRC on Libera.Chat in the #miraheze-buffalonas channel!
 
+<b>I could use some additional testers for upcoming changes to the installer processes, please reach out on discord if you'd be willing to help!</b>
+
 <br><br>
 
 ## Quick Note about Debian Bullseye:
 
 Testing for the armhf and amd64 based devices went well and installer images for those devices have been posted. The older armel devices are going to be more difficult to get working and will take some more time to figure out.
 
+<b>Update: I've got a working Proof of Concept that should resolve most of the boot issues seen with these devices and 5.x kernels as well as some of the other issues in the backlog. Stay tuned for updates!</b>
+
+<b>Update 2: I've found a solution which fixes even the PCI sata devices (which means they'll also get full Buster support) as well as resolves most issues related to initrd/kernel size on older devices. I should have new installer images ready in another week or so.</b>
+
 It looks like the devices are going to fall into a few different categories
 - Devices that work with Debian's kernel and the installer process: LS-GL + ?
 - Devices that require kernel or uboot modifications to boot Bullseye: TS-XEL + ?
 - Devices that only work with the debootstrap/disk image process: LS-CHLv2, LS-XL + ?
-- Devices that currently can't run Bullseye because of kernel/uboot issues: TS-HTGL/TS-RTGL, TS-XL/TS-RXL + ?
+- Devices that currently can't run Bullseye because of kernel PCI issues: TS-HTGL/TS-RTGL, TS-XL/TS-RXL
 - Devices I don't currently have access to for testing: LS-XHL, LS-WTGL
 
 
