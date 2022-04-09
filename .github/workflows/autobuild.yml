@@ -40,7 +40,7 @@ jobs:
     container: 'debian:11'      
     strategy:
       matrix:
-        version: ${{ fromJson(needs.setups.outputs.distros) }}
+        version: ${{ fromJson(needs.setup.outputs.distros) }}
     steps:
       - name: ensure build packages are installed
         run: echo "test"
