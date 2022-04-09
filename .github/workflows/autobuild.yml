@@ -7,9 +7,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     container: 'debian:11'
-    #outputs:
+    outputs:
     #  matrix: ${{ steps.set-matrix.outputs.matrix }}
-    #  needed: no
+      needed: no
     steps:
       - name: install curl
         run: apt-get update; apt-get -y install curl
