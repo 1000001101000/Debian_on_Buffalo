@@ -3,7 +3,8 @@ name: Update installer images
 on: push
 env:
   build_needed: no
-  versions: '{["Stretch", "Buster", "Bullseye"]}'
+  versions: "test"
+  #'{["Stretch", "Buster", "Bullseye"]}'
  # push:
  #   paths: 
  #     - '.rebuild'
@@ -25,13 +26,13 @@ jobs:
       run: apt-get -y install curl
     
     ##check for build flag, 
-    - name: check for the build needed flag
-      run: echo "build_needed=$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  >> $GITHUB_ENV
+    #- name: check for the build needed flag
+    #  run: echo "build_needed=$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  >> $GITHUB_ENV
       
-    - name: trigger builds if needed
-      id: set-matrix
+    #- name: trigger builds if needed
+    #  id: set-matrix
       #if: env.build_needed == 'yes'
-      run: echo "::set-output name=matrix::env.versions"
+    #  run: echo "::set-output name=matrix::env.versions"
       
   build:
     needs: setup
@@ -39,7 +40,7 @@ jobs:
     container: 'debian:11'      
     strategy:
       matrix:
-        version: ${{ fromJson(env.versions) }}
+        version: ${{fromJson(env.versions)}}
     steps:
       - name: ensure build packages are installed
         run: echo "test"
