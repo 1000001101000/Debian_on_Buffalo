@@ -20,8 +20,10 @@ jobs:
     container: 'debian:11'
     strategy:
       matrix:
-        version: ["Stretch","Buster","Bullseye"]
-        arch: ["armel","armhf"]
+        #version: ["Stretch","Buster","Bullseye"]
+        version: ["stretch"]
+        #arch: ["armel","armhf"]
+        arch: ["armel"]
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
       - uses: actions/checkout@v3
