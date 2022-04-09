@@ -223,4 +223,4 @@ do
 done
 
 mv output/uImage.buffalo.tsxel output/uImage-88f6281.buffalo.tsxel
-rm output/uImage.buffalo.lschlv2  output/uImage.buffalo.lsxl
+rm output/uImage.buffalo.lschlv2 output/uImage.buffalo.lsxl
