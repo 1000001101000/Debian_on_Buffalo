@@ -21,7 +21,11 @@ jobs:
     strategy:
       matrix:
         version: ["Stretch","Buster","Bullseye"]
+        arch: ["armel","armhf"]
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
       - uses: actions/checkout@v3
+      - name: build ${{ matrix.version }} ${{ matrix.arch }} installer
+        run: ls
+        working-directory: "./${{ matrix.version }}/installer_images/build/"
       - run: pwd
