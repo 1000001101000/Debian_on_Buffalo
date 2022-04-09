@@ -18,7 +18,7 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     env:
-      repo_dir: .
+      repo_dir: "/${{github.event.repository.name}}"
     defaults:
       run:
         working-directory: "${{env.repo_dir}}/${{ matrix.version }}/installer_images/build/"
@@ -32,10 +32,10 @@ jobs:
       #- uses: actions/checkout@v3
       - name: install prereqs
         run: apt-get update; apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
-        working-directory: "~"
+        working-directory: "/"
       - name: clone repo 
         run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$PWD$(ls -rt | tail -n 1)" >> $GITHUB_ENV
-        working-directory: "~"
+        working-directory: "/"
       - name: test
         run: pwd
       - name: checkout a branch
