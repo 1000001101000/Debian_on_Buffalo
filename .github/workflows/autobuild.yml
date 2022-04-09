@@ -28,17 +28,18 @@ jobs:
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
       - uses: actions/checkout@v3
+      - uses: peterjgrainger/action-create-branch@v2.0.1
+        with:
+          branch: ${{matrix.version}}-autobuild"
       - name: install prereqs
         run: apt-get update; apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
       - name: build ${{ matrix.version }} ${{ matrix.arch }} installer
         run: ./generate_images_${{matrix.arch}}.sh
-        #working-directory: "${{ matrix.version }}/installer_images/build/"
       - name: make sure target directory exists
-        run: mkdir ../${{matrix.arch}}_devices || ls
-        #working-directory: "${{ matrix.version }}/installer_images/build/"
+        run: mkdir ../${{matrix.arch}}_devices || exit 0
       - name: copy ${{ matrix.version }} ${{ matrix.arch }} files into place
-        run:  cp -v output/initrd.buffalo.${{matrix.arch}} ../${{matrix.arch}}_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../${{matrix.arch}}_devices/;rm output/*
-        #working-directory: "${{ matrix.version }}/installer_images/build/"
+        run:  cp -v output/initrd.buffalo.${{matrix.arch}} ../${{matrix.arch}}_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../${{matrix.arch}}_devices/
       - name: record base installer hash
         run: cat ${{matrix.arch}}-files/initrd.gz | md5sum > last_build_${{matrix.arch}}.txt
-        #working-directory: "${{ matrix.version }}/installer_images/build/"
+      - name: status
+        run: git status
