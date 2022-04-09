@@ -21,7 +21,7 @@ jobs:
     strategy:
       matrix:
         #version: ["Stretch","Buster","Bullseye"]
-        version: ["stretch"]
+        version: ["Stretch"]
         #arch: ["armel","armhf"]
         arch: ["armel"]
     if: ${{ needs.check.outputs.needed == 'yes' }}
