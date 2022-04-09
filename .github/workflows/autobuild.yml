@@ -26,6 +26,6 @@ jobs:
     strategy:
       matrix:
         version: ["Stretch","Buster","Bullseye"]
-    if: ${{ build_needed == 'no' }}
+    if: ${{ needs.check.outputs.build_needed == 'no' }}
     steps:
       - run: echo "test"
