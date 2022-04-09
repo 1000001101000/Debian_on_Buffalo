@@ -31,7 +31,7 @@ jobs:
       
     - name: trigger builds if needed
       id: set-matrix
-      if: env.build_needed == 'yes'
+      #if: env.build_needed == 'yes'
       run: echo "::set-output name=matrix::env.versions"
       
   build:
