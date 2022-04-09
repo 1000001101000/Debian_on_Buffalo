@@ -5,7 +5,7 @@ custom_kernel()
   apt-get -y remove $(dpkg -l | grep linux-image | gawk '{print $2}')
   apt-get install -y apt-transport-https gnupg
   wget -qO - https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/KEY.gpg | apt-key add -
-  echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ $version main" > /etc/apt/sources.list.d/tsxl_kernel.list
+  echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ $version main" > /etc/apt/sources.list.d/buffalo_kernel.list
   apt-get update
   apt-get install -y linux-image-$1
 }
@@ -40,20 +40,11 @@ fi
 if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" == "0" ]; then
    case $machine in
         "Buffalo Nas WXL")
-	has_pci="$(lspci | wc -c)"
-	if [ $has_pci -ne 0 ]; then
-           custom_kernel tsxl
-	else
-	   custom_kernel tswxl
-	fi
-	;;
+           custom_kernel marvell-buffalo;;
+        "Buffalo Linkstation LS-QL")
+           custom_kernel marvell-buffalo;;
 	"Buffalo Terastation Pro II/Live")
-	if [ "$version" == "stretch" ]; then
-	   apt-get install -y linux-image-marvell
-	else
-	   custom_kernel tsxl
-	fi
-	;;
+	   custom_kernel marvell-buffalo;;
         *)
         apt-get install -y linux-image-marvell;;
    esac

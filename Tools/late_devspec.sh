@@ -4,10 +4,13 @@ if [ "$(/source/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
 	cp -r /source/micon_scripts "/target/usr/local/bin/"
 	cp /source/micon_scripts/*.service /target/etc/systemd/system/
 	chmod 755 /target/usr/local/bin/micon_scripts/*.py
+	##patch reboot script to set micon value at end. 
+  	sed -i 's|/bin/umount|umount /target/*;umount /target/*\numount /target\n/source/micro-evtd -s 013500,0003,000c,014618,000e\n/bin/umount|g' /lib/debian-installer/exit
 fi
 
 mkdir -p /target/etc/flash-kernel/dtbs/
 mkdir -p /target/usr/share/flash-kernel/db/
+mkdir -p /target/etc/initramfs/post-update.d/
 cp /source/phytool /target/usr/local/bin/
 cp /source/*.dtb /target/etc/flash-kernel/dtbs/
 cp /source/*.db /target/usr/share/flash-kernel/db/
@@ -15,7 +18,7 @@ cp /source/in_target_finish.sh /target/tmp/
 cp /source/runsize.sh /target/etc/initramfs-tools/scripts/init-bottom/
 cp /source/phy_restart.sh /target/usr/local/bin/
 cp /source/rtc_restart.sh /target/usr/local/bin/
-
+cp /source/0-install_shim /target/etc/initramfs/post-update.d/
 machine=`sed -n '/Hardware/ {s/^Hardware\s*:\s//;p}' /proc/cpuinfo`
 case $machine in
 	*"Device Tree)")
