@@ -8,13 +8,17 @@ on:
      - cron: "*/15 * * * *"
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
-    container: 'debian:10'
+    container: 'debian:11'
+    outputs:
+      distros: ${{ steps.set-matrix.outputs.matrix }}
     env:
       repo_dir: .
       build_needed: no
-    
+      versions: '{["Stretch", "Buster", "Bullseye"]}'
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      
     steps: 
     - name: update apt
       run: apt-get update
@@ -25,128 +29,22 @@ jobs:
     ##check for build flag, 
     - name: check for the build needed flag
       run: echo "build_needed=$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  >> $GITHUB_ENV
+      
+    - name: trigger builds if needed
+      id: set-matrix
+      if: env.build_needed == 'yes'
+      run: echo "::set-output name=matrix::env.versions"
+      
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    container: 'debian:11'      
+    strategy:
+      matrix:
+        version: ${{ fromJson(needs.setups.outputs.distros) }}
+    steps:
+      - name: ensure build packages are installed
+        run: echo "test"
     
-    - name: ensure build packages are installed
-      if: env.build_needed == 'yes'
-      run: apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
     
-    - name: if needed, clone the repo for build
-      if: env.build_needed == 'yes'
-      run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$(ls -rt | tail -n 1)" >> $GITHUB_ENV
-    
-    - name: set git user name
-      if: env.build_needed == 'yes'
-      run: git config user.name "workflow@github"; git config user.email "workflow@github"
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: build stretch armel installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armel.sh
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-    
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
-    - name: record hash of base installer image
-      if: env.build_needed == 'yes'
-      run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
-    - name: build stretch armhf installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armhf.sh
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armhf_devices/; rm output/*
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
-    - name: record hash of base installer image
-      if: env.build_needed == 'yes'
-      run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
-      working-directory: "${{env.repo_dir}}/Stretch/installer_images/build/"
-      
-    - name: build buster armel installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armel.sh
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-    
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-        
-    - name: record hash of base installer image
-      if: env.build_needed == 'yes'
-      run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-    
-    - name: build buster armhf installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armhf.sh
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-      
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armhf_devices/; rm output/*
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-      
-    - name: record hash of base installer image
-      if: env.build_needed == 'yes'
-      run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
-      working-directory: "${{env.repo_dir}}/Buster/installer_images/build/"
-            
-      
-    #- name: build bullseye armel installer
-    #  if: env.build_needed == 'yes'
-    #  run: ./generate_images_armel.sh
-    #  working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
-    
-    #- name: copy new images
-    #  if: env.build_needed == 'yes'
-    #  run: cp -v output/initrd.buffalo.armel ../armel_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armel_devices/;cp -v output/vmlinuz-armel ../armel_devices/vmlinuz; rm output/*
-    #  working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
-        
-    #- name: record hash of base installer image
-    #  if: env.build_needed == 'yes'
-    #  run: cat armel-files/initrd.gz | md5sum > last_build_armel.txt
-    #  working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
-    
-    - name: build bullseye armhf installer
-      if: env.build_needed == 'yes'
-      run: ./generate_images_armhf.sh
-      working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
-      
-    - name: copy new images
-      if: env.build_needed == 'yes'
-      run: cp -v output/initrd.buffalo.armhf ../armhf_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../armhf_devices/; rm output/*
-      working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
-      
-    - name: record hash of base installer image
-      if: env.build_needed == 'yes'
-      run: cat armhf-files/initrd.gz | md5sum > last_build_armhf.txt
-      working-directory: "${{env.repo_dir}}/Bullseye/installer_images/build/"
-
-      
-    - name: set rebuild needed flag 
-      if: env.build_needed == 'yes'
-      run: echo no > .rebuild
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: add new images to repo if needed
-      if: env.build_needed == 'yes'
-      run: git add Buster/installer_images/*; git add Stretch/installer_images/*; git add Bullseye/installer_images/*
-      working-directory: "${{env.repo_dir}}"
-       
-    - name: if needed, commit
-      if: env.build_needed == 'yes'
-      run: git diff --compact-summary; git commit -v -a -m "update installer images"
-      working-directory: "${{env.repo_dir}}"
-    
-    - name: push changes
-      if: env.build_needed == 'yes'
-      run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
-      working-directory: "${{env.repo_dir}}"
+ 
