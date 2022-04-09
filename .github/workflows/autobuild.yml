@@ -2,7 +2,8 @@ name: build
 on: push
 env:
   build_needed: no
-  versions: "test"
+  versions: test
+  
 jobs:
   check:
     runs-on: ubuntu-latest
