@@ -20,11 +20,11 @@ jobs:
       #  if: env.build_needed == 'no'
       #  run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"Stretch\"},{\"project\":\"Buster\"},{\"project\":\"Bullseye\"}]}"
   build:
-    if: env.build_needed == 'no'
     needs: check
     runs-on: ubuntu-latest
     strategy:
       matrix:
         version: ["Stretch","Buster","Bullseye"]
+    if: env.build_needed == 'no'
     steps:
       - run: echo "test"
