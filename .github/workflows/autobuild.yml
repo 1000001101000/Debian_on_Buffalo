@@ -37,6 +37,7 @@ jobs:
       #    branch: "${{matrix.version}}-autobuild"
       - name: clone repo 
         run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$(ls -rt | tail -n 1)" >> $GITHUB_ENV
+        working-directory: "/"
       - name: checkout a branch
         run: git checkout -b "${{matrix.version}}-autobuild"
       - name: install prereqs
