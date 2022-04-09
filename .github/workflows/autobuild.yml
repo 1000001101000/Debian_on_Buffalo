@@ -1,4 +1,4 @@
-name: build
+name: build installer images
 on: push
 
 jobs:
@@ -26,6 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: build ${{ matrix.version }} ${{ matrix.arch }} installer
-        run: ls
+        run: ./generate_images_${{matrix.arch}}.sh
         working-directory: "./${{ matrix.version }}/installer_images/build/"
-      - run: pwd
+      - name: copy ${{ matrix.version }} ${{ matrix.arch }} files into place
+        run:  cp -v output/initrd.buffalo.${{matrix.arch}} ../${{matrix.arch}}_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../${{matrix.arch}}_devices/;rm output/*
+        working-directory: "./${{ matrix.version }}/installer_images/build/"
+      - name: record base installer hash
+        run: cat ${{matrix.arch}}-files/initrd.gz | md5sum > last_build_${{matrix.arch}}.txt
+        working-directory: "./${{ matrix.version }}/installer_images/build/"
