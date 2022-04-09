@@ -1,0 +1,16 @@
+#!/bin/bash
+
+kernels="$(ls /boot/vmlin*)"
+stdheader="E1A00000E1A00000E1A00000E1A00000E1A00000E1A00000E1A00000E1A00000"
+
+[[ -f "/boot/bootshim" ]] || exit 0
+
+for kern in $kernels
+do
+tmpheader="$(hexdump -e '"%X%X%X%X%X%X%X%X"' -n 32 "$kern")"
+if [ "$tmpheader" == "$stdheader" ]; then
+   cat "/boot/bootshim" "$kern" > "/boot/tmpkern"
+   mv "/boot/tmpkern" "$kern"
+   echo "bootshim installed to $kern"
+fi
+done

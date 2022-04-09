@@ -9,25 +9,9 @@ set_mac()
 
 depmod -a
 modprobe leds-gpio
-modprobe sd_mod
-modprobe sata_mv
-modprobe libata
-modprobe scsi_mod
 sleep 1
 udevadm trigger
 sleep 5
-
-if [ -f "/var/lib/lowmem" ]; then
-  devs="$(ls /sys/block | grep -v mtd)"
-  for dev in $devs
-  do
-    swapon /dev/$dev
-    for x in 1 2 3 4 5 6 7 8
-    do
-      swapon /dev/$dev$x
-    done
-  done
-fi
 
 ###try a few times since this has been failing
 ###not sure if we're waiting for devices to be created or what

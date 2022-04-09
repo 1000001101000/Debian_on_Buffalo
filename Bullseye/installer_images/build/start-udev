@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ -w /sys/kernel/uevent_helper ]; then
+    echo > /sys/kernel/uevent_helper
+fi
+
+if ! grep -E -q "^[^[:space:]]+ /dev devtmpfs" /proc/mounts; then
+    mount -n -o mode=0755 -t devtmpfs devtmpfs /dev
+    # Setup a few /dev symlinks, see #975018
+    [ ! -h /dev/fd ] && ln -s /proc/self/fd /dev/fd
+    [ ! -h /dev/stdin ] && ln -s /proc/self/fd/0 /dev/stdin
+    [ ! -h /dev/stdout ] && ln -s /proc/self/fd/1 /dev/stdout
+    [ ! -h /dev/stderr ] && ln -s /proc/self/fd/2 /dev/stderr
+fi
+
+SYSTEMD_LOG_LEVEL=notice /lib/systemd/systemd-udevd --daemon --resolve-names=never
+
+udevadm trigger --action=add || true
+
+mkdir -p /dev/pts
+mount -t devpts -o noexec,nosuid,gid=5,mode=0620 devpts /dev/pts
+
+udevadm settle || true

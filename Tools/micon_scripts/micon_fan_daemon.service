@@ -1,5 +1,6 @@
 [Unit]
 Description=Terastation Fan Service
+After=micon_boot.service
 
 [Service]
 Type=simple

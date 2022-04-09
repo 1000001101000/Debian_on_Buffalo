@@ -1,0 +1,48 @@
+diff -uNr vanilla-source-4.19/drivers/pinctrl/mvebu/pinctrl-orion.c linux-source-4.19/drivers/pinctrl/mvebu/pinctrl-orion.c
+--- vanilla-source-4.19/drivers/pinctrl/mvebu/pinctrl-orion.c	2021-03-07 16:03:04.045081633 -0600
++++ linux-source-4.19/drivers/pinctrl/mvebu/pinctrl-orion.c	2021-03-07 16:03:52.492264900 -0600
+@@ -160,10 +160,34 @@
+ 		 MPP_VAR_FUNCTION(0x0, "uart1", "rts",      V_5182 | V_5281),
+ 		 MPP_VAR_FUNCTION(0x1, "ge", "rxd7",        V_ALL),
+ 		 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_5182)),
++	MPP_MODE(20,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++	MPP_MODE(21,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++	MPP_MODE(22,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++	MPP_MODE(23,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++	MPP_MODE(24,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++	MPP_MODE(25,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++        MPP_MODE(26,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++        MPP_MODE(27,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++        MPP_MODE(28,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++        MPP_MODE(29,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++	MPP_MODE(30,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
++        MPP_MODE(31,
++                 MPP_VAR_FUNCTION(0x5, "gpio", NULL,        V_ALL)),
+ };
+ 
+ static const struct mvebu_mpp_ctrl orion_mpp_controls[] = {
+-	MPP_FUNC_CTRL(0, 19, NULL, orion_mpp_ctrl),
++	MPP_FUNC_CTRL(0, 32, NULL, orion_mpp_ctrl),
+ };
+ 
+ static struct pinctrl_gpio_range mv88f5181_gpio_ranges[] = {
+@@ -171,7 +195,7 @@
+ };
+ 
+ static struct pinctrl_gpio_range mv88f5182_gpio_ranges[] = {
+-	MPP_GPIO_RANGE(0, 0, 0, 19),
++	MPP_GPIO_RANGE(0, 0, 0, 32),
+ };
+ 
+ static struct pinctrl_gpio_range mv88f5281_gpio_ranges[] = {

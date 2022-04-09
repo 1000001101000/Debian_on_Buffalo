@@ -1,12 +1,11 @@
 #!/bin/bash
-##requires uboot-tools, gzip, faketime, rsync, wget, cpio, libarchive-cpio-perl
 
 dtb_dir="../../device_trees"
 tools_dir="../../../Tools"
 distro="buster"
 
 mkdir output 2>/dev/null
-rm output/*
+rm output/* 2>/dev/null
 rm -r armel-payload/* 2>/dev/null
 mkdir armel-files 2>/dev/null
 mkdir -p armel-payload/source/ 2>/dev/null
@@ -15,14 +14,18 @@ if [ -d "tmp" ]; then
    rm -r "tmp/"
 fi
 
-wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null
+wget -N "http://ftp.nl.debian.org/debian/dists/$distro/main/installer-armel/current/images/kirkwood/netboot/initrd.gz"
 
-wget -N https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages 2>/dev/null
-searchfrom="$(grep -n Package:\ linux-image-tsxl Packages | cut -d ':' -f 1)"
+wget -N https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/dists/$distro/main/binary-armel/Packages
+searchfrom="$(grep -n Package:\ linux-image-marvell-buffalo Packages | cut -d ':' -f 1)"
 kpkg="$(tail -n +$searchfrom Packages | grep -m 1 Depends: | cut -d ' ' -f 2)"
 kernel_deb_url="$(cat Packages | grep Filename: | grep $kpkg | gawk '{print $2}')"
-wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url" 2>/dev/null
+wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
+
+##just assume not in lowmem mode
+mkdir -p ../armel-payload/lib/debian-installer-startup.d/
+echo "mount / -o remount,size=100%" > ../armel-payload/lib/debian-installer-startup.d/S15lowmem
 
 mkdir tmp
 
@@ -32,7 +35,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 cd ..
-rm -r armel-payload/lib/modules/* 2>/dev/null
 rsync -rtWhmv --include "*/" \
 --include="*/drivers/md/*" \
 --include="dm-persistent-data.ko" \
@@ -72,7 +74,6 @@ rsync -rtWhmv --include "*/" \
 --include="fscrypto.ko" \
 --include="gen_probe.ko" \
 --include="ip_tables.ko" \
---include="ipv6.ko" \
 --include="jbd2.ko" \
 --include="leds-gpio.ko" \
 --include="ledtrig-gpio.ko" \
@@ -116,19 +117,27 @@ rsync -rtWhmv --include "*/" \
 --include="x_tables.ko" \
 --include="xts.ko" \
 --include="zlib_deflate.ko" \
+--include="crc-t10dif.ko" \
 --exclude="*" armel-files/tmp/lib/ armel-payload/lib/
 if [ $? -ne 0 ]; then
         echo "failed to copy module files, quitting"
         exit
 fi
-
 cp -v $tools_dir/*.sh armel-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy tools, quitting"
         exit
 fi
-
-rm -r armel-payload/source/micon_scripts/ 2>/dev/null
+cp -v $tools_dir/0-install_shim armel-payload/source/
+if [ $? -ne 0 ]; then
+        echo "failed to copy shim tools, quitting"
+        exit
+fi
+cp -v $tools_dir/bootshim/armel_shim armel-payload/source/
+if [ $? -ne 0 ]; then
+        echo "failed to copy boot shim, quitting"
+        exit
+fi
 cp -vrp $tools_dir/micon_scripts armel-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy micon tools, quitting"
@@ -137,7 +146,7 @@ fi
 cp -v $dtb_dir/{orion,kirkwood}*.dtb armel-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy dtb files, quitting"
-        #exit
+        exit
 fi
 cp -v $tools_dir/*.db armel-payload/source/
 if [ $? -ne 0 ]; then
@@ -160,7 +169,6 @@ if [ $? -ne 0 ]; then
         exit
 fi
 
-
 zcat armel-files/initrd.gz | cpio-filter --exclude "lib/modules/*" > initrd1
 cat initrd1 | cpio-filter --exclude "sbin/wpa_supplicant" > initrd
 if [ $? -ne 0 ]; then
@@ -177,7 +185,7 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 
-cat initrd | xz --check=crc32 -7e > initrd.xz
+cat initrd | xz --check=crc32 -9e > initrd.xz
 if [ $? -ne 0 ]; then
         echo "failed to pack initrd, quitting"
         exit
@@ -188,7 +196,7 @@ if [ $? -ne 0 ]; then
         exit
 fi
 
-cp "$(ls armel-files/tmp/boot/vmlinuz*)" vmlinuz
+cat "$tools_dir/bootshim/armel_shim" "$(ls armel-files/tmp/boot/vmlinuz*)" > vmlinuz
 
 devio 'wl 0xe3a01c0a,4' 'wl 0xe3811089,4' > machtype
 cat machtype vmlinuz > katkern
@@ -196,7 +204,7 @@ faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T kernel -
 
 devio 'wl 0xe3a01c06,4' 'wl 0xe3811030,4' > machtype
 cat machtype vmlinuz > katkern
-faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d  katkern output/uImage.buffalo.ts2pro"
+faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n installer-kernel -d  katkern output/uImage.buffalo.ts2pro"
 
 dtb_list="$(ls $dtb_dir/*{orion,kirkwood}*dtb)"
 
@@ -209,13 +217,10 @@ done
 
 cp vmlinuz output/vmlinuz-armel
 
-rm machtype
-rm katkern
-rm tmpkern
-rm vmlinuz
-rm initrd
-rm initrd1
-rm initrd.xz
-rm -r armel-payload/lib/modules/*
+for x in machtype katkern tmpkern vmlinuz initrd initrd1 initrd.gz initrd.xz
+do
+  rm "$x" 2> /dev/null
+done
+
 mv output/uImage.buffalo.tsxel output/uImage-88f6281.buffalo.tsxel
-rm output/uImage.buffalo.lschlv2  output/uImage.buffalo.lswtgl  output/uImage.buffalo.lsxl
+rm output/uImage.buffalo.lschlv2  output/uImage.buffalo.lsxl

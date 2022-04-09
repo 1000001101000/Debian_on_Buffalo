@@ -1,0 +1,12 @@
+diff -uNr vanilla-4.9/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c linux-source-4.9/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c
+--- vanilla-4.9/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c	2019-08-20 15:27:31.766891319 -0500
++++ linux-source-4.9/arch/arm/mach-mv78xx0/buffalo-wxl-setup.c	2019-08-20 15:28:23.290187211 -0500
+@@ -42,7 +42,7 @@
+ };
+ 
+ static struct i2c_board_info __initdata db78x00_i2c_rtc = {
+-	I2C_BOARD_INFO("ds1338", 0x68),
++	I2C_BOARD_INFO("rs5c372a", 0x32),
+ };
+ 
+ 
