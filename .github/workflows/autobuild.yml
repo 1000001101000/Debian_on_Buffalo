@@ -1,5 +1,7 @@
 name: build installer images
 on: push
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   check:
