@@ -14,14 +14,17 @@ jobs:
         run: apt-get update; apt-get -y install curl
       - name: check for the build needed flag
         run: echo "build_needed=$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"  >> $GITHUB_ENV
-      - name: trigger builds  
-        id: set-matrix
-        if: env.build_needed == 'no'
-        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"Stretch\"},{\"project\":\"Buster\"},{\"project\":\"Bullseye\"}]}"
+        
+      #- name: trigger builds  if needed
+      #  id: set-matrix
+      #  if: env.build_needed == 'no'
+      #  run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"Stretch\"},{\"project\":\"Buster\"},{\"project\":\"Bullseye\"}]}"
   build:
+    if: env.build_needed == 'no'
     needs: check
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJSON(needs.check.outputs.matrix)}}
+      matrix:
+        version: ["Stretch","Buster","Bullseye"]
     steps:
       - run: echo "test"
