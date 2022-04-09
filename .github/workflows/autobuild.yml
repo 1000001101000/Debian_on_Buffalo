@@ -1,8 +1,6 @@
 name: build
 on: push
-#env:
-# build_needed: no
-#  versions: "test"
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -15,16 +13,15 @@ jobs:
       - name: check for the build needed flag
         id: flag-check
         run: echo "::set-output name=needed::$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"
-      #- name: trigger builds  if needed
-      #  id: set-matrix
-      #  if: env.build_needed == 'no'
-      #  run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"Stretch\"},{\"project\":\"Buster\"},{\"project\":\"Bullseye\"}]}"
+  
   build:
     needs: check
     runs-on: ubuntu-latest
+    container: 'debian:11'
     strategy:
       matrix:
         version: ["Stretch","Buster","Bullseye"]
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
-      - run: echo "test"
+      - uses: actions/checkout@v3
+      - run: pwd
