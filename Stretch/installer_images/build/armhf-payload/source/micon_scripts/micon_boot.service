@@ -2,8 +2,6 @@
 Description=Tell Terastation it finished booting so it doesnt shutdown
 Wants=network-online.target                                                                                  
 After=network-online.target
-Restart=on-failure
-RestartSec=30
 
 [Service]
 ExecStart=/usr/local/bin/micon_scripts/micon_startup.py
