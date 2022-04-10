@@ -51,4 +51,11 @@ jobs:
         run: git stage ../${{matrix.arch}}_devices/*; git commit -v -a -m "update installer images"
       - name: push
         run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git "${{matrix.version}}-${{matrix.arch}}-autobuild"
+      - name: Merge branch
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: "${{matrix.version}}-${{matrix.arch}}-autobuild"
+          target_branch: master
+          github_token: ${{ secrets.GITHUB_TOKEN }}
         
