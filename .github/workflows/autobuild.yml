@@ -69,4 +69,29 @@ jobs:
           from_branch: "${{matrix.version}}-${{matrix.arch}}-autobuild"
           target_branch: master
           github_token: ${{ secrets.GITHUB_TOKEN }}
-        
+          
+  cleanup:
+    needs: [check,merge]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "/${{github.event.repository.name}}"
+    container: 'debian:11'
+    if: ${{ needs.check.outputs.needed == 'yes' }}
+    steps:
+      - name: install prereqs
+        run: apt-get update; apt-get -y install git
+        working-directory: "/"
+      - name: clone repo 
+        run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$PWD$(ls -rt | tail -n 1)" >> $GITHUB_ENV
+        working-directory: "/"
+      - name: clear rebuild flag
+        run: echo no > .rebuild
+      - name: setup git config
+        run: git config user.name "workflow@github"; git config user.email "workflow@github"
+      - name: commit new files to branch
+        run: git commit -v -a -m "update installer images"
+      - name: push
+        run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git master
+          
+      
