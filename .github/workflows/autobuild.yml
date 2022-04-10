@@ -23,7 +23,7 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     env:
-      repo_dir: "/${{github.event.repository.name}}"
+      repo_dir: "/${GITHUB_REPOSITORY#*/}"
     defaults:
       run:
         working-directory: "${{env.repo_dir}}/${{ matrix.version }}/installer_images/build/"
