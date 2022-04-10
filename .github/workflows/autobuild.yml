@@ -1,5 +1,11 @@
 name: build installer images
-on: push
+
+push:
+  paths:
+    - '.rebuild'
+  schedule:
+    - cron: "*/15 * * * *"
+
 jobs:
   check:
     runs-on: ubuntu-latest
