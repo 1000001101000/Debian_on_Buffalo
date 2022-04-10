@@ -3,8 +3,8 @@ on:
   push:
     paths:
       - '.rebuild'
-    schedule:
-      - cron: "*/15 * * * *"
+  schedule:
+     - cron: "*/15 * * * *"
 
 jobs:
   check:
