@@ -1,6 +1,5 @@
 name: build installer images
 on: push
-
 jobs:
   check:
     runs-on: ubuntu-latest
