@@ -50,5 +50,5 @@ jobs:
       - name: commit new files to branch
         run: git stage ../${{matrix.arch}}_devices/*; git commit -v -a -m "update installer images"
       - name: push
-        run: git push --set-upstream origin "${{matrix.version}}-${{matrix.arch}}-autobuild"
+        run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git "${{matrix.version}}-${{matrix.arch}}-autobuild"
         
