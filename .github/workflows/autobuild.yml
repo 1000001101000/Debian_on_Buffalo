@@ -51,6 +51,17 @@ jobs:
         run: git stage ../${{matrix.arch}}_devices/*; git commit -v -a -m "update installer images"
       - name: push
         run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git "${{matrix.version}}-${{matrix.arch}}-autobuild"
+          
+  merge:
+    needs: [check,build]
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        version: ["Stretch","Buster","Bullseye"]
+        arch: ["armel","armhf"]
+    if: ${{ needs.check.outputs.needed == 'yes' }}
+    steps:
       - name: Merge branch
         uses: devmasx/merge-branch@master
         with:
