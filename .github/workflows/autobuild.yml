@@ -1,10 +1,10 @@
 name: build installer images
-
-push:
-  paths:
-    - '.rebuild'
-  schedule:
-    - cron: "*/15 * * * *"
+on:
+  push:
+    paths:
+      - '.rebuild'
+    schedule:
+      - cron: "*/15 * * * *"
 
 jobs:
   check:
