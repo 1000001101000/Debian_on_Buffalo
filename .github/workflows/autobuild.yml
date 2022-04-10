@@ -23,7 +23,7 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     env:
-      repo_dir: "/${{github.repository#*/}}"
+      repo_dir: "/Debian_on_Buffalo"
     defaults:
       run:
         working-directory: "${{env.repo_dir}}/${{ matrix.version }}/installer_images/build/"
