@@ -1,10 +1,10 @@
 name: build installer images
-#on:
- # push:
- #   paths:
- #     - '.rebuild'
- # schedule:
- #    - cron: "*/15 * * * *"
+on:
+  push:
+    paths:
+      - '.rebuild'
+  schedule:
+     - cron: "*/15 * * * *"
 
 jobs:
   check:
@@ -22,81 +22,28 @@ jobs:
   build:
     needs: check
     runs-on: ubuntu-latest
-    env:
-      repo_dir: "/Debian_on_Buffalo"
     defaults:
       run:
-        working-directory: "${{env.repo_dir}}/${{ matrix.version }}/installer_images/build/"
+        working-directory: "/Debian_on_Buffalo"
     container: 'debian:11'
-    strategy:
-      matrix:
-        version: ["Stretch","Buster","Bullseye"]
-        arch: ["armel","armhf"]
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
       - name: install prereqs
         run: apt-get update; apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
         working-directory: "/"
       - name: clone repo 
-        run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$PWD$(ls -rt | tail -n 1)" >> $GITHUB_ENV
+        run: git clone --depth 1 https://github.com/${{github.repository}}
         working-directory: "/"
-      - name: checkout a branch
-        run: git checkout -b "${{matrix.version}}-${{matrix.arch}}-autobuild"
-      - name: build ${{ matrix.version }} ${{ matrix.arch }} installer
-        run: ./generate_images_${{matrix.arch}}.sh
-      - name: make sure target directory exists
-        run: mkdir ../${{matrix.arch}}_devices || exit 0
-      - name: copy ${{ matrix.version }} ${{ matrix.arch }} files into place
-        run:  cp -v output/initrd.buffalo.${{matrix.arch}} ../${{matrix.arch}}_devices/initrd.buffalo;cp -v output/uImage*buffalo.* ../${{matrix.arch}}_devices/
-      - name: record base installer hash
-        run: cat ${{matrix.arch}}-files/initrd.gz | md5sum > last_build_${{matrix.arch}}.txt
-      - name: setup git config
-        run: git config user.name "workflow@github"; git config user.email "workflow@github"
-      - name: commit new files to branch
-        run: git stage ../${{matrix.arch}}_devices/*; git commit -v -a -m "update installer images"
-      - name: push
-        run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git "${{matrix.version}}-${{matrix.arch}}-autobuild"
-          
-  merge:
-    needs: [check,build]
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        version: ["Stretch","Buster","Bullseye"]
-        arch: ["armel","armhf"]
-    if: ${{ needs.check.outputs.needed == 'yes' }}
-    steps:
-      - name: Merge branch
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          from_branch: "${{matrix.version}}-${{matrix.arch}}-autobuild"
-          target_branch: master
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          
-  cleanup:
-    needs: [check,merge]
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "/${{github.event.repository.name}}"
-    container: 'debian:11'
-    if: ${{ needs.check.outputs.needed == 'yes' }}
-    steps:
-      - name: install prereqs
-        run: apt-get update; apt-get -y install git
-        working-directory: "/"
-      - name: clone repo 
-        run: git clone --depth 1 https://github.com/${{github.repository}}; echo "repo_dir=$PWD$(ls -rt | tail -n 1)" >> $GITHUB_ENV
-        working-directory: "/"
+      - name: run build script
+        run: ./.github/build_all.sh
       - name: clear rebuild flag
         run: echo no > .rebuild
       - name: setup git config
         run: git config user.name "workflow@github"; git config user.email "workflow@github"
       - name: commit new files to branch
-        run: git commit -v -a -m "update installer images"
+        run: git stage ./*; git commit -v -a -m "update installer images"
       - name: push
         run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git master
           
+   
       
