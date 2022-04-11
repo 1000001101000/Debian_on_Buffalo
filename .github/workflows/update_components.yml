@@ -5,21 +5,19 @@ name: Update Components
 
 on: #[push]
   schedule: 
-    - cron: "*/20 * * * *"
+    - cron: "*/15 * * * *"
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: 'debian:9'
-    
+    container: 'debian:11'
     env:
       commit_needed: no
       repo_dir: .
     steps: 
-    - name: update apt
-      run: apt-get update
     - name: install needed tools
-      run: apt-get -y install wget git curl 
+      run: apt-get update; apt-get -y install wget git curl 
+      
     - name: check for micro-etvd-armel update
       run: wget -O /tmp/micro-evtd-armel "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-armel" 2>/dev/null; cat /tmp/micro-evtd-armel | md5sum > /tmp/source 
     - name: check for micro-etvd-armel update
@@ -81,9 +79,7 @@ jobs:
     - name: check for micon_fan_daemon.py update
       run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_fan_daemon.py  2>/dev/null | md5sum > /tmp/dest
     - name: check for micon_fan_daemon.py update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV
-      
-      ##fw_printenv?
+      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV   
         
     - name: check for updated stretch armel installer
       run: curl -sL "http://ftp.nl.debian.org/debian/dists/stretch/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
@@ -113,12 +109,12 @@ jobs:
     - name: check for updated buster armhf installer
       run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
       
-   # - name: check for updated bullseye armel installer
-   #   run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-   # - name: check for updated bullseye armel installer
-   #   run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armel.txt"  
-   # - name: check for updated bullseye armel installer
-   #   run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
+    - name: check for updated bullseye armel installer
+      run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
+    - name: check for updated bullseye armel installer
+      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armel.txt"  
+    - name: check for updated bullseye armel installer
+      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
       
     - name: check for updated bullseye armhf installer
       run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
