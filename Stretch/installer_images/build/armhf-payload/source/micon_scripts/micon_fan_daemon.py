@@ -15,7 +15,7 @@ if os.path.exists(config_file):
 	config.read(config_file)
 else:
 	config['Rackmount'] = {'MediumTempC': '40', 'HighTempC': '50', 'ShutdownTempC': '75'}
-	config['Desktop'] = {'MediumTempC': '25', 'HighTempC': '35', 'ShutdownTempC': '75'}
+	config['Desktop'] = {'MediumTempC': '35', 'HighTempC': '45', 'ShutdownTempC': '75'}
 	with open(config_file, 'w') as configfile:
 		config.write(configfile)
 
