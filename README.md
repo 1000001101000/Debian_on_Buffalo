@@ -5,9 +5,9 @@ If this project helps you click the Star at the top of the page to let me know! 
 
 In addition to the Issues and Discussions tabs on GitHub we now also have a Discord channel at https://discord.gg/2Js7ezAbzm or our IRC on Libera.Chat in the #miraheze-buffalonas channel!
 
-<b>I could use some additional testers for upcoming changes to the installer processes, please reach out on discord if you'd be willing to help!</b>
+If you'd like to help support the project consider donating via the sponsor button above. 
 
-<br><br>
+<br>
 
 ## Quick Note about Debian Bullseye:
 
