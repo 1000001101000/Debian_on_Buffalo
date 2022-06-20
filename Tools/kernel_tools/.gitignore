@@ -5,4 +5,4 @@ vanilla-source*
 linux-source*
 dts
 dtb
-configs/*
+configs/*config*

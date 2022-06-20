@@ -7,6 +7,10 @@ rm *.deb
 rm *.changes
 
 config="$(ls configs | grep $kernel_ver | grep marvell | sort | tail -n 1)"
+if [ "$config" == "" ]; then
+   echo "source config not found, quitting"
+   exit 99
+fi
 echo $config
 
 cd linux-source-$kernel_ver
