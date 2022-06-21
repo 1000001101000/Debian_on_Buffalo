@@ -23,9 +23,14 @@ kernel_deb_url="$(cat Packages | grep Filename: | grep $kpkg | gawk '{print $2}'
 wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
 
+##get bookwork anna version so we can backport it
+wget http://ftp.debian.org/debian/dists/bookworm/main/debian-installer/binary-armel/Packages.gz -O - | zcat > annatmp
+searchfrom="$(grep -n Package:\ anna annatmp | cut -d ':' -f 1)"
+aver="$(tail -n +$searchfrom annatmp | grep -m 1 Version: | cut -d ' ' -f 2)"
+
 ##grab newer version of anna which fixes regression that prevented custom kernels
-wget -N http://ftp.us.debian.org/debian/pool/main/a/anna/anna_1.84_armel.udeb
-wget -N http://deb.debian.org/debian/pool/main/a/anna/anna_1.84.tar.xz
+wget -N "http://ftp.us.debian.org/debian/pool/main/a/anna/anna_$aver""_armel.udeb"
+wget -N "http://deb.debian.org/debian/pool/main/a/anna/anna_$aver.tar.xz"
 
 ##unpack any udebs we decided to add.
 for x in $(ls *.udeb)
@@ -35,7 +40,7 @@ done
 
 ##grab the string templates for the corrected version
 mkdir -p ../armel-payload/var/lib/dpkg/info/
-tar xf anna_1.84.tar.xz anna-1.84/debian/anna.templates -O > ../armel-payload/var/lib/dpkg/info/anna.templates
+tar xf "anna_$aver.tar.xz" anna-$aver/debian/anna.templates -O > ../armel-payload/var/lib/dpkg/info/anna.templates
 
 ##patched to prevent bad udev rules causing init to quit.
 mkdir -p ../armel-payload/lib/debian-installer/
