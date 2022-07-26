@@ -38,18 +38,18 @@ Description: Linux kernel headers for 5.10.120 on armel
 
 Package: linux-headers-5.10.127
 Source: linux-5.10.127
-Version: 5.10.127-7
+Version: 5.10.127-8
 Architecture: armel
-Maintainer: root <root@1d338e827604>
-Installed-Size: 46981
+Maintainer: root <root@cf451478d82f>
+Installed-Size: 46982
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-5.10.127/linux-headers-5.10.127_5.10.127-7_armel.deb
-Size: 7653312
-SHA256: 905eb03588e1ac9dd8f492462988b3b98d04b6d19b75ab4bd983fedf783d3663
-SHA1: af308b1e4fd01308b580c35d59ca88e5409a65ee
-MD5sum: 7c7157aaa696ed611a62d150b16c292a
+Filename: pool/main/l/linux-5.10.127/linux-headers-5.10.127_5.10.127-8_armel.deb
+Size: 7653448
+SHA256: c18cbbf5705c8da92c7a5ab902bd8569d2b73fc8506d525efbd2035ff677b14f
+SHA1: cd926d569164a7f234014392354f9e62f9162d17
+MD5sum: 785bc62ce53fbbdcd37297f01bdc855f
 Description: Linux kernel headers for 5.10.127 on armel
  This package provides kernel header files for 5.10.127 on armel
  .
@@ -111,54 +111,54 @@ Description: Linux kernel, version 5.10.120
 
 Package: linux-image-5.10.127
 Source: linux-5.10.127
-Version: 5.10.127-7
+Version: 5.10.127-8
 Architecture: armel
-Maintainer: root <root@1d338e827604>
-Installed-Size: 107454
+Maintainer: root <root@cf451478d82f>
+Installed-Size: 107455
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-5.10.127/linux-image-5.10.127_5.10.127-7_armel.deb
-Size: 25692240
-SHA256: b96e4875ef84047dcc2fb987366c63f63d366618a401c4fb62fa903ef9f361e0
-SHA1: 570ed9e3dff4783ab62a8afb5092c8ad112ca197
-MD5sum: eb996be999af2ece2643592fda0e827f
+Filename: pool/main/l/linux-5.10.127/linux-image-5.10.127_5.10.127-8_armel.deb
+Size: 25692156
+SHA256: 6b70a13301f211c8a984158ac85b09c2ba9a4597cf59b1535b47843029b9727b
+SHA1: 5417e0e248ed2a5dcee3baafc3b30ef610e0d5ad
+MD5sum: 124dcdf9167ec220c7b45536857bc7db
 Description: Linux kernel, version 5.10.127
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.10.127.
 
 Package: linux-image-marvell-buffalo
-Version: 5.10-7
+Version: 5.10-8
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@1d338e827604>
+Maintainer: Equivs Dummy Package Generator <root@cf451478d82f>
 Installed-Size: 9
 Depends: linux-image-5.10.127
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_5.10-7_armel.deb
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_5.10-8_armel.deb
 Size: 2236
-SHA256: 1f0b082d66b5693241f65b70048a52e8192db16092414d6283678136bb5720d1
-SHA1: 280e2916a38506468c7d0ed65b32b4e28d116032
-MD5sum: 9aac9cfa0718f876430d524ca727a61d
+SHA256: cb89a85f213ce547d33c79d669b566800906e53daaa4ea99d0cf41ca4dce599f
+SHA1: c161b4c482d04c5e2a1a428b023978343818d2b3
+MD5sum: 8a4e88a3f762352466307db33880b43d
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-5.10.127
-Version: 5.10.127-7
+Version: 5.10.127-8
 Architecture: armel
-Maintainer: root <root@1d338e827604>
+Maintainer: root <root@cf451478d82f>
 Installed-Size: 5742
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-5.10.127/linux-libc-dev_5.10.127-7_armel.deb
-Size: 1105576
-SHA256: 706e7ae249cacf61e02f2e9cda5500d53837ac653ea610b8daf9b4862e8cfafe
-SHA1: 6263f09a44a8abf0b4a86a2dcafa3475ffc90a66
-MD5sum: 8cfdfbc4866baed8d4a9955ab1e93c10
+Filename: pool/main/l/linux-5.10.127/linux-libc-dev_5.10.127-8_armel.deb
+Size: 1105560
+SHA256: f6365ef10375545ce9635c2486c2b2729c94659630d135a8b63c67538a3fded3
+SHA1: 46f754d7deccf418189667fedd8f04fda91af83b
+MD5sum: 60aaca632984ce1de3522cd57b489d72
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
