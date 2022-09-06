@@ -18,26 +18,6 @@ Description: Linux kernel headers for 4.9.254 on armel
  .
  This is useful for people who need to build external modules
 
-Package: linux-headers-4.9.303
-Source: linux-4.9.303
-Version: 4.9.303-18
-Architecture: armel
-Maintainer: Anonymous <root@3ac6ede4b53e>
-Installed-Size: 73205
-Provides: linux-headers, linux-headers-2.6
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.9.303/linux-headers-4.9.303_4.9.303-18_armel.deb
-Size: 10745618
-SHA256: b8985cb57fa2b74416b7b0d37c53c83cf2a7c6fe2355effe41cc46cc8423f493
-SHA1: 91fa53c8c11286ca45cc5959612f4e84eb82aec4
-MD5sum: 762dd9b735ff49c15e8fb3d1beeccff9
-Description: Linux kernel headers for 4.9.303 on armel
- This package provides kernel header files for 4.9.303 on armel
- .
- This is useful for people who need to build external modules
-
 Package: linux-headers-4.9.320
 Source: linux-4.9.320
 Version: 4.9.320-19
@@ -77,26 +57,6 @@ MD5sum: f15645f5ce037e8e80fdf327c157b898
 Description: Linux kernel, version 4.9.254
  This package contains the Linux kernel, modules and corresponding other
  files, version: 4.9.254.
-
-Package: linux-image-4.9.303
-Source: linux-4.9.303
-Version: 4.9.303-18
-Architecture: armel
-Maintainer: Anonymous <root@3ac6ede4b53e>
-Installed-Size: 88543
-Suggests: linux-firmware-image-4.9.303
-Provides: linux-image, linux-image-2.6, linux-modules-4.9.303
-Homepage: http://www.kernel.org/
-Priority: optional
-Section: kernel
-Filename: pool/main/l/linux-4.9.303/linux-image-4.9.303_4.9.303-18_armel.deb
-Size: 21624658
-SHA256: eb689e62f036195f7072313f8ff63d9b43be14775d6db4a581082e33a67c28ae
-SHA1: c5176a618cc8ba615f3b8a278ff0f9c8392de262
-MD5sum: 94eb26acf1f282dd2f2170923b2ecdd9
-Description: Linux kernel, version 4.9.303
- This package contains the Linux kernel, modules and corresponding other
- files, version: 4.9.303.
 
 Package: linux-image-4.9.320
 Source: linux-4.9.320
