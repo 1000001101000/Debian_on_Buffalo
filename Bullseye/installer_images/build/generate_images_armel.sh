@@ -28,9 +28,14 @@ wget http://ftp.debian.org/debian/dists/bookworm/main/debian-installer/binary-ar
 searchfrom="$(grep -n Package:\ anna annatmp | cut -d ':' -f 1)"
 aver="$(tail -n +$searchfrom annatmp | grep -m 1 Version: | cut -d ' ' -f 2)"
 
+##sigh, grab the libc that anna now needs.
+searchfrom="$(grep -n Package:\ libc6-udeb annatmp | cut -d ':' -f 1)"
+libcver="$(tail -n +$searchfrom annatmp | grep -m 1 Version: | cut -d ' ' -f 2)"
+
 ##grab newer version of anna which fixes regression that prevented custom kernels
 wget -N "http://ftp.us.debian.org/debian/pool/main/a/anna/anna_$aver""_armel.udeb"
 wget -N "http://deb.debian.org/debian/pool/main/a/anna/anna_$aver.tar.xz"
+wget -N "http://http.us.debian.org/debian/pool/main/g/glibc/libc6-udeb_$libcver""_armel.udeb"
 
 ##unpack any udebs we decided to add.
 for x in $(ls *.udeb)
