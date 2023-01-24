@@ -74,6 +74,25 @@ Description: Linux kernel headers for 5.10.158 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-5.10.162
+Source: linux-5.10.162
+Version: 5.10.162-14
+Architecture: armel
+Maintainer: root <root@58f43a5852b4>
+Installed-Size: 47012
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.162/linux-headers-5.10.162_5.10.162-14_armel.deb
+Size: 7659304
+SHA256: 65b38e1c8998b0cfb052736a9dd50562d273c34b27670fee1f9c701fb73f7a48
+SHA1: 40f2f1ecbba651e47c0174644ab705a17a6d3ec6
+MD5sum: e984673fe1c05ba90fccd77c2efb92f9
+Description: Linux kernel headers for 5.10.162 on armel
+ This package provides kernel header files for 5.10.162 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-image-5.10.136
 Source: linux-5.10.136
 Version: 5.10.136-9
@@ -146,38 +165,56 @@ Description: Linux kernel, version 5.10.158
  This package contains the Linux kernel, modules and corresponding other
  files, version: 5.10.158.
 
-Package: linux-image-marvell-buffalo
-Version: 5.10-13
+Package: linux-image-5.10.162
+Source: linux-5.10.162
+Version: 5.10.162-14
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@027941ec46d8>
+Maintainer: root <root@58f43a5852b4>
+Installed-Size: 107525
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-5.10.162/linux-image-5.10.162_5.10.162-14_armel.deb
+Size: 25715580
+SHA256: ddd84748a6173fb5bb1b3fd0582056f326d617d8eb1a3db5914f71ff088dbeb3
+SHA1: 89583ee268fefae0f03a2687bffdf0981939143b
+MD5sum: 47e3ba32db988116b28ffed434f17226
+Description: Linux kernel, version 5.10.162
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.162.
+
+Package: linux-image-marvell-buffalo
+Version: 5.10-14
+Architecture: armel
+Maintainer: Equivs Dummy Package Generator <root@58f43a5852b4>
 Installed-Size: 9
-Depends: linux-image-5.10.158
+Depends: linux-image-5.10.162
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_5.10-13_armel.deb
-Size: 2240
-SHA256: 4030bf1dd11e58c1d7e487aadd81444a1ad0c6ddcddf1577be88af407e7bb0be
-SHA1: b4086db9cc8e4e3ecd0b11cf511d527586a9c321
-MD5sum: 84537cb48fc5adb70f68534252f34d14
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_5.10-14_armel.deb
+Size: 2236
+SHA256: 11c1e43ed0504145cc1914e0326a56a18ae9d10e6573b62f227b9e514e0ad385
+SHA1: 9e6570c0970056ad1b3b87b1959b8b4925217e3c
+MD5sum: 2694b61f53dc78cf464e11c242fbfbfe
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
-Source: linux-5.10.158
-Version: 5.10.158-13
+Source: linux-5.10.162
+Version: 5.10.162-14
 Architecture: armel
-Maintainer: root <root@027941ec46d8>
-Installed-Size: 5743
+Maintainer: root <root@58f43a5852b4>
+Installed-Size: 5745
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-5.10.158/linux-libc-dev_5.10.158-13_armel.deb
-Size: 1105980
-SHA256: 4d7a0f2466d75aefbb8d49c9f78015b77d77e31860a9dca7d0dbbae2603e1618
-SHA1: 17d703fc8d3a76c237e3e69d50bc4bfdaaa4a209
-MD5sum: 7c46166be34241fbacabcf3862c5ea89
+Filename: pool/main/l/linux-5.10.162/linux-libc-dev_5.10.162-14_armel.deb
+Size: 1106580
+SHA256: a86336f958ec3f0aebd0f85e08bf578f7fe430da155ed7c26f0c0f5e99f79e20
+SHA1: d8ac724cbe75f3c3d28a80c4cecff0670e7e43ee
+MD5sum: d6c3757694df47ed011c2dc134b43c7a
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
