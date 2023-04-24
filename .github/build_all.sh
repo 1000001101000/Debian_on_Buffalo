@@ -1,7 +1,7 @@
 #!/bin/bash
 
 scripts="$(find . | grep generate_images | xargs -n 1 dirname | sort -u)"
-archs="armel armhf"
+archs="armhf"
 oldpwd="$PWD"
 
 for x in $scripts
