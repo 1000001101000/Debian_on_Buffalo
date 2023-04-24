@@ -1,7 +1,0 @@
-*.db
-*.dtb
-*.py
-*.sh
-lib/*
-micon_scripts
-micro-evtd
