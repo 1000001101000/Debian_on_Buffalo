@@ -3,7 +3,7 @@ Tools for Installing/Running Debian on all ARM-based Buffalo Linkstation/Terasta
 
 If this project helps you click the Star at the top of the page to let me know! If you'd like to contribute to the continued development/maintenance consider clicking on the sponsor button.
 
-In addition to the Issues and Discussions tabs on GitHub we now also have a Discord channel at https://discord.gg/2Js7ezAbzm or our IRC on Libera.Chat in the #miraheze-buffalonas channel!
+In addition to the Issues and Discussions tabs on GitHub we now also have a Discord channel at https://discord.gg/E88dkcuyW4 or our IRC on Libera.Chat in the #miraheze-buffalonas channel!
 
 If you'd like to help support the project consider donating via the sponsor button above. 
 
