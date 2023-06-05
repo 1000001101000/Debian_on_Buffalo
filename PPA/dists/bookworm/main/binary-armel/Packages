@@ -1,17 +1,17 @@
 Package: linux-headers-6.1.27
 Source: linux-upstream
-Version: 6.1.27-4
+Version: 6.1.27-5
 Architecture: armel
-Maintainer: root <root@936ad046848e>
+Maintainer: root <root@c043194e4903>
 Installed-Size: 49830
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-headers-6.1.27_6.1.27-4_armel.deb
-Size: 8375620
-SHA256: 3768db43b9869615ae15f27de567affb92606f1311cd9e563b6691bca8711496
-SHA1: a4de7173afd1c6f5bf2342412d60bbff18ba9bf2
-MD5sum: f1d076016485e476787852e130c8663b
+Filename: pool/main/l/linux-upstream/linux-headers-6.1.27_6.1.27-5_armel.deb
+Size: 8376000
+SHA256: 7dab55303a3881caf359ffd8e6b16f22aa0526acb661eb4f7b993b2ac313a429
+SHA1: 204e62cdb41572bf680edb83e588637746fefd1c
+MD5sum: f53c238528ff7fd8aa427c99308949e9
 Description: Linux kernel headers for 6.1.27 on armel
  This package provides kernel header files for 6.1.27 on armel
  .
@@ -19,54 +19,54 @@ Description: Linux kernel headers for 6.1.27 on armel
 
 Package: linux-image-6.1.27
 Source: linux-upstream
-Version: 6.1.27-4
+Version: 6.1.27-5
 Architecture: armel
-Maintainer: root <root@936ad046848e>
+Maintainer: root <root@c043194e4903>
 Installed-Size: 114648
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-image-6.1.27_6.1.27-4_armel.deb
-Size: 27386988
-SHA256: 11c35e19a1dc201d9f615ee95d781955f3faf97f599b000e0ddfe754379f3571
-SHA1: 4b5358a1405f789cf14cf57652a5550ca87241c1
-MD5sum: e8ba60091b22bdf07098f9fe353263a5
+Filename: pool/main/l/linux-upstream/linux-image-6.1.27_6.1.27-5_armel.deb
+Size: 27395036
+SHA256: 188528d1655436027c091b96b60cf99b6fbbc5b4e0165f85c48bad0f1145a5e9
+SHA1: 8e6a2657a689167330c8e1509346a1f063f54c72
+MD5sum: c7b1106ef124be86aee9063d734b97c1
 Description: Linux kernel, version 6.1.27
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.1.27.
 
 Package: linux-image-marvell-buffalo
-Version: 6.1-3
+Version: 6.1.27-5
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@936ad046848e>
+Maintainer: Equivs Dummy Package Generator <root@c043194e4903>
 Installed-Size: 9
-Depends: linux-image-6.1.27, linux-headers-6.1.27, linux-libc-dev (= 6.1.27-3)
+Depends: linux-image-6.1.27 (= 6.1.27-5), linux-headers-6.1.27 (= 6.1.27-5), linux-libc-dev (= 6.1.27-5)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1-3_armel.deb
-Size: 2280
-SHA256: 27c18a24fa4c86c061458a6f58b15d59b2e7a8e3c50b7e0cc7643b27b1136706
-SHA1: af044ed5d99414df328d0a708835f0e03464f1ab
-MD5sum: b704cfd3f983915c0a03cc3dfddf4f2c
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.27-5_armel.deb
+Size: 2296
+SHA256: 19e55ad302294b18289508fa8eac1f2ebd3bbb37bde76933cbb92974e22efd3f
+SHA1: 9d5a4bfaaa8e8769c09df9a2fe75b367e1a66de7
+MD5sum: b5325c25684d5f2873a15613689f2d94
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.1.27-4
+Version: 6.1.27-5
 Architecture: armel
-Maintainer: root <root@936ad046848e>
+Maintainer: root <root@c043194e4903>
 Installed-Size: 6438
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.27-4_armel.deb
-Size: 1235404
-SHA256: dacc2cc428df0be1c795578ad3052f0dacc41a32e0504c2a21c95d0f93eff419
-SHA1: dc351b55ab03483dc541e8871fc6f1bbae080f16
-MD5sum: 0450ed27a6311be5ad3002705b7f4ac2
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.27-5_armel.deb
+Size: 1235348
+SHA256: 3cb82842efe551bb9991599ee4f34e2a8ceaf57970eb7042150ae5a92da92cec
+SHA1: 08771b76bd61a681765a8574eba51e618464aef6
+MD5sum: b6ae49300e75fa0ac1988e08f08514e8
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
