@@ -1,17 +1,17 @@
 Package: linux-headers-6.1.27
 Source: linux-upstream
-Version: 6.1.27-3
+Version: 6.1.27-4
 Architecture: armel
-Maintainer: root <root@210437a4a291>
+Maintainer: root <root@936ad046848e>
 Installed-Size: 49830
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-headers-6.1.27_6.1.27-3_armel.deb
-Size: 8375724
-SHA256: 0b068e3b0ab601a874bf6605d8d9a6c6de5ac4907fcd62e60a3a3f2f6f87b985
-SHA1: 1dd1657b75245afae906827371df9c596b29e063
-MD5sum: ce4b092c2e6ac09999b98b845a4eee36
+Filename: pool/main/l/linux-upstream/linux-headers-6.1.27_6.1.27-4_armel.deb
+Size: 8375620
+SHA256: 3768db43b9869615ae15f27de567affb92606f1311cd9e563b6691bca8711496
+SHA1: a4de7173afd1c6f5bf2342412d60bbff18ba9bf2
+MD5sum: f1d076016485e476787852e130c8663b
 Description: Linux kernel headers for 6.1.27 on armel
  This package provides kernel header files for 6.1.27 on armel
  .
@@ -19,54 +19,54 @@ Description: Linux kernel headers for 6.1.27 on armel
 
 Package: linux-image-6.1.27
 Source: linux-upstream
-Version: 6.1.27-3
+Version: 6.1.27-4
 Architecture: armel
-Maintainer: root <root@210437a4a291>
-Installed-Size: 114651
+Maintainer: root <root@936ad046848e>
+Installed-Size: 114648
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-image-6.1.27_6.1.27-3_armel.deb
-Size: 27391844
-SHA256: 3128326a6c5cab66fd59096050075617fc0e2c8631a472ab59aa367e078ce5e7
-SHA1: 8760e798223b598151f25853aac546aaaa562581
-MD5sum: 4b838efe5109b00ee8f85d9a2cb62bee
+Filename: pool/main/l/linux-upstream/linux-image-6.1.27_6.1.27-4_armel.deb
+Size: 27386988
+SHA256: 11c35e19a1dc201d9f615ee95d781955f3faf97f599b000e0ddfe754379f3571
+SHA1: 4b5358a1405f789cf14cf57652a5550ca87241c1
+MD5sum: e8ba60091b22bdf07098f9fe353263a5
 Description: Linux kernel, version 6.1.27
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.1.27.
 
 Package: linux-image-marvell-buffalo
-Version: 6.1-2
+Version: 6.1-3
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@210437a4a291>
+Maintainer: Equivs Dummy Package Generator <root@936ad046848e>
 Installed-Size: 9
-Depends: linux-image-6.1.27, linux-header-6.1.27, linux-libc-dev (= 6.1.27)
+Depends: linux-image-6.1.27, linux-headers-6.1.27, linux-libc-dev (= 6.1.27-3)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1-2_armel.deb
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1-3_armel.deb
 Size: 2280
-SHA256: 188fcb2aa436c461a7758cd764d5199beae529020ab7c1bd515f4e5e27c00a81
-SHA1: edd1203c39e51b1c73a49bee7a63ead4cffdc70f
-MD5sum: 38dee513f1a6c1be220522a3f6840205
+SHA256: 27c18a24fa4c86c061458a6f58b15d59b2e7a8e3c50b7e0cc7643b27b1136706
+SHA1: af044ed5d99414df328d0a708835f0e03464f1ab
+MD5sum: b704cfd3f983915c0a03cc3dfddf4f2c
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.1.27-3
+Version: 6.1.27-4
 Architecture: armel
-Maintainer: root <root@210437a4a291>
+Maintainer: root <root@936ad046848e>
 Installed-Size: 6438
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.27-3_armel.deb
-Size: 1235432
-SHA256: e202695c4f6537573e035b4f2ad9072312e3bd8bf787366053ac4556c756c33c
-SHA1: 49a40055a7b65bdd031df22578603220519034b0
-MD5sum: 871c5ae3a8b5668516d8af27fd80d39e
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.27-4_armel.deb
+Size: 1235404
+SHA256: dacc2cc428df0be1c795578ad3052f0dacc41a32e0504c2a21c95d0f93eff419
+SHA1: dc351b55ab03483dc541e8871fc6f1bbae080f16
+MD5sum: 0450ed27a6311be5ad3002705b7f4ac2
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
