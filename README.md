@@ -9,23 +9,16 @@ If you'd like to help support the project consider donating via the sponsor butt
 
 <br>
 
-## Quick Note about Debian Bullseye:
+## Quick Note about Debian Bookworm:
 
-All the major issues with supporting older devices have been resolved, those fixes have been backported to Stretch/Buster as well. The only remaining limit is that devices with less than 128mb of ram need to use the "debootstrap" method rather than the ssh installer. 
+All devices supported for previous Debian versions are working for Bookworm EXCEPT the Terastation TS3400 which has a PCIe issue I'm still working to fix. 
+
+The only remaining limit is that devices with less than 128mb of ram need to use the "debootstrap" method rather than the ssh installer. 
 
 
 
 I've moved all the documentation to the wiki:  
 https://github.com/1000001101000/Debian_on_Buffalo/wiki
-   
-<br><br><br><br>
-  
-Acknowledgments: 
-
-Toha     - https://github.com/tohenk/linkstation-mod
-
-rogers0  - https://github.com/rogers0/OpenLinkstation
-
-shihsung - https://sites.google.com/site/shihsung/
+ 
 
 
