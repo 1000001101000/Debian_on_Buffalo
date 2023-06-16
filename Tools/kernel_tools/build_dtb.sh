@@ -9,8 +9,15 @@ mkdir -p dtb/$kernel_ver
 
 dtbs="$(ls dts/$kernel_ver | grep .dts | sed 's/dts/dtb/g')"
 
+config="$(ls configs | grep $kernel_ver | sort | tail -n 1)"
+if [ "$config" == "" ]; then
+   echo "source config not found, quitting"
+   exit 99
+fi
+echo $config
+
 cd linux-source-$kernel_ver
-cp  ../configs/custom-config-$kernel_ver .config
+cp  ../configs/$config .config
 
 rm ../dtb/$kernel_ver/*.dtb 2>/dev/null
 rm arch/arm/boot/dts/*.dtb 2>/dev/null
@@ -19,6 +26,7 @@ cp arch/arm/boot/dts/Makefile arch/arm/boot/dts/Makefile.old
 echo 'dtb-y="'$dtbs'"' > arch/arm/boot/dts/Makefile
 #tail -n 4 arch/arm/boot/dts/Makefile.old >> arch/arm/boot/dts/Makefile
 
+make -j$(nproc) ARCH=arm olddefconfig
 make -j$(nproc) ARCH=arm CROSS_COMPILE="arm-linux-gnueabi-" $dtbs
 cp arch/arm/boot/dts/*.dtb ../dtb/$kernel_ver/
 mv arch/arm/boot/dts/Makefile.old arch/arm/boot/dts/Makefile

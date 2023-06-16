@@ -1,0 +1,677 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+* Device Tree file for Buffalo {{device_type|title}} {{device.model|upper}}
+*
+* Jeremy J. Peper, based on device trees created by
+* Steve Shih <shihsung@gmail.com> and Toha <tohenk@yahoo.com>
+*
+*/
+
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+{% if device_soc == "370" %}
+#include "armada-370.dtsi"
+{% endif %}
+{% if device_soc == "xp" %}
+#include "armada-xp-mv78230.dtsi"
+{% endif %}
+
+/ {
+	model = "Buffalo {{device_type|title}} {{device.model|upper}}";
+	compatible = "buffalo,{{device.model}}",{{soc_compat}}, "marvell,armada-370-xp";
+
+{% if device_soc == "xp" %}
+	aliases
+	{
+		serial0 = &uart0;
+		serial1 = &uart3;
+		serial2 = &uart1;
+		serial3 = &uart2;
+	};
+
+{% endif %}
+	chosen
+	{
+		bootargs = "earlyprintk boot=local";
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory
+	{
+		device_type = "memory";
+{% if device.series == "ls200" %}
+		reg = <0x00000000 0x10000000>; /* 256 MB */
+{% endif %}
+{% if device.series == "ls400" or device.series == "ts1400" %}
+		reg = <0x00000000 0x20000000>; /* 512 MB */
+{% endif %}
+{% if device.series == "ts3000" %}
+		reg = <0 0x00000000 0 0x40000000>; /* 1GB */
+{% endif %}
+	};
+
+	soc
+	{
+{% if device_soc == "370" %}
+		ranges = <MBUS_ID(0xf0, 0x01) 0 0xd0000000 0x100000
+			MBUS_ID(0x01, 0xe0) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x01) 0 0xf1100000 0x10000>;
+{% endif %}
+{% if device_soc == "xp" %}
+		ranges = <MBUS_ID(0xf0, 0x01) 0 0 0xd0000000 0x100000
+			 MBUS_ID(0x01, 0x1d) 0 0 0xfff00000 0x100000
+			 MBUS_ID(0x09, 0x09) 0 0 0xf1100000 0x10000
+			 MBUS_ID(0x09, 0x05) 0 0 0xf1110000 0x10000>;
+{% endif %}
+
+		internal-regs
+		{
+{% if device.series != "ls200" %}
+			rtc@10300
+			{
+				status = "disabled";
+			};
+
+			i2c@11000
+			{
+				status = "okay";
+				clock-frequency = <100000>;
+
+				rs5c372: rs5c372@32
+				{
+					compatible = "ricoh,rs5c372a";
+					reg = <0x32>;
+				};
+			};
+{% endif %}
+
+			serial@12000
+			{
+				status = "okay";
+			};
+{% if device.series == "ts1400" %}
+
+			//microcontroller interface, see https://github.com/1000001101000/Python_buffalo_libmicon
+			serial@12100
+			{
+				status = "okay";
+			};
+{% endif %}
+{% if device.series == "ts3000" %}
+
+			//back serial port
+			serial@12100
+			{
+				status = "okay";
+			};
+
+			serial@12200
+			{
+				status = "okay";
+			};
+
+			//microcontroller interface, see https://github.com/1000001101000/Python_buffalo_libmicon
+			serial@12300
+			{
+				status = "okay";
+			};
+{% endif %}
+
+			timer@20300
+			{
+				status = "okay";
+			};
+
+			usb@50000
+			{
+				status = "okay";
+			};
+{% if device.series == "ts3000" %}
+
+			usb@51000
+			{
+				status = "okay";
+			};
+
+			usb@52000
+			{
+				status = "okay";
+			};
+{% endif %}
+{% if device.series == "ts3000" %}
+
+			ethernet@70000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+ 
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy1>;
+				phy-mode = "rgmii-id";
+			};
+{% else %}
+
+			ethernet@74000
+			{
+				status = "okay";
+				phy = <&phy0>;
+				phy-mode = "rgmii-id";
+			};
+{% endif %}
+{% if num_drives < "4" %}
+
+			sata@a0000
+			{
+				nr-ports = <{{num_drives}}>;
+				status = "okay";
+			};
+{% endif %}
+		};
+	};
+
+	regulators
+	{
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		pinctrl-0 = <{% if device.series == "ls400" and device.model != "ls441d" %}&usb_pwr {% endif %}&hdd_pwr1{% if num_drives > "1" %} &hdd_pwr2{% if num_drives > "2" %} &hdd_pwr3 &hdd_pwr4{% endif %}{% endif %}>;
+		pinctrl-names = "default";
+{% if device.series == "ls400" and device.model != "ls441d" %}
+
+		regulator@0
+		{
+			compatible = "regulator-fixed";
+			reg = <0>;
+			regulator-name = "USB Power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <&gpio0 5 GPIO_ACTIVE_LOW>;
+		};
+{% endif %}
+
+		regulator@1
+		{
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "HDD1 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <{% if device.series == "ts3000" %}&gpio0 26{% else %}&gpio0 8{% endif %} GPIO_ACTIVE_HIGH>;
+		};
+{% if num_drives >= "2" %}
+
+		regulator@2
+		{
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "HDD2 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+{% if device.series == "ls200" %}
+			gpio = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+{% endif %}
+{% if device.series == "ls400" and device.model != "ls441d" %}
+			gpio = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+{% endif %}
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+			gpio = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+{% endif %}
+{% if device.series == "ts3000" %}
+			gpio = <&gpio0 27 GPIO_ACTIVE_HIGH>;
+{% endif %}
+		};
+{% endif %}
+{% if num_drives > "2" %}
+
+		regulator@3
+		{
+			compatible = "regulator-fixed";
+			reg = <3>;
+			regulator-name = "HDD3 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <{% if device.series == "ts3000" %}&gpio0 24{% else %}&gpio1 20{% endif %} GPIO_ACTIVE_HIGH>;
+		};
+
+		regulator@4
+		{
+			compatible = "regulator-fixed";
+			reg = <4>;
+			regulator-name = "HDD4 power";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			regulator-always-on;
+			regulator-boot-on;
+			gpio = <{% if device.series == "ts3000" %}&gpio0 29{% else %}&gpio1 16{% endif %} GPIO_ACTIVE_HIGH>;
+		};
+{% endif %}
+	};
+
+{% if device.series != "ts3000" and device.model != "ts1400r" %}
+	gpio-leds
+	{
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&power_led_white{% if device.model != "ts1400d" %} &power_led_red &power_led_orange{% endif %}
+ &function_led_white{% if device.model != "ls410d" %} &function_led_red{% endif %}
+{% if num_drives > "1" and device.series != "ts1400" %} &hdd1_led_red &hdd2_led_red{% endif %}{% if device.model == "ls441d" %} &hdd3_led_red &hdd4_led_red{% endif %}
+>;
+
+{% if device.model == "ls441d" or device.model == "ts1400d" %}
+		power-led-white
+		{
+			label = "led:power:white";
+			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+{% endif %}
+{% if device.model != "ls441d" and device.model != "ts1400d" and device.model != "ls410d" %}
+		function-led-red
+		{
+			label = "led:function:red";
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+{% if device.model == "ls441d" or device.model == "ts1400d" %}
+
+		function-led-red
+		{
+			label = "led:function:red";
+			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+{% if device.model == "ls441d" %}
+
+		hdd4-led-red
+		{
+			label = "led:hdd4:red";
+			gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+{% if device.model != "ts1400d" %}
+
+{% if device.model == "ls441d" %}
+		power-led-orange
+		{
+			label = "led:power:orange";
+			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+{% else %}
+		power-led-white
+		{
+			label = "led:power:white";
+			gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+{% endif %}
+		};
+{% endif %}
+{% if device.model != "ls441d" and device.model != "ts1400d" %}
+
+		power-led-red
+		{
+			label = "led:power:red";
+			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+
+		power-led-orange
+		{
+			label = "led:power:orange";
+			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+{% if device.model == "ls441d" %}
+
+		hdd3-led-red
+		{
+			label = "led:hdd3:red";
+			gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+
+		function-led-white
+		{
+			label = "led:function:white";
+			gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
+{% if device.model != "ls410d" %}
+			default-state = "off";
+{% else %}
+			linux,default-trigger = "disk-activity";
+{% endif %}
+		};
+{% if device.model == "ls441d" %}
+
+		power-led-red
+		{
+			label = "led:power:red";
+			gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+{% if num_drives > "1" and device.series != "ts1400" %}
+
+		hdd1-led-red
+		{
+			label = "led:hdd1:red";
+			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+
+		hdd2-led-red
+		{
+			label = "led:hdd2:red";
+			gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+{% endif %}
+	};
+{% endif %}
+
+	restart_poweroff
+	{
+		compatible = "restart-poweroff";
+	};
+
+	gpio-keys
+	{
+		compatible = "gpio-keys";
+		pinctrl-0 = <{% if device.model != "ls210d" %}&hdd1_present{% endif %}{% if num_drives != "1" %} &hdd2_present{% endif %}{% if num_drives > "2" %} &hdd3_present &hdd4_present{% endif %}
+{% if device.series != "ts1400" and device.series != "ts3000" %}
+ &power_{% if device.model == "ls441d" %}button{% else %}switch{% endif %} &function_button>;
+{% else %}
+>;
+{% endif %}
+		pinctrl-names = "default";
+
+{% if device.model != "ls210d" %}
+		hdd1-present
+		{
+			label = "Hard Disk 1 Present";
+			linux,code = <KEY_PROG1>;
+{% if (device.series == "ls200" or device.series == "ls400") and device.model != "ls441d" %}
+			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+{% endif %}
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+			gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
+{% endif %}
+{% if device.series == "ts3000" %}
+			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+{% endif %}
+		};
+{% endif %}
+{% if num_drives > "1" %}
+
+		hdd2-present
+		{
+			label = "Hard Disk 2 Present";
+			linux,code = <KEY_PROG2>;
+{% if (device.series == "ls200" or device.series == "ls400") and device.model != "ls441d" %}
+			gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
+{% endif %}
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+{% endif %}
+{% if device.series == "ts3000" %}
+			gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+{% endif %}
+
+		};
+{% endif %}
+{% if device.series != "ts1400" and device.series != "ts3000" %}
+
+		power-{% if device.model == "ls441d" %}button{% else %}switch{% endif %}
+
+		{
+			label = "Power {% if device.model == "ls441d" %}Button{% else %}Switch{% endif %}";
+			linux,code = <KEY_ESC>;
+			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+		};
+
+		function-button
+		{
+			label = "Function Button";
+			linux,code = <KEY_OPTION>;
+			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
+		};
+{% endif %}
+{% if num_drives > "2" %}
+
+		hdd3-present
+		{
+			label = "Hard Disk 3 Present";
+			linux,code = <KEY_PROG3>;
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+			gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
+{% endif %}
+{% if device.series == "ts3000" %}
+			gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
+{% endif %}
+		};
+
+		hdd4-present
+		{
+			label = "Hard Disk 4 Present";
+			linux,code = <KEY_PROG4>;
+{% if device.series == "ts1400" or device.model == "ls441d" %}
+			gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
+{% endif %}
+{% if device.series == "ts3000" %}
+			gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
+{% endif %}
+		};
+{% endif %}
+	};
+
+{% if device.series != "ts1400" and device.series != "ts3000" and device.model != "ls210d" %}
+	gpio-fan
+	{
+		compatible = "gpio-fan";
+		pinctrl-0 = <&fan_low &fan_high &fan_alarm>;
+		pinctrl-names = "default";
+		gpios = <&gpio0 13 GPIO_ACTIVE_HIGH
+			 &gpio0 14 GPIO_ACTIVE_HIGH>;
+		gpio-fan,speed-map = <0    3
+{% if device.model == "ls220d" %}
+				      1850 2
+				      2600 1
+				      3500 0>;
+{% endif %}
+{% if device.model == "ls410d" %}
+				      2050 2
+				      3600 1
+				      4500 0>;
+{% endif %}
+{% if device.model == "ls441d" %}
+				      1100 2
+				      1600 1
+				      2050 0>;
+{% endif %}
+{% if device.series == "ls400" and num_drives == "2" %}
+				      1200 2
+				      1800 1
+				      2300 0>;
+{% endif %}
+		alarm-gpios = <&gpio0 {% if device.model == "ls441d" %}12{% else %}10{% endif %} GPIO_ACTIVE_HIGH>;
+	};
+{% endif %}
+};
+
+&mdio
+{
+	phy0: ethernet-phy@0
+	{
+		reg = <0>;
+{% if device.series == "ls400" and device.model != "ls441d" %}
+		//LED0: on/blink on act, LED1: off (not connected) LED2: Force on (signals boot loader to reboot by default) 
+		marvell,reg-init = <0x3 0x10 0xf000 0x0981>;
+{% endif %}
+{% if device.model == "ls441d" %}
+		//LED0: on/blink on act, LED1: off (not connected) LED2: Force off (connected to power button gpio, signals shutdown/restart)
+		marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
+{% endif %}
+{% if device.series == "ls200" %}
+		//LED0: off (not connected), LED1: on/blink on act, LED2: off (not connected)
+		marvell,reg-init = <0x3 0x10 0xf000 0x0A1A>;
+{% endif %}
+{% if device.series == "ts1400" %}
+		marvell,reg-init = <0x3 0x10 0xf000 0x0881>;
+{% endif %}
+	};
+{% if device.series == "ts3000" %}
+
+	phy1: ethernet-phy@1
+	{
+		reg = <1>;
+	};
+{% endif %}
+};
+
+&spi0
+{
+	status = "okay";
+{% if device_soc == "370" %}
+	pinctrl-0 = <&spi0_pins2>;
+{% endif %}
+
+	spi-flash@0
+	{
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "mx25l8005", "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+
+		partition@0
+		{
+			label = "u-boot";
+			reg = <0x00000 0xf0000>;
+			read-only;
+		};
+
+		partition@f0000
+		{
+			label = "u-boot-env";
+			reg = <0xf0000 0x10000>;
+			read-only;
+		};
+	};
+};
+{% if device.model != "ls210d" and device.model != "ls410d" and device.model != "ls420d" %}
+
+&nand_controller
+{
+	status = "okay";
+
+	nand@0
+	{
+		reg = <0>;
+		label = "pxa3xx_nand-0";
+		nand-rb = <0>;
+		marvell,nand-keep-config;
+		nand-on-flash-bbt;
+		nand-ecc-strength = <4>;
+		nand-ecc-step-size = <512>;
+	
+		partitions
+		{
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+{% if device.series != "ts3000" %}
+			partition@0
+			{
+				label = "boot";
+				reg = <0x00000000 0x02000000>;  /* 32MB */
+			};
+
+			partition@2000000
+			{
+				label = "rootfs";
+{% endif %}
+{% if device.series != "ts3000" and device.model != "ls441d" %}
+				reg = <0x02000000 0x1e000000>;  /* 480MB */
+			};
+{% endif %}
+{% if device.model == "ls441d" %}
+				reg = <0x02000000 0x17e00000>;  /* 382MB */
+			};
+
+			partition@19e00000
+			{
+				label = "em_boot";
+				reg = <0x19e00000 0x02000000>;  /* 32MB */
+			};
+
+			partition@1be00000
+			{
+				label = "reserve";
+				reg = <0x1be00000 0x4200000>;  /* 66MB */
+			};
+{% endif %}
+{% if device.series == "ts3000" %}
+			partition@0
+			{
+				label = "ubifs";
+				reg = <0x00000000 0x20000000>;  /* 512MB */
+			};
+{% endif %}			
+		};
+	};
+};
+{% endif %}
+{% if device.model == "ls421d" or device.model == "ls441d" or device.series == "ts1400" or device.series == "ts3000" %}
+
+&pciec
+{
+	status = "okay";
+	
+	pcie@1,0
+	{
+		/* Port 0, Lane 0 */
+		status = "okay";
+	};
+
+{% if device.model != "ls421d" %}
+	{% if device_soc == "xp" %}pcie@5,0{% endif %}{% if device_soc == "370" %}pcie@2,0{% endif %}
+
+	{
+		/* Port 1, Lane 0 */
+		status = "okay";
+	};
+{% endif %}
+};
+{% endif %}
+
+&pinctrl
+{
+{% if device_soc == "370" %}
+{% include "370_pinctl.j2" %}
+{% else %}
+{% include "xp_pinctl.j2" %}
+{% endif %}
+};

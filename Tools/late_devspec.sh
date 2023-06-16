@@ -19,6 +19,7 @@ cp /source/runsize.sh /target/etc/initramfs-tools/scripts/init-bottom/
 cp /source/phy_restart.sh /target/usr/local/bin/
 cp /source/rtc_restart.sh /target/usr/local/bin/
 cp /source/0-install_shim /target/etc/initramfs/post-update.d/
+cp /source/bootshim /target/boot/
 machine=`sed -n '/Hardware/ {s/^Hardware\s*:\s//;p}' /proc/cpuinfo`
 case $machine in
 	*"Device Tree)")
@@ -38,9 +39,9 @@ case $machine in
 	echo "/dev/mtdblock1 0x00000 0x10000 0x10000" > /target/etc/fw_env.config ;;
 esac
 
-if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
-    cp /source/ifup-mac.sh /target/usr/local/bin/
-fi
+#if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
+#    cp /source/ifup-mac.sh /target/usr/local/bin/
+#fi
 
 chmod 755 /target/usr/local/bin/*.sh
 

@@ -1,14 +1,15 @@
 #!/bin/bash
 
 kernels="$(ls /boot/vmlin*)"
-stdheader="E1A00000E1A00000E1A00000E1A00000E1A00000E1A00000E1A00000E1A00000"
+magic="403020145454545"
 
 [[ -f "/boot/bootshim" ]] || exit 0
 
+##for now just append if no shim present, need fresh kernel to update
 for kern in $kernels
 do
-tmpheader="$(hexdump -e '"%X%X%X%X%X%X%X%X"' -n 32 "$kern")"
-if [ "$tmpheader" == "$stdheader" ]; then
+tmpheader="$(hexdump -e '"%X%X%X%X"' -s 48 -n 8 "$kern")"
+if [ "$tmpheader" == "$magic" ]; then
    cat "/boot/bootshim" "$kern" > "/boot/tmpkern"
    mv "/boot/tmpkern" "$kern"
    echo "bootshim installed to $kern"

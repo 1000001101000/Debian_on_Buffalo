@@ -2,7 +2,7 @@
 
 dtb_dir="../../device_trees"
 tools_dir="../../../Tools"
-distro="bullseye"
+distro="bookworm"
 
 mkdir output 2>/dev/null
 rm output/* 2>/dev/null
@@ -22,30 +22,6 @@ kpkg="$(tail -n +$searchfrom Packages | grep -m 1 Depends: | cut -d ' ' -f 2)"
 kernel_deb_url="$(cat Packages | grep Filename: | grep $kpkg | gawk '{print $2}')"
 wget -nc "https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/$kernel_deb_url"
 kernel_deb="$(basename $kernel_deb_url)"
-
-##get bookworm anna version so we can backport it
-wget http://ftp.debian.org/debian/dists/bookworm/main/debian-installer/binary-armel/Packages.gz -O - | zcat > annatmp
-searchfrom="$(grep -n Package:\ anna annatmp | cut -d ':' -f 1)"
-aver="$(tail -n +$searchfrom annatmp | grep -m 1 Version: | cut -d ' ' -f 2)"
-
-##sigh, grab the libc that anna now needs.
-searchfrom="$(grep -n Package:\ libc6-udeb annatmp | cut -d ':' -f 1)"
-libcver="$(tail -n +$searchfrom annatmp | grep -m 1 Version: | cut -d ' ' -f 2)"
-
-##grab newer version of anna which fixes regression that prevented custom kernels
-wget -N "http://ftp.us.debian.org/debian/pool/main/a/anna/anna_$aver""_armel.udeb"
-wget -N "http://deb.debian.org/debian/pool/main/a/anna/anna_$aver.tar.xz"
-wget -N "http://http.us.debian.org/debian/pool/main/g/glibc/libc6-udeb_$libcver""_armel.udeb"
-
-##unpack any udebs we decided to add.
-for x in $(ls *.udeb)
-do
-  dpkg -x "$x" ../armel-payload/
-done
-
-##grab the string templates for the corrected version
-mkdir -p ../armel-payload/var/lib/dpkg/info/
-tar xf "anna_$aver.tar.xz" anna-$aver/debian/anna.templates -O > ../armel-payload/var/lib/dpkg/info/anna.templates
 
 ##patched to prevent bad udev rules causing init to quit.
 mkdir -p ../armel-payload/lib/debian-installer/
@@ -244,7 +220,6 @@ faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -
 done
 
 cp vmlinuz output/vmlinuz-armel
-
 for x in machtype katkern tmpkern vmlinuz initrd initrd1 initrd.gz initrd.xz
 do
   rm "$x" 2> /dev/null

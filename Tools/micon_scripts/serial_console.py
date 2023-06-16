@@ -5,7 +5,7 @@ import time
 import sys
 
 ##try reading micon version from each port to determine the right one
-for port in ["/dev/ttyS1","/dev/ttyS3"]:
+for port in ["/dev/ttyS1"]:
         test = libmicon.micon_api(port)
         micon_version = test.send_read_cmd(0x83)
         if micon_version:

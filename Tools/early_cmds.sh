@@ -1,11 +1,3 @@
-set_mac()
-{
-	ip link set dev "$1" down
-	sleep 2
-	ip link set dev "$1" address "$2"
-	sleep 2
-	ip link set dev "$1" up
-}
 
 depmod -a
 modprobe leds-gpio
@@ -56,22 +48,6 @@ echo "debug: found micon"
     /source/micro-evtd -s 013302
   fi
 
-fi
-
-###manually set mac addresses for armada370/xp devices
-if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
-   rmmod mtdblock
-   modprobe marvell
-   modprobe spi_orion
-   sleep 2
-   modprobe spi_nor
-   sleep 2
-   modprobe m25p80
-   sleep 2
-   modprobe mtdblock
-   sleep 2
-   ln -s /usr/bin/arm-linux-gnueabihf-strings /bin/strings
-   /source/ifup-mac.sh
 fi
 
 exit 0

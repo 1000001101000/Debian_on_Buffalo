@@ -18,97 +18,6 @@ jobs:
     - name: install needed tools
       run: apt-get update; apt-get -y install wget git curl 
       
-    - name: check for micro-etvd-armel update
-      run: wget -O /tmp/micro-evtd-armel "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-armel" 2>/dev/null; cat /tmp/micro-evtd-armel | md5sum > /tmp/source 
-    - name: check for micro-etvd-armel update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micro-evtd-armel 2>/dev/null | md5sum > /tmp/dest
-    - name: check for micro-etvd-armel update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for micro-etvd-armhf update
-      run: wget -O /tmp/micro-evtd-armhf "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-armhf" 2>/dev/null; cat /tmp/micro-evtd-armhf | md5sum > /tmp/source 
-    - name: check for micro-etvd-armhf update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micro-evtd-armhf 2>/dev/null | md5sum > /tmp/dest
-    - name: check for micro-etvd-armhf update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for micro-etvd-arm64 update
-      run: wget -O /tmp/micro-evtd-arm64 "https://github.com/1000001101000/micro-evtd/raw/master/bins/micro-evtd-arm64" 2>/dev/null; cat /tmp/micro-evtd-arm64 | md5sum > /tmp/source 
-    - name: check for micro-etvd-arm64 update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micro-evtd-arm64 2>/dev/null | md5sum > /tmp/dest
-    - name: check for micro-etvd-arm64 update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for phytool-armel update
-      run: wget -O /tmp/phytool-armel "https://github.com/1000001101000/phytool/raw/master/bins/phytool-armel" 2>/dev/null; cat /tmp/phytool-armel | md5sum > /tmp/source 
-    - name: check for phytool-armel update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/phytool-armel 2>/dev/null | md5sum > /tmp/dest
-    - name: check for phytool-armel update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV
-      
-    - name: check for phytool-armhf update
-      run: wget -O /tmp/phytool-armhf "https://github.com/1000001101000/phytool/raw/master/bins/phytool-armhf" 2>/dev/null; cat /tmp/phytool-armhf | md5sum > /tmp/source 
-    - name: check for phytool-armhf update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/phytool-armhf 2>/dev/null | md5sum > /tmp/dest
-    - name: check for phytool-armhf update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for libmicon.py update
-      run: wget -O /tmp/libmicon.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/libmicon.py" 2>/dev/null; cat /tmp/libmicon.py | md5sum > /tmp/source 
-    - name: check for libmicon.py update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/libmicon.py  2>/dev/null | md5sum > /tmp/dest
-    - name: check for libmicon.py update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV   
-      
-    - name: check for micon_startup.py update
-      run: wget -O /tmp/micon_startup.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/micon_startup.py" 2>/dev/null; cat /tmp/micon_startup.py | md5sum > /tmp/source 
-    - name: check for micon_startup.py update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_startup.py  2>/dev/null | md5sum > /tmp/dest
-    - name: check for micon_startup.py update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for micon_shutdown.py update
-      run: wget -O /tmp/micon_shutdown.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/micon_shutdown.py" 2>/dev/null; cat /tmp/micon_shutdown.py | md5sum > /tmp/source 
-    - name: check for micon_shutdown.py update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_shutdown.py  2>/dev/null | md5sum > /tmp/dest
-    - name: check for micon_shutdown.py update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV
-      
-    - name: check for micon_fan_daemon.py update
-      run: wget -O /tmp/micon_fan_daemon.py "https://github.com/1000001101000/Python_buffalo_libmicon/raw/master/micon_fan_daemon.py" 2>/dev/null; cat /tmp/micon_fan_daemon.py | md5sum > /tmp/source 
-    - name: check for micon_fan_daemon.py update
-      run: curl -sL https://github.com/${{github.repository}}/raw/master/Tools/micon_scripts/micon_fan_daemon.py  2>/dev/null | md5sum > /tmp/dest
-    - name: check for micon_fan_daemon.py update
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV   
-        
-   # - name: check for updated stretch armel installer
-    #  run: curl -sL "http://ftp.nl.debian.org/debian/dists/stretch/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-  #  - name: check for updated stretch armel installer
-    #  run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Stretch/installer_images/build/last_build_armel.txt"  
-   # - name: check for updated stretch armel installer
-     # run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    #- name: check for updated stretch armhf installer
-     # run: curl -sL "http://ftp.nl.debian.org/debian/dists/stretch/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-   # - name: check for updated stretch armhf installer
-    #  run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Stretch/installer_images/build/last_build_armhf.txt"  
-   # - name: check for updated stretch armhf installer
-    #  run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-    
-   # - name: check for updated buster armel installer
-   #   run: curl -sL "http://ftp.nl.debian.org/debian/dists/buster/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-   # - name: check for updated buster armel installer
-   #   run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Buster/installer_images/build/last_build_armel.txt"  
-   # - name: check for updated buster armel installer
-   #   run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for updated buster armhf installer
-      run: curl -sL "http://ftp.nl.debian.org/debian/dists/buster/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-    - name: check for updated buster armhf installer
-      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Buster/installer_images/build/last_build_armhf.txt"  
-    - name: check for updated buster armhf installer
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
    # - name: check for updated bullseye armel installer
    #   run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
    # - name: check for updated bullseye armel installer
@@ -122,40 +31,17 @@ jobs:
       run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armhf.txt"  
     - name: check for updated bullseye armhf installer
       run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
+
+    - name: check for updated bookworm armhf installer
+      run: curl -sL "http://ftp.nl.debian.org/debian/dists/bookworm/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
+    - name: check for updated bookworm armhf installer
+      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bookworm/installer_images/build/last_build_armhf.txt"
+    - name: check for updated bookworm armhf installer
+      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV
        
     - name: if needed, clone the repo for update
       if: env.commit_needed == 'yes'
       run: git clone https://github.com/${{github.repository}}; echo "repo_dir=$(ls -rt | tail -n 1)" >> $GITHUB_ENV 
-
-    - name: if needed, copy file to repo
-      if: env.commit_needed == 'yes'
-      run: cp -v /tmp/libmicon.py Tools/micon_scripts/libmicon.py
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: if needed, copy file to repo
-      if: env.commit_needed == 'yes'
-      run: cp -v /tmp/micon_startup.py Tools/micon_scripts/micon_startup.py
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: if needed, copy file to repo
-      if: env.commit_needed == 'yes'
-      run: cp -v /tmp/micon_shutdown.py Tools/micon_scripts/micon_shutdown.py
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: if needed, copy file to repo
-      if: env.commit_needed == 'yes'
-      run: cp -v /tmp/micon_fan_daemon.py Tools/micon_scripts/micon_fan_daemon.py
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: if needed, copy file to repo
-      if: env.commit_needed == 'yes'
-      run: cp -v /tmp/micro-evtd-arm* Tools/
-      working-directory: "${{env.repo_dir}}"
-      
-    - name: if needed, copy file to repo
-      if: env.commit_needed == 'yes'
-      run: cp -v /tmp/phytool-arm* Tools/
-      working-directory: "${{env.repo_dir}}"
 
     - name: if needed, setup git
       if: env.commit_needed == 'yes'

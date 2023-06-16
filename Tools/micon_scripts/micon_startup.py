@@ -57,7 +57,7 @@ def startupV3(port):
 # check for some sort of config file to avoid messing with ports each time?
 
 ##try reading micon version from each port to determine the right one
-for port in ["/dev/ttyS1","/dev/ttyS3"]:
+for port in ["/dev/ttyS1"]:
 	try:
 		test = libmicon.micon_api(port)
 	except:
@@ -66,19 +66,6 @@ for port in ["/dev/ttyS1","/dev/ttyS3"]:
 	if micon_version:
 		test.port.close()
 		startupV2(port)
-		quit()
-	test.port.close()
-
-
-for port in ["/dev/ttyUSB0","/dev/ttyS1","/dev/ttyS0"]:
-	try:
-		test = libmicon.micon_api_v3(port)
-	except:
-		continue
-	micon_version = test.send_miconv3("VER_GET")
-	if micon_version:
-		test.port.close()
-		startupV3(port)
 		quit()
 	test.port.close()
 

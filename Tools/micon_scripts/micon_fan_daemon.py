@@ -25,7 +25,7 @@ else:
 	debug=""
 
 ##try reading micon version from each port to determine the right one
-for port in ["/dev/ttyS1","/dev/ttyS3"]:
+for port in ["/dev/ttyS1"]:
 	test = libmicon.micon_api(port)
 	version = test.send_read_cmd(0x83)
 	test.port.close()

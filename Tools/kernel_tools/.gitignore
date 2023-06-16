@@ -6,3 +6,7 @@ linux-source*
 dts
 dtb
 configs/*config*
+vanilla*
+linux-source*
+*.xz
+*.gz

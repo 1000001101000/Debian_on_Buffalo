@@ -14,9 +14,12 @@ version="$(grep VERSION_CODENAME /etc/os-release | cut -d '=' -f 2)"
 
 echo "BOOT=local" > /usr/share/initramfs-tools/conf.d/localboot
 echo "MODULES=dep" > /etc/initramfs-tools/conf.d/modules
-echo mtdblock >> /etc/modules
-echo m25p80 >> /etc/modules
-echo spi_nor >> /etc/modules
+
+for module in sata_mv libata ahci libahci
+do
+  #echo $module >> /etc/modules
+  echo $module >> /etc/initramfs-tools/modules
+done
 
 machine=`sed -n '/Hardware/ {s/^Hardware\s*:\s//;p}' /proc/cpuinfo`
 case $machine in
@@ -37,20 +40,15 @@ if [ $run_size -lt 20 ]; then
   mount -o remount,nosuid,noexec,size=26M,nr_inodes=4096 /run
 fi
 
-if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" == "0" ]; then
-   case $machine in
-        "Buffalo Nas WXL")
-           custom_kernel marvell-buffalo;;
-        "Buffalo Linkstation LS-QL")
-           custom_kernel marvell-buffalo;;
-	"Buffalo Terastation Pro II/Live")
-	   custom_kernel marvell-buffalo;;
-        *)
-        apt-get install -y linux-image-marvell;;
-   esac
-else
-    ln -s /usr/local/bin/ifup-mac.sh /etc/network/if-pre-up.d/ifup_mac
+arch="$(dpkg --print-architecture)"
+
+if [ "$arch" == "armel" ]; then
+   custom_kernel marvell-buffalo
 fi
+
+#if [ "$(busybox grep -c "Marvell Armada 370/XP" /proc/cpuinfo)" != "0" ]; then
+#    ln -s /usr/local/bin/ifup-mac.sh /etc/network/if-pre-up.d/ifup_mac
+#fi
 
 if [ "$(/usr/local/bin/micro-evtd -s 0003 | tail -n 1)" == "0" ]; then
 	ln -s /usr/local/bin/micon_scripts/micon_shutdown.py /lib/systemd/system-shutdown/micon_shutdown.py

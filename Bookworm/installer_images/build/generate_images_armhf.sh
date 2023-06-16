@@ -1,7 +1,7 @@
 ##requires uboot-tools, gzip, faketime, rsync, wget, cpio?
 dtb_dir="../../device_trees"
 tools_dir="../../../Tools"
-distro="bullseye"
+distro="bookworm"
 
 mkdir output 2>/dev/null
 rm output/*

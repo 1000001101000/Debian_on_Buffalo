@@ -4,14 +4,15 @@
 target="/mnt/target"
 target_hostname="tsxel"
 machine="Buffalo Terastation TS-XEL"
+#machine="Buffalo Terastation TS3400D"
+#machine="Buffalo Linkstation LS-QVL"
 arch="armel"
 #arch="armhf"
 target_rootpw="changeme"
 target_user="debian"
 target_userpw="changeme"
-#distro="stretch"
-#distro="buster"
 distro="bullseye"
+#distro="bookworm"
 boot_size="512"
 swap_size="1024"
 root_size="2048"
@@ -194,7 +195,7 @@ if [ $chroot_only != "Y" ]; then
   fi
 fi
 
-qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial,i2c-tools,xz-utils,bsdextrautils "$distro" "$target" http://deb.debian.org/debian/
+qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial,i2c-tools,xz-utils,bsdextrautils,binutils "$distro" "$target" http://deb.debian.org/debian/
 if [ $? -ne 0 ]; then
   echo "debootstrap reported failure"
   exit 99
@@ -220,7 +221,7 @@ if [ $chroot_only == "Y" ]; then
 fi
 
 ##generate fstab
-echo -e "UUID=$root_id\t/\text4\terrors=remount-ro\t0\t1" >> "$target/etc/fstab"
+echo -e "UUID=$root_id\t/\text4\terrors=remount-ro,nodiscard\t0\t1" >> "$target/etc/fstab"
 echo -e "UUID=$boot_id\t/boot\text3\tdefaults\t0\t2" >> "$target/etc/fstab"
 echo -e "UUID=$swap_id\tnone\tswap\tsw\t0\t0" >> "$target/etc/fstab"
 
@@ -246,7 +247,7 @@ chmod 755 $target/usr/local/bin/micon_scripts/*.py
 cp "../phytool-$arch" "$target/usr/local/bin/phytool"
 cp "../phy_restart.sh" "$target/usr/local/bin/"
 cp "../rtc_restart.sh" "$target/usr/local/bin/"
-cp "../ifup-mac.sh" "$target/usr/local/bin/"
+#cp "../ifup-mac.sh" "$target/usr/local/bin/"
 
 cp "../0-install_shim" "$target/etc/initramfs/post-update.d/"
 
@@ -266,12 +267,10 @@ echo "XZ_OPT=-2e"    >> "$target/usr/share/initramfs-tools/conf.d/compress"
 echo "export XZ_OPT" >> "$target/usr/share/initramfs-tools/conf.d/compress"
 echo "BOOT=local" > "$target/usr/share/initramfs-tools/conf.d/localboot"
 echo "MODULES=dep" > "$target/etc/initramfs-tools/conf.d/modules"
-#echo mtdblock >> "$target/etc/modules"
-#echo m25p80 >> "$target/etc/modules"
 
 cp ../runsize.sh "$target/etc/initramfs-tools/scripts/init-bottom/"
 
-for module in sata_mv libata ahci libahci mtdblock m25p80
+for module in sata_mv libata ahci libahci
 do
   echo $module >> "$target/etc/initramfs-tools/modules"
 done
@@ -312,9 +311,9 @@ if [ "$arch" == "armhf" ]; then
 fi
 
 ##logic for ifup script, just armhf
-if [ "$arch" == "armhf" ]; then
-  chroot "$target" /bin/bash -c "ln -s /usr/local/bin/ifup-mac.sh /etc/network/if-pre-up.d/ifup_mac"
-fi
+#if [ "$arch" == "armhf" ]; then
+#  chroot "$target" /bin/bash -c "ln -s /usr/local/bin/ifup-mac.sh /etc/network/if-pre-up.d/ifup_mac"
+#fi
 
 ##logic for enabling micon services all micon
 if [ "$has_micon" == "Y" ]; then
@@ -331,10 +330,11 @@ fi
 
 ##logic for which kernel? simple enough.
 if [ "$arch" == "armhf" ]; then
+   cp "../bootshim/armhf_shim" "$target/boot/bootshim"
    if [ "$machine" == "Buffalo Terastation TS3200D" ] || [ "$machine" == "Buffalo Terastation TS3400D" ] || [ "$machine" == "Buffalo Terastation TS3400R" ]; then
-      chroot "$target" /bin/bash -c "apt-get -y install linux-image-armmp-lpae" >/dev/null 2>&1
+      chroot "$target" /bin/bash -c "export FK_IGNORE_EFI=yes; apt-get -y install linux-image-armmp-lpae" >/dev/null 2>&1
    else
-      chroot "$target" /bin/bash -c "apt-get -y install linux-image-armmp" >/dev/null 2>&1
+      chroot "$target" /bin/bash -c "export FK_IGNORE_EFI=yes; apt-get -y install linux-image-armmp" >/dev/null 2>&1
    fi
    if [ $? -ne 0 ]; then
      echo "kernel install failed"
@@ -345,15 +345,11 @@ fi
 ##installing my custom kernel on devices that depend on my patches.
 if [ "$arch" == "armel" ]; then
    cp "../bootshim/armel_shim" "$target/boot/bootshim"
-   if [ "$machine" == "Buffalo Terastation Pro II/Live" ] || [ "$machine" == "Buffalo Nas WXL" ] || [ "$machine" == "Buffalo Linkstation LS-QL" ]; then
       chroot "$target" /bin/bash -c "wget -O /etc/apt/custom_repo.gpg https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/KEY.gpg" >/dev/null 2>&1
       chroot "$target" /bin/bash -c "apt-key add /etc/apt/custom_repo.gpg" >/dev/null 2>&1
       echo "deb https://raw.githubusercontent.com/1000001101000/Debian_on_Buffalo/master/PPA/ $distro main" > "$target/etc/apt/sources.list.d/buffalo_kernel.list"
       chroot "$target" /bin/bash -c "apt-get update" >/dev/null 2>&1
-      chroot "$target" /bin/bash -c "apt-get -y install linux-image-marvell-buffalo" >/dev/null 2>&1
-   else
-      chroot "$target" /bin/bash -c "apt-get -y install linux-image-marvell" >/dev/null 2>&1
-   fi
+      chroot "$target" /bin/bash -c "export FK_IGNORE_EFI=yes; apt-get -y install linux-image-marvell-buffalo" >/dev/null 2>&1
    if [ $? -ne 0 ]; then
      echo "kernel install failed"
      exit 99
