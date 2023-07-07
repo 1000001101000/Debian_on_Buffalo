@@ -305,6 +305,7 @@
 	{
 		/* Port 0, Lane 0 */
 		status = "okay";
+		num-lanes = <4>;
 	};
 
 	pcie@5,0

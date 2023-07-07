@@ -120,9 +120,6 @@ cat armhf-payload/source/bootshim vmlinuz-$kernel_ver $dtb > tmpkern
 faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
 done
 
-##remove TS3400 devices until we have a fix for their PCI issue
-rm output/*3400*
-
 rm tmpkern
 rm vmlinuz*
 
