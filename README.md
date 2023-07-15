@@ -11,7 +11,7 @@ If you'd like to help support the project consider donating via the sponsor butt
 
 ## Quick Note about Debian Bookworm:
 
-All devices supported for previous Debian versions are working for Bookworm EXCEPT the Terastation TS3400 which has a PCIe issue I'm still working to fix. 
+All devices supported for previous Debian versions are working for Bookworm. 
 
 The only remaining limit is that devices with less than 128mb of ram need to use the "debootstrap" method rather than the ssh installer. 
 
