@@ -28,4 +28,3 @@ echo "$pkg_version" > .version
 
 make olddefconfig ARCH=arm
 make -j$(nproc) ARCH=arm KBUILD_DEBARCH=armel CROSS_COMPILE="arm-linux-gnueabi-" bindeb-pkg
-rm *.buildinfo
