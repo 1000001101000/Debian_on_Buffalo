@@ -5,10 +5,14 @@ sleep 1
 udevadm trigger
 sleep 5
 
+##make sure it's executable
+chmod +x /source/micro-evtd
+
 ###try a few times since this has been failing
 ###not sure if we're waiting for devices to be created or what
 ###only started when I added micro-evtd autosetect logic, may need to revisit
 sleep 10
+/source/micro-evtd -s 0003
 /source/micro-evtd -s 0003
 sleep 10
 /source/micro-evtd -s 8083
