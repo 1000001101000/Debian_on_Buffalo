@@ -61,6 +61,11 @@ if [ $? -ne 0 ]; then
         echo "failed to copy micro-evtd , quitting"
         exit
 fi
+cp -v $tools_dir/phytool-armhf armhf-payload/source/phytool
+if [ $? -ne 0 ]; then
+        echo "failed to copy phytool , quitting"
+        exit
+fi
 cp -v $tools_dir/*.db armhf-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy device db, quitting"
@@ -119,9 +124,6 @@ model="$(echo $dtb | gawk -F- '{print $4}' | gawk -F. '{print $1}')"
 cat armhf-payload/source/bootshim vmlinuz-$kernel_ver $dtb > tmpkern
 faketime '2018-01-01 01:01:01' /bin/bash -c "mkimage -A arm -O linux -T Kernel -C none -a 0x00008000 -e 0x00008000 -n debian_installer -d tmpkern output/uImage.buffalo.$model"
 done
-
-##remove TS3400 devices until we have a fix for their PCI issue
-rm output/*3400*
 
 rm tmpkern
 rm vmlinuz*

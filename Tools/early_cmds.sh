@@ -38,11 +38,11 @@ echo "debug: found micon"
      /source/micro-evtd -s 02500007,02510002
   fi
 
-  ##enable serial console on ts2pro
-  echo $micon_version | grep HTGL
-  if [ $? -eq 0 ]; then
-     /source/micro-evtd -s 000f
-  fi
+  ##enable serial console where possible.
+  ##on ts2pro converts rear serial port to RW serial console.
+  ##on Terastation III and TS3000 enables RW on front serial port.
+  /source/micro-evtd -s 000f,000f,000f
+  #fi
 
   ##if device is rack mount set fan to medium (still loud) otherwise set high
   echo $micon_version | grep 'TS-RXL\|RHTGL\|TS-MR\|TS1400R'

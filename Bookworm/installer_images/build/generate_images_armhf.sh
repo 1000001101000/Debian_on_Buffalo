@@ -61,6 +61,11 @@ if [ $? -ne 0 ]; then
         echo "failed to copy micro-evtd , quitting"
         exit
 fi
+cp -v $tools_dir/phytool-armhf armhf-payload/source/phytool
+if [ $? -ne 0 ]; then
+        echo "failed to copy phytool , quitting"
+        exit
+fi
 cp -v $tools_dir/*.db armhf-payload/source/
 if [ $? -ne 0 ]; then
         echo "failed to copy device db, quitting"
