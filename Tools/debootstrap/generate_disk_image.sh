@@ -195,7 +195,7 @@ if [ $chroot_only != "Y" ]; then
   fi
 fi
 
-qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial,i2c-tools,xz-utils,bsdextrautils,binutils "$distro" "$target" http://deb.debian.org/debian/
+qemu-debootstrap --arch "$arch" --include=flash-kernel,haveged,openssh-server,busybox,libpam-systemd,dbus,u-boot-tools,mdadm,gdisk,apt-transport-https,gnupg,wget,ca-certificates,python3,python3-serial,i2c-tools,xz-utils,bsdextrautils,binutils,debconf,locales "$distro" "$target" http://deb.debian.org/debian/
 if [ $? -ne 0 ]; then
   echo "debootstrap reported failure"
   exit 99
