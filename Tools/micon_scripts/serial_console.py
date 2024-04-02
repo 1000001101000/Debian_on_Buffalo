@@ -13,6 +13,7 @@ for port in ["/dev/ttyS1"]:
         test.port.close()
 
 test.send_write_cmd(0,0x0F)
+test.send_write_cmd(0,0x0F)
 
 test.port.close()
 quit()
