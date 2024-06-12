@@ -27,6 +27,6 @@ echo 'dtb-y="'$dtbs'"' > arch/arm/boot/dts/Makefile
 #tail -n 4 arch/arm/boot/dts/Makefile.old >> arch/arm/boot/dts/Makefile
 
 make -j$(nproc) ARCH=arm olddefconfig
-make -j$(nproc) ARCH=arm CROSS_COMPILE="arm-linux-gnueabi-" $dtbs
+make V=1 -j$(nproc) ARCH=arm CROSS_COMPILE="arm-linux-gnueabihf-" $dtbs
 cp arch/arm/boot/dts/*.dtb ../dtb/$kernel_ver/
 mv arch/arm/boot/dts/Makefile.old arch/arm/boot/dts/Makefile
