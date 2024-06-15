@@ -1,0 +1,13 @@
+diff --git a/arch/arm/boot/dts/kirkwood-lsxhl.dts b/arch/arm/boot/dts/kirkwood-lsxhl.dts
+index a56e0d7..5fd45ac 100644
+--- a/arch/arm/boot/dts/kirkwood-lsxhl.dts
++++ b/arch/arm/boot/dts/kirkwood-lsxhl.dts
+@@ -13,7 +13,7 @@ memory {
+ 	};
+ 
+ 	ocp@f1000000 {
+-		serial@12000 {
++		serial@12100 {
+ 			status = "okay";
+ 		};
+ 	};
