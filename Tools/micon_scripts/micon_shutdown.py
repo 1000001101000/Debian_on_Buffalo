@@ -26,11 +26,17 @@ def shutdownV2(port):
 	test.send_write_cmd(0,0x0C)
 
 	if sys.argv[1] in ["halt","poweroff"]:
+		match=0
 		if (micon_version.find("TS-XEL") != -1):
+			match=1
 			test.send_write_cmd(1,0x46,0x00)
 			test.send_write_cmd(0,0x0E)
-		else:
+		if (micon_version.find("TS1400") != -1):
+			match=1
+			test.send_write_cmd(0,0x12)
+		if (match==0):
 			test.send_write_cmd(0,0x06)
+
 	else:
 		test.send_write_cmd(1,0x46,0x18)
 		test.send_write_cmd(0,0x0E)
