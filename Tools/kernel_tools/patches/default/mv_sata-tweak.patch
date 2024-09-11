@@ -1,0 +1,12 @@
+diff -uNr linux-source-6.1-orig/drivers/ata/sata_mv.c linux-source-6.1/drivers/ata/sata_mv.c
+--- linux-source-6.1-orig/drivers/ata/sata_mv.c	2024-09-10 19:46:23.660831454 -0500
++++ linux-source-6.1/drivers/ata/sata_mv.c	2024-09-10 19:48:10.470180014 -0500
+@@ -4028,7 +4028,7 @@
+ 	 */
+ 	if (unlikely(pdev->num_resources != 1)) {
+ 		dev_err(&pdev->dev, "invalid number of resources\n");
+-		return -EINVAL;
++		//return -EINVAL;
+ 	}
+ 
+ 	/*
