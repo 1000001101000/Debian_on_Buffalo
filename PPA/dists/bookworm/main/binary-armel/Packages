@@ -36,6 +36,25 @@ Description: Linux kernel headers for 6.1.112 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-6.1.115
+Source: linux-upstream
+Version: 6.1.115-25
+Architecture: armel
+Maintainer: root <root@ade5505e6339>
+Installed-Size: 49980
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-headers-6.1.115_6.1.115-25_armel.deb
+Size: 8406480
+SHA256: 62ad96ffb0d485bca2cdbca719cd5bb061f8387bc4c1e8c7cce2a89fd70e4b4a
+SHA1: f660356821bb2819c4b9fa307c9e03eb32c6072f
+MD5sum: 09b3000874c5194f606bfb269ab877da
+Description: Linux kernel headers for 6.1.115 on armel
+ This package provides kernel header files for 6.1.115 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-6.1.27
 Source: linux-upstream
 Version: 6.1.27-6
@@ -319,6 +338,24 @@ Description: Linux kernel, version 6.1.112
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.1.112.
 
+Package: linux-image-6.1.115
+Source: linux-upstream
+Version: 6.1.115-25
+Architecture: armel
+Maintainer: root <root@ade5505e6339>
+Installed-Size: 110960
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-image-6.1.115_6.1.115-25_armel.deb
+Size: 26854280
+SHA256: 9c9c081ee7ba2350e30f7fcfd7e97817f2cec8dceb117e47d16c904ab8f553fd
+SHA1: 24ba88c87f1f5926756a5d3cb3833c6cdc5a1ce8
+MD5sum: 6da5675ebe50038f7c2e871d0bd49d05
+Description: Linux kernel, version 6.1.115
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 6.1.115.
+
 Package: linux-image-6.1.27
 Source: linux-upstream
 Version: 6.1.27-6
@@ -554,37 +591,37 @@ Description: Linux kernel, version 6.1.99
  files, version: 6.1.99.
 
 Package: linux-image-marvell-buffalo
-Version: 6.1.112-24
+Version: 6.1.115-25
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@cb6040ec7bf2>
+Maintainer: Equivs Dummy Package Generator <root@ade5505e6339>
 Installed-Size: 9
-Depends: linux-image-6.1.112 (= 6.1.112-24), linux-headers-6.1.112 (= 6.1.112-24), linux-libc-dev (= 6.1.112-24)
+Depends: linux-image-6.1.115 (= 6.1.115-25), linux-headers-6.1.115 (= 6.1.115-25), linux-libc-dev (= 6.1.115-25)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.112-24_armel.deb
-Size: 2292
-SHA256: 777d31839e43c5bf575ea05696e90005069631341bda337a93a5d50ab3cf7454
-SHA1: 53ad3561354d6df174502251aeda2e2f73f20fe1
-MD5sum: fceba42e84bf2ab34d52bc9c4e985808
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.115-25_armel.deb
+Size: 2296
+SHA256: 6180896e6279a6c39c2e8e4d5de4a490d4ecb84f74082763aaf125611945514b
+SHA1: 9dd3a18c9e585b1caf2fc5b451f3be4534d0360b
+MD5sum: 14ebc823b9a2d6f80c47ba3c4056c500
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.1.112-24
+Version: 6.1.115-25
 Architecture: armel
-Maintainer: root <root@cb6040ec7bf2>
+Maintainer: root <root@ade5505e6339>
 Installed-Size: 6443
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.112-24_armel.deb
-Size: 1236736
-SHA256: dd37cb84cc4d5a6212d5e0d84352e9a0b28d43e68e96e46434e4874f702094fd
-SHA1: 7af46107faae0ece8f6ffc13ade31874b6b92c39
-MD5sum: cad455185bbe27dcf7a42f7c9b5ebd24
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.115-25_armel.deb
+Size: 1236856
+SHA256: 12e124de85a057a42ecd4a6ac462895ccf01e11473701f02c289b5982d7d17c3
+SHA1: 534c47a92187c2c3d8c4dbfa0c1e0dbc356e8933
+MD5sum: 271e5385b6283a20e4b779e46a01eaaa
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
