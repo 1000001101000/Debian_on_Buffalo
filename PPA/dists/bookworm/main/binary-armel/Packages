@@ -112,6 +112,25 @@ Description: Linux kernel headers for 6.1.124 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-6.1.128
+Source: linux-upstream
+Version: 6.1.128-29
+Architecture: armel
+Maintainer: root <root@25f7f73944c3>
+Installed-Size: 49999
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-headers-6.1.128_6.1.128-29_armel.deb
+Size: 8408860
+SHA256: d2856d6a3fc07000ddc2dcaff0957a41a7bc49b7d7bc6d793d1eb810a5c31f72
+SHA1: b9774d14cf8acd15afda4d51398ca01755cb0e1b
+MD5sum: 8fa94249ca48f58c647eba388daa84a4
+Description: Linux kernel headers for 6.1.128 on armel
+ This package provides kernel header files for 6.1.128 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-6.1.27
 Source: linux-upstream
 Version: 6.1.27-6
@@ -467,6 +486,24 @@ Description: Linux kernel, version 6.1.124
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.1.124.
 
+Package: linux-image-6.1.128
+Source: linux-upstream
+Version: 6.1.128-29
+Architecture: armel
+Maintainer: root <root@25f7f73944c3>
+Installed-Size: 110998
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-image-6.1.128_6.1.128-29_armel.deb
+Size: 26862656
+SHA256: 86ec04b8f865adeb12d8b3c3795186c70d4c52a8d01c59ba94cdf9a2e31331a8
+SHA1: a740f01abf68a21be65520f2fd76729cd986ac28
+MD5sum: e0c6200e7cb48f5e21bfcd880e95ac09
+Description: Linux kernel, version 6.1.128
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 6.1.128.
+
 Package: linux-image-6.1.27
 Source: linux-upstream
 Version: 6.1.27-6
@@ -702,37 +739,37 @@ Description: Linux kernel, version 6.1.99
  files, version: 6.1.99.
 
 Package: linux-image-marvell-buffalo
-Version: 6.1.124-28
+Version: 6.1.128-29
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@1d084da2e302>
+Maintainer: Equivs Dummy Package Generator <root@25f7f73944c3>
 Installed-Size: 9
-Depends: linux-image-6.1.124 (= 6.1.124-28), linux-headers-6.1.124 (= 6.1.124-28), linux-libc-dev (= 6.1.124-28)
+Depends: linux-image-6.1.128 (= 6.1.128-29), linux-headers-6.1.128 (= 6.1.128-29), linux-libc-dev (= 6.1.128-29)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.124-28_armel.deb
-Size: 2288
-SHA256: 157271de97b8c2fcd671058b893001e2f82644cb951db6068bdebb0c36be20fa
-SHA1: 6ce5842de70990944ec553da226545659e7a9aeb
-MD5sum: c707b3ea74e2c6d0376a44339cd9d6ed
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.128-29_armel.deb
+Size: 2292
+SHA256: ed736526a2990267a1a34a02bcfb2c8d69d54bfe406aa373631839db28177644
+SHA1: 8503997ff758553eeaa9a5da68c52c6d489bc7b1
+MD5sum: c7f23e9cf07e23bc98c4769026c1014b
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.1.124-28
+Version: 6.1.128-29
 Architecture: armel
-Maintainer: root <root@1d084da2e302>
+Maintainer: root <root@25f7f73944c3>
 Installed-Size: 6443
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.124-28_armel.deb
-Size: 1236860
-SHA256: c292d0636b4c659a3aa136e89193f46aed25385cb8346465f856eafcce3e0bb4
-SHA1: 391472b15b696eaa6357c0e3fa20262cd12b03e8
-MD5sum: 6e28028b916ef8626cac3ce673f6625f
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.128-29_armel.deb
+Size: 1236992
+SHA256: d1acffc42881f95373cdebed80d343133d226bea2ce9a872330d07e4246e5890
+SHA1: 986a092b0fa0955ddbdca08957642ff08e191a9e
+MD5sum: 28defb54e9cd1e01f0a0e7f949091800
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
