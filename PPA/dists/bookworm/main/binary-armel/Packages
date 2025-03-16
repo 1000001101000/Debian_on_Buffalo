@@ -131,6 +131,25 @@ Description: Linux kernel headers for 6.1.128 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-6.1.129
+Source: linux-upstream
+Version: 6.1.129-30
+Architecture: armel
+Maintainer: root <root@d136f1c8b3e6>
+Installed-Size: 50002
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-headers-6.1.129_6.1.129-30_armel.deb
+Size: 8409776
+SHA256: 0e5a6bf26063132d2516b5431821c52aa02c3c63b8e4af3e3e7212440d253c2f
+SHA1: 2c4a78b81ed185e39ba4e51e017306f39df9fa3b
+MD5sum: 9170c63d46aa390b6ecfed282fb9ddc3
+Description: Linux kernel headers for 6.1.129 on armel
+ This package provides kernel header files for 6.1.129 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-6.1.27
 Source: linux-upstream
 Version: 6.1.27-6
@@ -504,6 +523,24 @@ Description: Linux kernel, version 6.1.128
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.1.128.
 
+Package: linux-image-6.1.129
+Source: linux-upstream
+Version: 6.1.129-30
+Architecture: armel
+Maintainer: root <root@d136f1c8b3e6>
+Installed-Size: 111006
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-image-6.1.129_6.1.129-30_armel.deb
+Size: 26863152
+SHA256: eca694b55b680e9e7518759bd67ae9470270d01b1980a197b65cde44df4e650d
+SHA1: f70ac56e19b42acf6198bfea057477c18c7c85e7
+MD5sum: 4836f373aca9864dde111e01cb1aa7b7
+Description: Linux kernel, version 6.1.129
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 6.1.129.
+
 Package: linux-image-6.1.27
 Source: linux-upstream
 Version: 6.1.27-6
@@ -739,37 +776,37 @@ Description: Linux kernel, version 6.1.99
  files, version: 6.1.99.
 
 Package: linux-image-marvell-buffalo
-Version: 6.1.128-29
+Version: 6.1.129-30
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@25f7f73944c3>
+Maintainer: Equivs Dummy Package Generator <root@d136f1c8b3e6>
 Installed-Size: 9
-Depends: linux-image-6.1.128 (= 6.1.128-29), linux-headers-6.1.128 (= 6.1.128-29), linux-libc-dev (= 6.1.128-29)
+Depends: linux-image-6.1.129 (= 6.1.129-30), linux-headers-6.1.129 (= 6.1.129-30), linux-libc-dev (= 6.1.129-30)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.128-29_armel.deb
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.129-30_armel.deb
 Size: 2292
-SHA256: ed736526a2990267a1a34a02bcfb2c8d69d54bfe406aa373631839db28177644
-SHA1: 8503997ff758553eeaa9a5da68c52c6d489bc7b1
-MD5sum: c7f23e9cf07e23bc98c4769026c1014b
+SHA256: ef426477438effa0ad08c04b846de6511e746bca2c56619c58c272479bc2aab7
+SHA1: b054f72d39457965085bd4ce1fe6ef6b1439b243
+MD5sum: 43999655332501d9d0fdefe31b13c73c
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.1.128-29
+Version: 6.1.129-30
 Architecture: armel
-Maintainer: root <root@25f7f73944c3>
-Installed-Size: 6443
+Maintainer: root <root@d136f1c8b3e6>
+Installed-Size: 6444
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.128-29_armel.deb
-Size: 1236992
-SHA256: d1acffc42881f95373cdebed80d343133d226bea2ce9a872330d07e4246e5890
-SHA1: 986a092b0fa0955ddbdca08957642ff08e191a9e
-MD5sum: 28defb54e9cd1e01f0a0e7f949091800
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.129-30_armel.deb
+Size: 1236912
+SHA256: 90c1259f454de08c4a3c716c606de80ef1bc613f666297c1e68a49de037f6694
+SHA1: 1975d171af5141b8fc5490a4b45995f5e2260eac
+MD5sum: eda15f007a822407098194fd8097ef5b
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
