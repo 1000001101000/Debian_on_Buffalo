@@ -1,55 +1,8 @@
 Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: stretch
+Label: Armel kernel for Buffalo devices
+Suite: trixie
+Codename: trixie
 Architectures: armel
 Components: main
-Description: Custom Kernel for MV78100 devices
-SignWith: i000001101000
-
-Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: stretch-backports
-Architectures: armel
-Components: main
-Description: Custom Kernel for MV78100 devices
-SignWith: i000001101000
-
-Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: buster
-Architectures: armel
-Components: main
-Description: Custom Kernel for MV78100 devices
-SignWith: i000001101000
-
-Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: buster-backports
-Architectures: armel
-Components: main
-Description: Custom Kernel for MV78100 devices
-SignWith: i000001101000
-
-Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: bullseye
-Architectures: armel
-Components: main
-Description: Custom Kernel for MV78100 devices
-SignWith: i000001101000
-
-Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: bookworm
-Architectures: armel
-Components: main
-Description: Custom Kernel for MV78100 devices
-SignWith: i000001101000
-
-Origin: 1000001101000
-Label: Terastation III Kernel
-Codename: sid
-Architectures: armel
-Components: main
-Description: Custom Kernel for MV78100 devices
+Description: Armel kernel for Buffalo devices without PCI
 SignWith: i000001101000

@@ -1,0 +1,37 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: 1000001101000
+Label: Armel kernel for Buffalo devices
+Suite: trixie
+Codename: trixie
+Date: Wed, 21 May 2025 09:17:27 UTC
+Architectures: armel
+Components: main
+Description: Armel kernel for Buffalo devices without PCI
+MD5Sum:
+ d1dad1d243f1014eb8fb7f05f5b3d189 2681 main/binary-armel/Packages
+ 5b27fb25e083cb648282981841baf0f7 1057 main/binary-armel/Packages.gz
+ d561b33c1fbb33122b5d41e4f3f243a1 172 main/binary-armel/Release
+SHA1:
+ f19bac9a363e27582db3bc107fa57701aef7de9b 2681 main/binary-armel/Packages
+ f7f08949fc979f5ece1562b13b6272c41ceeef49 1057 main/binary-armel/Packages.gz
+ c12201a5a05040518b0ed6d283e3a6fb5c8fa1ce 172 main/binary-armel/Release
+SHA256:
+ 37152ec25db487dd49060eb533e978ba59d817217392096b04706ccb643d270d 2681 main/binary-armel/Packages
+ de78869bca9f6d24b26df27c0f3000c9214561f99728b05e6770f2e0d4aa4496 1057 main/binary-armel/Packages.gz
+ b1b0aae9daf7089fd93a2473e15a30ee46426699ff85a7822e9240577af9f4ed 172 main/binary-armel/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAmgtmicACgkQi1xOXH3M
+hYPT7wv/bneKCm4+djf7WoJ6EGmkqZY9UidhEZPq+ybYaiJ5o7iRo0iM0Q7KMtKQ
+jjLDpU6QJ+/zmW1553qXQbi8BivE18GBMgpxp5MzETwsRxn3ISTnvNJZqEkuy8H6
+gPzD+lf0pDvr/LGFI24w0oBLjDv747+EDKGzrmVHMf088/ZjcuEUangY2a89NeYQ
+4J9fZitgS/kxqZiHBVUDM+CUdGyYtzTZmiUHOsjqPcLnbOm7tw7ujq5VWwaI0ij0
+IHHNMajW0TaHqPi89Zw6F9deFsqCM3Pk8KlJO+AJRdJfvU8BTyO5G+yl9e3bsr3G
+YaalS88r2zSvMA/G2XuSY6O5tkyFCl9s8TUCTHq40o3ROO1t1ZGXV+H6YNrSqL6n
+KYcwxrVbDQQgOlvOC8wzLKfZVVU/lMjmbbWvMaSjsg+Ch2kf7zGWrEWzTSwVeOTp
+nmPJCQqLc092shwvcp+2W2eKp999Vw+w54o36xd6Wsa8z+vw+SFfgBQZki92YHxr
+sNvdSGuD
+=nRgv
+-----END PGP SIGNATURE-----

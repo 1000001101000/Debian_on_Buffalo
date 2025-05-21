@@ -1,0 +1,6 @@
+Archive: trixie
+Component: main
+Origin: 1000001101000
+Label: Armel kernel for Buffalo devices
+Architecture: armel
+Description: Armel kernel for Buffalo devices without PCI
