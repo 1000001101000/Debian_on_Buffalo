@@ -2,19 +2,19 @@ Origin: 1000001101000
 Label: Armel kernel for Buffalo devices
 Suite: trixie
 Codename: trixie
-Date: Sat, 28 Jun 2025 09:17:53 UTC
+Date: Fri, 11 Jul 2025 09:17:56 UTC
 Architectures: armel
 Components: main
 Description: Armel kernel for Buffalo devices without PCI
 MD5Sum:
- 7b65a8944ed754f2a5ad5fd5d834aca0 7773 main/binary-armel/Packages
- a755a7f643271b3ed3b4d9a4e8b30de4 2051 main/binary-armel/Packages.gz
+ 4a720c10bd289e75960d15b83cadf3ae 9046 main/binary-armel/Packages
+ acc8365275d91f97f31be1a23390df4a 2297 main/binary-armel/Packages.gz
  d561b33c1fbb33122b5d41e4f3f243a1 172 main/binary-armel/Release
 SHA1:
- 8791584eca957c7b926b3ec8cd7a65e5d057ab67 7773 main/binary-armel/Packages
- 038798d0f76f0186bbb441d8880c6d0e83d50fd6 2051 main/binary-armel/Packages.gz
+ a5e49ad1fa2885b9333d452c3d13b8d9213ffb6c 9046 main/binary-armel/Packages
+ 9790d1cb3aac30477436ce3e36747b0e91365076 2297 main/binary-armel/Packages.gz
  c12201a5a05040518b0ed6d283e3a6fb5c8fa1ce 172 main/binary-armel/Release
 SHA256:
- 0bb0e515b2a6cda0c7553cba546751e43b4fbe3a1e788a7edf70974daf55bb43 7773 main/binary-armel/Packages
- 58c8d01febacbc90ef0f285152696508132944027d42bd38ec60cb53b055f619 2051 main/binary-armel/Packages.gz
+ 9acb4bd887f5883863725b9b670b6a68bfb5c0ff8ca5d637ce71d5137cb13bad 9046 main/binary-armel/Packages
+ 5c003695887984ebbf1bd8865cecdd0f35fbc680ebf43f653957c6dcbe25c4ef 2297 main/binary-armel/Packages.gz
  b1b0aae9daf7089fd93a2473e15a30ee46426699ff85a7822e9240577af9f4ed 172 main/binary-armel/Release
