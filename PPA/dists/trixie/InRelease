@@ -5,33 +5,33 @@ Origin: 1000001101000
 Label: Armel kernel for Buffalo devices
 Suite: trixie
 Codename: trixie
-Date: Fri, 11 Jul 2025 09:17:56 UTC
+Date: Sat, 26 Jul 2025 09:17:11 UTC
 Architectures: armel
 Components: main
 Description: Armel kernel for Buffalo devices without PCI
 MD5Sum:
- 4a720c10bd289e75960d15b83cadf3ae 9046 main/binary-armel/Packages
- acc8365275d91f97f31be1a23390df4a 2297 main/binary-armel/Packages.gz
+ f6d34d930eefda34ed4b08722c9e2f03 10319 main/binary-armel/Packages
+ c00c0587a2229a2c8bf71b8e1303c42e 2542 main/binary-armel/Packages.gz
  d561b33c1fbb33122b5d41e4f3f243a1 172 main/binary-armel/Release
 SHA1:
- a5e49ad1fa2885b9333d452c3d13b8d9213ffb6c 9046 main/binary-armel/Packages
- 9790d1cb3aac30477436ce3e36747b0e91365076 2297 main/binary-armel/Packages.gz
+ 59deafa72e574162c93e5ce709646e2d898404d3 10319 main/binary-armel/Packages
+ 9b87fd4c30a9e8f39959eed0e9386956ec2ef2a5 2542 main/binary-armel/Packages.gz
  c12201a5a05040518b0ed6d283e3a6fb5c8fa1ce 172 main/binary-armel/Release
 SHA256:
- 9acb4bd887f5883863725b9b670b6a68bfb5c0ff8ca5d637ce71d5137cb13bad 9046 main/binary-armel/Packages
- 5c003695887984ebbf1bd8865cecdd0f35fbc680ebf43f653957c6dcbe25c4ef 2297 main/binary-armel/Packages.gz
+ 0d5dbf2cd36ae04d6b3826cf0889783fdba3edc0fc33a08012b59e98162dffc7 10319 main/binary-armel/Packages
+ 0c069ebda0e167531b604aacf2688a41931a1ecf93a84c9aa531a8b42cf5060a 2542 main/binary-armel/Packages.gz
  b1b0aae9daf7089fd93a2473e15a30ee46426699ff85a7822e9240577af9f4ed 172 main/binary-armel/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAmhw1sQACgkQi1xOXH3M
-hYOPQgv8C5bDcZPzSOPAyausb64hg5wwzVhj2/WBWARYsamSWmHIDQEwbn1ZcUIT
-Qpw+vE1tpQjRzTlgmZBoh9FhAuEFFzFniLpb95OPbhHEt9I1LaejM78v1zuTypLM
-2ELMUBgCh4qDcK8xZmIATNzvUr7xKuEwtVq2bwPxYlrJEGokngSZ0TYlgeLr6+Qb
-9CIGD+6SHB2b4Xwi5msKAsfi0xeVJRTdsLsHLuq/Ds/qt+hgxLEV0SNwK83ksFZ0
-908B4P/AkN7Trr77F0CNW4NdZUBwvSKQX5ih1TgcJp/rwaN2YL6k4rA7C3ZCdBg6
-pn++3v/ERS4zG9aFRFazlQOCJRYgaGH11BZ035Gtn5lViL3eom92fgEGzXgtDYL9
-uYdBESH1O6aHR+q+zq7fCNugMx4DsZA9JoeL9E7k40hT/KMGl/UV7dppcnQBa3wm
-GeHRGC+P8fuVQjMZRC5fOYdZtln7dSGF5UAUWWtW/gfI1KCYEzm5dxpAfp84/Wil
-KHYYBp4I
-=r7Sj
+iQGzBAEBCgAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAmiEnRcACgkQi1xOXH3M
+hYMRZgv/QjU01ppn6mNn51Xc4fGMydaoNWYyVjSYHruqVjEN2C+GLn9GAaYgrIX0
+UkUdsFkygZJ/DD5+f82vbo+XVR/c8pGdiT25Ab3jw5byAccqrcV54FQ1WX06/8BW
+RBmP5XghwJrUzrDlQPUVxtBp9nGZ0771iUiK4tgIpwKF5uDYf3HGELZPr6WxHNPd
+X0RmEq0JJ5uq5LyRgShmBzQmvlpWmZJ7NtJANtG1Bm03ln3pCLGhPkNdiICRztaR
+wfIRU2eBuTVBelyhcsqUeZIMzQSxrgTLybt4gt+iRkkBwybulXsLeriabbdbiOa4
+oJTeXAR/6q2l5z0bx+DcrXjS3T24NUaSwEO26VAsv9LMP3Ljs6oJuYbMGUgD1MGN
+mQyel97UIa9lUaUhv1I+VhtgKyRi6OiPFeoC9+zHnb4JC0lJeJEpxGiymL/KyOb/
+T9IV8SNwT+0HISauHJDZbW86CVP9Ty90gnKiSxiAiir378elfH2m0e+Qo60uFf7s
+pwVZeUr5
+=Q+g3
 -----END PGP SIGNATURE-----
