@@ -62,3 +62,11 @@ Architectures: armel
 Components: main
 Description: Custom Kernel for MV78100 devices
 SignWith: i000001101000
+Origin: 1000001101000
+Label: Armel kernel for Buffalo devices
+Suite: trixie
+Codename: trixie
+Architectures: armel
+Components: main
+Description: Armel kernel for Buffalo devices without PCI
+SignWith: i000001101000
