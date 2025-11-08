@@ -3,13 +3,14 @@ on:
   push:
     paths:
       - '.rebuild'
+      - .github/workflows/autobuild.yml
   schedule:
      - cron: "*/15 * * * *"
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: 'debian:11'
+    container: 'debian:12'
     outputs:
       needed: ${{ steps.flag-check.outputs.needed }}
     steps:
@@ -18,20 +19,20 @@ jobs:
       - name: check for the build needed flag
         id: flag-check
         run: echo "::set-output name=needed::$(curl -sL https://github.com/1000001101000/Debian_on_Buffalo/raw/master/.rebuild 2>/dev/null)"
-  
+
   build:
     needs: check
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: "/Debian_on_Buffalo"
-    container: 'debian:11'
+    container: 'debian:12'
     if: ${{ needs.check.outputs.needed == 'yes' }}
     steps:
       - name: install prereqs
         run: apt-get update; apt-get -y install gzip rsync wget cpio faketime u-boot-tools libarchive-cpio-perl devio curl git gawk xz-utils
         working-directory: "/"
-      - name: clone repo 
+      - name: clone repo
         run: git clone --depth 1 https://github.com/${{github.repository}}
         working-directory: "/"
       - name: run build script
@@ -44,6 +45,3 @@ jobs:
         run: git stage ./*; git commit -v -a -m "update installer images"
       - name: push
         run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git master
-          
-   
-      
