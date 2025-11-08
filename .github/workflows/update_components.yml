@@ -4,33 +4,26 @@ name: Update Components
 ##also trying to avoid uneeded clones
 
 on: #[push]
-  schedule: 
+  schedule:
     - cron: "*/15 * * * *"
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: 'debian:11'
+    container: 'debian:12'
     env:
       commit_needed: no
       repo_dir: .
-    steps: 
+    steps:
     - name: install needed tools
-      run: apt-get update; apt-get -y install wget git curl 
-      
-   # - name: check for updated bullseye armel installer
-   #   run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armel/current/images/kirkwood/netboot/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-   # - name: check for updated bullseye armel installer
-   #   run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armel.txt"  
-   # - name: check for updated bullseye armel installer
-   #   run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
-      
-    - name: check for updated bullseye armhf installer
-      run: curl -sL "http://ftp.nl.debian.org/debian/dists/bullseye/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
-    - name: check for updated bullseye armhf installer
-      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bullseye/installer_images/build/last_build_armhf.txt"  
-    - name: check for updated bullseye armhf installer
-      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV 
+      run: apt-get update; apt-get -y install wget git curl
+
+    - name: check for updated trixie armhf installer
+      run: curl -sL "http://ftp.nl.debian.org/debian/dists/trixie/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
+    - name: check for updated trixie armhf installer
+      run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Trixie/installer_images/build/last_build_armhf.txt"
+    - name: check for updated trixie armhf installer
+      run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV
 
     - name: check for updated bookworm armhf installer
       run: curl -sL "http://ftp.nl.debian.org/debian/dists/bookworm/main/installer-armhf/current/images/network-console/initrd.gz" 2>/dev/null | md5sum > /tmp/source
@@ -38,26 +31,26 @@ jobs:
       run: wget -O /tmp/dest "https://github.com/1000001101000/Debian_on_Buffalo/raw/master/Bookworm/installer_images/build/last_build_armhf.txt"
     - name: check for updated bookworm armhf installer
       run: diff /tmp/source /tmp/dest || echo "commit_needed=yes" >> $GITHUB_ENV
-       
+
     - name: if needed, clone the repo for update
       if: env.commit_needed == 'yes'
-      run: git clone https://github.com/${{github.repository}}; echo "repo_dir=$(ls -rt | tail -n 1)" >> $GITHUB_ENV 
+      run: git clone https://github.com/${{github.repository}}; echo "repo_dir=$(ls -rt | tail -n 1)" >> $GITHUB_ENV
 
     - name: if needed, setup git
       if: env.commit_needed == 'yes'
       run: git config user.name "workflow@github"; git config user.email "workflow@github"
       working-directory: "${{env.repo_dir}}"
-      
-    - name: set rebuild needed flag 
+
+    - name: set rebuild needed flag
       if: env.commit_needed == 'yes'
       run: echo yes > .rebuild
       working-directory: "${{env.repo_dir}}"
-      
+
     - name: if needed, commit
       if: env.commit_needed == 'yes'
       run: git commit -a -m "update files from external projects" || exit 0
       working-directory: "${{env.repo_dir}}"
-      
+
     - name: if needed, push
       if: env.commit_needed == 'yes'
       run: git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:master
