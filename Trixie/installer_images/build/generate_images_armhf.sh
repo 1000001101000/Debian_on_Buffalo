@@ -112,7 +112,7 @@ if [ $? -ne 0 ]; then
         exit
 fi
 rm initrd.xz
-#rm initrd
+rm initrd
 rm armhf-payload/source/*.dtb
 rm armhf-payload/source/*.db
 rm armhf-payload/source/*.deb
