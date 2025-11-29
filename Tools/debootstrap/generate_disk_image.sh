@@ -95,13 +95,14 @@ distro="$default_distro"
 read -r -p "Enter debian version [$distro]: " tmpdistro
 [ -z "$tmpdistro" ] || distro="$tmpdistro"
 
+log="debian_""$distro""_""$arch"".log"
+
 ##check for suitable release file
 for x in "$mirror" "https://archive.debian.org/debian"
 do
   mirror=""
   release="$x/dists/$distro/main/binary-$arch/Release"
-  status=`curl -s -o /dev/null -w "%{http_code}" "$release"` #>>$log 2>&1
-  [ $status -eq 200 ] && mirror="$x" && break
+  wget -O /dev/null "$release" >>"$log" 2>&1 && mirror="$x" && break
 done
 
 [ -z "$mirror" ] && echo "binary-$arch release file for $distro not found" && exit 99
@@ -148,15 +149,13 @@ read -p "Setup system partitions for RAID? [$use_raid]: " tmpraid
 image_name="debian_""$distro""_""$arch"".img"
 [ -e "$image_name" ] && rm -v "$image_name"
 
-log="debian_""$distro""_""$arch"".log"
-
-echo "Process started, logging output to $log" | tee "$log"
+echo "Process started, logging output to "$log"" | tee "$log"
 
 [ -d "$target" ] && rm -r "$target"
 mkdir -p "$target/boot"
 if [ $? -ne 0 ]; then echo "failed created working directory" ; exit 99; fi
 
-for x in qemu-system-$arch debootstrap dd gawk grep chroot pwd date tee curl
+for x in qemu-system-$arch debootstrap dd gawk grep chroot pwd date tee wget
 do
   which -s "$x"
   if [ $? -ne 0 ]; then
@@ -178,8 +177,8 @@ if [ "$distro" == "stretch" ] ||  [ "$distro" == "buster" ]; then
   done
 fi
 
-echo "running debootstrap" | tee -a $log
-debootstrap --arch "$arch" --include="$packages" "$distro" "$target" "$mirror" | tee -a $log
+echo "running debootstrap" | tee -a "$log"
+debootstrap --arch "$arch" --include="$packages" "$distro" "$target" "$mirror" | tee -a "$log"
 
 #add prereq for qemu, not needed or already handled by deboostrap these days
 cp "$qemu_path" "$target/usr/bin/"
@@ -206,7 +205,7 @@ echo -e "UUID=$rootID\t/\text4\terrors=remount-ro,nodiscard\t0\t1" >> "$target/e
 echo -e "UUID=$bootID\t/boot\text3\tdefaults,nodiscard\t0\t2" >> "$target/etc/fstab"
 echo -e "UUID=$swapID\tnone\tswap\tsw,nodiscard\t0\t0" >> "$target/etc/fstab"
 
-echo "fstab built" | tee -a $log
+echo "fstab built" | tee -a "$log"
 
 echo "auto lo" >> "$target/etc/network/interfaces"
 echo "iface lo inet loopback" >> "$target/etc/network/interfaces"
@@ -214,9 +213,9 @@ echo "" >> "$target/etc/network/interfaces"
 echo "allow-hotplug eth0" >> "$target/etc/network/interfaces"
 echo "iface eth0 inet dhcp" >> "$target/etc/network/interfaces"
 
-echo "network configuration created" | tee -a $log
+echo "network configuration created" | tee -a "$log"
 
-echo "$target_hostname" > "$target/etc/hostname" && echo "hostname set" | tee -a $log
+echo "$target_hostname" > "$target/etc/hostname" && echo "hostname set" | tee -a "$log"
 
 ##my customizations micon/etc
 mkdir -p "$target/usr/local/bin/micon_scripts"
@@ -235,13 +234,13 @@ gh_download_chroot "Tools/rtc_restart.sh" "/usr/local/bin/rtc_restart.sh"
 chmod 755 "$target"/usr/local/bin/*
 
 ##boot shim and hook script
-echo "setup bootshim" | tee -a $log
+echo "setup bootshim" | tee -a "$log"
 gh_download_chroot "Tools/bootshim/$arch\_shim" "/boot/bootshim"
 gh_download_chroot "Tools/0-install_shim" "/etc/initramfs/post-update.d/0-install_shim"
 chmod +x "$target/etc/initramfs/post-update.d/0-install_shim"
 
 ##flash-kernel setup
-echo "configuring flash-kernel" | tee -a $log
+echo "configuring flash-kernel" | tee -a "$log"
 gh_download_chroot "Tools/0-buffalo_devices.db" "/usr/share/flash-kernel/db/0-buffalo_devices.db"
 echo yes > "$target/etc/flash-kernel/ignore-efi"
 echo "$machine" > "$target/etc/flash-kernel/machine"
@@ -249,7 +248,7 @@ echo "$machine" > "$target/etc/flash-kernel/machine"
 ##at this point armel has dtbs in the kernel package, install the needed one for armhf devices
 ##could use some work for historical/alternate dtbs
 if [ "$arch" == "armhf" ]; then
-  echo "installing device-tree" | tee -a $log
+  echo "installing device-tree" | tee -a "$log"
   search="^Machine: $machine"
   dtb=`grep -A 4 -e "$search" "$target/usr/share/flash-kernel/db/0-buffalo_devices.db" | grep DTB-Id | gawk '{print $2}'`
   gh_download_chroot "${default_distro^}/device_trees/$dtb" "/etc/flash-kernel/dtbs/$dtb"
@@ -271,7 +270,7 @@ do
   echo "$module" >> "$target/etc/initramfs-tools/modules"
 done
 
-echo "custom files/scripts copied" | tee -a $log
+echo "custom files/scripts copied" | tee -a "$log"
 
 ##set users and passwords
 echo "#!/bin/bash" >> "$target/users.sh"
@@ -292,7 +291,7 @@ echo "Y" >> "$target/users.sh"
 echo "EOF" >> "$target/users.sh"
 
 chmod +x "$target/users.sh"
-chroot "$target" "/users.sh" >>$log 2>&1
+chroot "$target" "/users.sh" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
   echo "user setup failed"
   exit 99
@@ -305,7 +304,7 @@ if [ -f "$sshkey" ]; then
   cat "$sshkey" >> "$target/root/.ssh/authorized_keys"
 fi
 
-echo "user setup complete" | tee -a $log
+echo "user setup complete" | tee -a "$log"
 
 ##setup fw_printenv. breaks easily, probably move to dynamic at start...or just omit.
 if [ "$arch" == "armhf" ]; then
@@ -315,8 +314,8 @@ fi
 ##logic for enabling micon services all micon
 if [ "$has_micon" == "Y" ]; then
    chroot "$target" /bin/bash -c "ln -s /usr/local/bin/micon_scripts/micon_shutdown.py /lib/systemd/system-shutdown/micon_shutdown.py"
-   chroot "$target" /bin/bash -c "systemctl enable micon_boot.service" >>$log 2>&1
-   chroot "$target" /bin/bash -c "systemctl enable micon_fan_daemon.service" >>$log 2>&1
+   chroot "$target" /bin/bash -c "systemctl enable micon_boot.service" >>"$log" 2>&1
+   chroot "$target" /bin/bash -c "systemctl enable micon_fan_daemon.service" >>"$log" 2>&1
 else
    if [ "$machine" == "Buffalo Linkstation LS-QL" ]; then
      chroot "$target" /bin/bash -c "ln -s /usr/local/bin/rtc_restart.sh /lib/systemd/system-shutdown/rtc_restart.sh"
@@ -325,27 +324,27 @@ else
    fi
 fi
 
-echo "creating disk image" | tee -a $log
-chroot "$target" /bin/bash -c "dd if=/dev/zero of=$image_name bs=1M count=$((1+boot_size+1+swap_size+1+root_size+2))" >>$log 2>&1
+echo "creating disk image" | tee -a "$log"
+chroot "$target" /bin/bash -c "dd if=/dev/zero of=$image_name bs=1M count=$((1+boot_size+1+swap_size+1+root_size+2))" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
   echo "failed to create empty disk image"
   exit 99
 fi
 
 ##create partitions in disk image along with an extra 1M for mdadm/alignment
-chroot "$target" /bin/bash -c "sgdisk -n 1:0:+$((boot_size+1))M $image_name" >>$log 2>&1
+chroot "$target" /bin/bash -c "sgdisk -n 1:0:+$((boot_size+1))M $image_name" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
   echo "failed to create boot partition"
   exit 99
 fi
 
-chroot "$target" /bin/bash -c "sgdisk -n 2:0:+$((swap_size+1))M $image_name" >>$log 2>&1
+chroot "$target" /bin/bash -c "sgdisk -n 2:0:+$((swap_size+1))M $image_name" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
   echo "failed to create swap partition"
   exit 99
 fi
 
-chroot "$target" /bin/bash -c "sgdisk -n 3:0 $image_name" >>$log 2>&1
+chroot "$target" /bin/bash -c "sgdisk -n 3:0 $image_name" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
   echo "failed to create root partition"
   exit 99
@@ -365,7 +364,7 @@ swapstart=`chroot "$target" /bin/bash -c "sgdisk -i 2 $image_name" | grep 'First
 rootstart=`chroot "$target" /bin/bash -c "sgdisk -i 3 $image_name" | grep 'First sector:' | gawk '{print $3}'`
 
 if [ "$use_raid" == "Y" ]; then
-  echo "configuring raid devices" | tee -a $log
+  echo "configuring raid devices" | tee -a "$log"
   mkdir -p "$target"/etc/mdadm/  ##probably already there from package
   for x in 1 2 3
   do
@@ -374,38 +373,39 @@ if [ "$use_raid" == "Y" ]; then
     raidstart=$((raidstart*sectorsz))
     raidsize=`chroot "$target" /bin/bash -c "sgdisk -i $x $image_name" | grep 'Partition size:'| gawk '{print $3}'`
     raidsize=$(( (raidsize*sectorsz) & 0xFFFF0000 ))
-    gen_raid1_sb "$x" "$tmpuuid" "$raidsize" >>$log 2>&1
-    mv test.bin "$target"
-    chroot "$target" /bin/bash -c "mdadm -E test.bin" >>$log 2>&1
+    gen_raid1_sb "$x" "$tmpuuid" "$raidsize" >>"$log" 2>&1
+    mv "tmpsb.bin" "$target"
+    chroot "$target" /bin/bash -c "mdadm -E tmpsb.bin" >>"$log" 2>&1
     if [ $? -ne 0 ]; then
       echo "failed to generate md superblock for partition $x"
       exit 99
     fi
-    chroot "$target" /bin/bash -c "dd if=test.bin of=$image_name bs=64k count=1 seek=$(( (raidstart + raidsize) - (64*1024) )) oflag=seek_bytes conv=notrunc" >>$log 2>&1
+    chroot "$target" /bin/bash -c "dd if=tmpsb.bin of=$image_name bs=64k count=1 seek=$(( (raidstart + raidsize) - (64*1024) )) oflag=seek_bytes conv=notrunc" >>"$log" 2>&1
     if [ $? -ne 0 ]; then
       echo "failed to write md superblock to partition $x"
       exit 99
     fi
-    chroot "$target" /bin/bash -c "sgdisk -t $x:FD00 $image_name" >>$log 2>&1
+    chroot "$target" /bin/bash -c "sgdisk -t $x:FD00 $image_name" >>"$log" 2>&1
     if [ $? -ne 0 ]; then
       echo "failed to set partition type"
       exit 99
     fi
     echo "ARRAY /dev/md/md$((x-1)) metadata=0.90 name=$target_hostname:md$((x-1)) UUID=$tmpuuid" >> "$target/etc/mdadm/mdadm.conf"
+    rm "$target/tmpsb.bin"
   done
 else
   ## for non raid set type to either linux filesystem or linux swap
-  chroot "$target" /bin/bash -c "sgdisk -t 1:8300 $image_name" >>$log 2>&1
+  chroot "$target" /bin/bash -c "sgdisk -t 1:8300 $image_name" >>"$log" 2>&1
   if [ $? -ne 0 ]; then
     echo "failed to set partition type"
     exit 99
   fi
-  chroot "$target" /bin/bash -c "sgdisk -t 2:8200 $image_name" >>$log 2>&1
+  chroot "$target" /bin/bash -c "sgdisk -t 2:8200 $image_name" >>"$log" 2>&1
   if [ $? -ne 0 ]; then
     echo "failed to set partition type"
     exit 99
   fi
-  chroot "$target" /bin/bash -c "sgdisk -t 3:8300 $image_name" >>$log 2>&1
+  chroot "$target" /bin/bash -c "sgdisk -t 3:8300 $image_name" >>"$log" 2>&1
   if [ $? -ne 0 ]; then
     echo "failed to set partition type"
     exit 99
@@ -414,8 +414,8 @@ fi
 
 ##make hybrid gpt if certain devices specified.
 if [ "$arch" == "armel" ]; then
-  echo "creating hybrid GPT/MBR record to support booting large disks" | tee -a $log
-  chroot "$target" /bin/bash -c "sgdisk -h 1:EE $image_name" >>$log 2>&1
+  echo "creating hybrid GPT/MBR record to support booting large disks" | tee -a "$log"
+  chroot "$target" /bin/bash -c "sgdisk -h 1:EE $image_name" >>"$log" 2>&1
   if [ $? -ne 0 ]; then
     echo "failed to create hybrid GPT/MBR record, image may not be bootable"
     exit 99
@@ -425,15 +425,15 @@ fi
 kernel=""
 if [ "$arch" == "armhf" ]; then
    if [ "$machine" == "Buffalo Terastation TS3200D" ] || [ "$machine" == "Buffalo Terastation TS3400D" ] || [ "$machine" == "Buffalo Terastation TS3400R" ]; then
-      kernel="linux-image-armmp-lpae" >>$log 2>&1
+      kernel="linux-image-armmp-lpae" >>"$log" 2>&1
    else
-      kernel="linux-image-armmp" >>$log 2>&1
+      kernel="linux-image-armmp" >>"$log" 2>&1
    fi
 fi
 
 ##installing my custom kernel on devices that depend on my patches.
 if [ "$arch" == "armel" ]; then
-   echo "configuring custom kernel repo" | tee -a $log
+   echo "configuring custom kernel repo" | tee -a "$log"
    sources_file="$target/etc/apt/sources.list.d/buffalo_kernel.sources"
    echo "Types: deb" > "$sources_file"
    echo "URIs: $gh_url/PPA/" >> "$sources_file"
@@ -441,7 +441,7 @@ if [ "$arch" == "armel" ]; then
    echo "Components: main" >> "$sources_file"
    echo "Signed-By: /usr/share/keyrings/buffalo_kernel.gpg" >> "$sources_file"
    gh_download_chroot "PPA/KEY.gpg" "/usr/share/keyrings/buffalo_kernel.gpg"
-   chroot "$target" /bin/bash -c "apt-get update" >>$log 2>&1
+   chroot "$target" /bin/bash -c "apt-get update" >>"$log" 2>&1
    if [ $? -ne 0 ]; then
      echo "custom kernel repo setup failed"
      exit 99
@@ -449,9 +449,9 @@ if [ "$arch" == "armel" ]; then
    kernel="linux-image-marvell-buffalo"
 fi
 
-echo "installing kernel" | tee -a $log
+echo "installing kernel" | tee -a "$log"
 ##flash-kernel hook will complain about rootdev not being present, DEBIAN_HAS_FRONTEND prevents it stopping at a prompt
-chroot "$target" /bin/bash -c "DEBIAN_HAS_FRONTEND=y apt-get -y install $kernel" >>$log 2>&1
+chroot "$target" /bin/bash -c "DEBIAN_HAS_FRONTEND=y apt-get -y install $kernel" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
  echo "kernel install failed"
  exit 99
@@ -460,9 +460,9 @@ fi
 ##disable fstrim, it's not safe for some devices and pointless for most use cases on these devices.
 ##might narrow it down to just where it breaks stuff later on...that might be a moving target though.
 if [ "$arch" == "armel" ]; then
-  echo "disabling fstrim service" | tee -a $log
-  chroot "$target" /bin/bash -c "systemctl disable fstrim.timer" >>$log 2>&1
-  chroot "$target" /bin/bash -c "systemctl disable fstrim.service" >>$log 2>&1
+  echo "disabling fstrim service" | tee -a "$log"
+  chroot "$target" /bin/bash -c "systemctl disable fstrim.timer" >>"$log" 2>&1
+  chroot "$target" /bin/bash -c "systemctl disable fstrim.service" >>"$log" 2>&1
 fi
 
 ##counting on the system determining this dynamically going forward
@@ -476,26 +476,26 @@ bootflag=""
 [ "$arch" == "armel" ] && bootflag="-I 128"
 
 echo "writing boot filesystem"
-chroot "$target" /bin/bash -c "mkfs.ext3 -F $bootflag -U $bootID -d /boot -E offset=$((sectorsz*bootstart)) $image_name ${boot_size}M" >>$log 2>&1
+chroot "$target" /bin/bash -c "mkfs.ext3 -F $bootflag -U $bootID -d /boot -E offset=$((sectorsz*bootstart)) $image_name ${boot_size}M" >>"$log" 2>&1
 if [ $? -ne 0 ]; then echo "write boot image failed"; exit 92; fi
 
 ##empty out the boot mountpoint for a clean image
 chroot "$target" /bin/bash -c "rm -r ./boot/*"
 
 ###write rootfs into image
-echo "writing root filesystem" | tee -a $log
-chroot "$target" /bin/bash -c "tar --exclude=./$image_name -cf - . | mkfs.ext4 -F -U $rootID -d - -E offset=$((sectorsz*rootstart)) $image_name ${root_size}M" >>$log 2>&1
+echo "writing root filesystem" | tee -a "$log"
+chroot "$target" /bin/bash -c "tar --exclude=./$image_name -cf - . | mkfs.ext4 -F -U $rootID -d - -E offset=$((sectorsz*rootstart)) $image_name ${root_size}M" >>"$log" 2>&1
 if [ $? -ne 0 ]; then echo "write root image failed"; exit 91; fi
 
-echo "writing swap" | tee -a $log
-chroot "$target" /bin/bash -c "mkswap -o $((sectorsz*swapstart)) -U $swapID $image_name $((swap_size*1024))" >>$log 2>&1
+echo "writing swap" | tee -a "$log"
+chroot "$target" /bin/bash -c "mkswap -o $((sectorsz*swapstart)) -U $swapID $image_name $((swap_size*1024))" >>"$log" 2>&1
 if [ $? -ne 0 ]; then echo "write swap image failed"; exit 91; fi
 
-echo "performing cleanup" | tee -a $log
+echo "performing cleanup" | tee -a "$log"
 
 ##move to pwd
 mv "$target/$image_name" .
 
 rm -r "$target"
 
-echo "disk image ready for use" | tee -a $log
+echo "disk image ready for use" | tee -a "$log"
