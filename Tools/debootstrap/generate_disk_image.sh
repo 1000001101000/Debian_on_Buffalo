@@ -43,6 +43,16 @@ packages="$packages,apt-transport-https,gnupg,ca-certificates"
 ##install manually ahead of kernel install to avoid some debconf issues
 packages="$packages,apparmor"
 
+##check for required tools
+for x in debootstrap dd gawk grep chroot pwd date tee wget
+do
+  which "$x" > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "$x not found in PATH, please install or adjust PATH and try again"
+    exit 99
+  fi
+done
+
 ##prompt for machine name
 read -r -p "Enter model string [$machine]: " tmpmachine
 [ -z "$tmpmachine" ] || machine="$tmpmachine"
@@ -88,6 +98,13 @@ esac
 if [ "$arch" == "" ]; then
    echo "Machine ID didn't match a supported model!"
    exit 1
+fi
+
+##check for qemu support for the architecture
+which "qemu-system-$arch" > /dev/null
+if [ $? -ne 0 ]; then
+  echo "qemu-system-$arch not found in PATH, please install or adjust PATH and try again"
+  exit 99
 fi
 
 ##prompt for machine name
@@ -153,20 +170,11 @@ echo "Process started, logging output to "$log"" | tee "$log"
 
 [ -d "$target" ] && rm -r "$target"
 mkdir -p "$target/boot"
-if [ $? -ne 0 ]; then echo "failed created working directory" ; exit 99; fi
-
-for x in qemu-system-$arch debootstrap dd gawk grep chroot pwd date tee wget
-do
-  which -s "$x"
-  if [ $? -ne 0 ]; then
-    echo "$x not found, please install and try again"
-    exit 99
-  fi
-done
+if [ $? -ne 0 ]; then echo "failed to create working directory: $target/boot" ; exit 99; fi
 
 qemu_path="$(which qemu-system-$arch)"
 if [ $? -ne 0 ]; then
-  echo "qemu-system-$arch not found, install binfmt-support or equivalant"
+  echo "qemu-system-$arch not found, install binfmt-support or equivalent"
   exit 99
 fi
 
@@ -197,7 +205,7 @@ bootID="$(uuidgen_chroot)"
 rootID="$(uuidgen_chroot)"
 swapID="$(uuidgen_chroot)"
 
-##devices with sata port expanders can' handle trim() commands.
+##devices with sata port expanders can't handle trim() commands.
 ##not an issue for most cases but causes havoc if testing with ssd
 ##try to disable those commands to prevent issues for that case
 ##generate fstab
@@ -260,7 +268,7 @@ echo "XZ_OPT=-2e"    >> "$target/usr/share/initramfs-tools/conf.d/compress"
 echo "export XZ_OPT" >> "$target/usr/share/initramfs-tools/conf.d/compress"
 echo "BOOT=local" > "$target/usr/share/initramfs-tools/conf.d/localboot"
 echo "MODULES=list" > "$target/etc/initramfs-tools/conf.d/modules"
-echo "RESUME=none" > "$target/etc/initramfs-tools/conf.d/resume" # supresses the message and none of these support hibernate, though mostly for lack of it being implimented in kernel
+echo "RESUME=none" > "$target/etc/initramfs-tools/conf.d/resume" # suppresses the message as none of these support hibernate, though mostly for lack of it being implemented in kernel
 echo "FSTYPE=ext4" > "$target/etc/initramfs-tools/conf.d/root" ## still needed?
 echo "RUNSIZE=$((26*1024*1024))" > "$target/etc/initramfs-tools/conf.d/runsize"
 
