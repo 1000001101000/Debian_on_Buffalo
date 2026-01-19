@@ -3,3 +3,7 @@ armel-files
 armel-payload
 armhf-payload
 output
+initrd
+initrd.gz
+initrd.xz
+vmlin*
