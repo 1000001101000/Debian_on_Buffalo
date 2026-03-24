@@ -4,11 +4,11 @@ rollingcrc=0
 gh_user="1000001101000"
 gh_repo="Debian_on_Buffalo"
 gh_branch="master"
-gh_url="https://raw.githubusercontent.com/$gh_user/$gh_repo/refs/heads/$gh_branch/"
+gh_url="https://raw.githubusercontent.com/$gh_user/$gh_repo/refs/heads/$gh_branch"
 
 gh_download_chroot()
 {
-  local source="$gh_url$1"
+  local source="$gh_url/$1"
   local dest="$2"
 
   chroot "$target" /bin/bash -c "wget -O $dest $source" >>$log 2>&1

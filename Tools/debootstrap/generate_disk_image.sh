@@ -1,17 +1,26 @@
 #!/bin/bash
 
+##curious about stretch kernel issues, but far from important
+##mildly curious about stock kernel, is jessie good enough?
+##micon issues jessie and before, jessie works pulling out tohex stuff from debug/etc
+##think about injesting functions
+##initrd size for trixie
+##general testing with non-dtb devices
+##need at least some regression with raid and armhf
+
 . ./functions.sh
 
 target="./.buildtmp"
 target_hostname="debian"
 machine="Buffalo Linkstation LS220D"
+machine="Buffalo Terastation TS-XEL"
 target_user="debian"
 default_distro="trixie"
 boot_size="512"  ## could add sanity check, could prompt with defaults
 swap_size="512"
 root_size="2048"
 use_raid="Y"
-mirror="http://deb.debian.org/debian"
+default_mirror="http://deb.debian.org/debian"
 
 ##packages added to deal with distro-specific issues which may not all be required
 packages="busybox,libpam-systemd,dbus,bsdextrautils,binutils,debconf,locales,systemd-timesyncd"
@@ -20,7 +29,7 @@ packages="busybox,libpam-systemd,dbus,bsdextrautils,binutils,debconf,locales,sys
 packages="$packages,mdadm"
 
 ###stuff I would install anyway but is depended on for the install script specifically
-packages="$packages,uuid-runtime,libarchive-tools,gdisk,wget"
+packages="$packages,uuid-runtime,gdisk,wget"
 
 ##needed for micon scripts
 packages="$packages,python3,python3-serial"
@@ -98,14 +107,22 @@ read -r -p "Enter debian version [$distro]: " tmpdistro
 log="debian_""$distro""_""$arch"".log"
 
 ##check for suitable release file
-for x in "$mirror" "https://archive.debian.org/debian"
+mirror=""
+for x in "$default_mirror" "https://archive.debian.org/debian"
 do
-  mirror=""
   release="$x/dists/$distro/main/binary-$arch/Release"
-  wget -O /dev/null "$release" >>"$log" 2>&1 && mirror="$x" && break
+  (set -x; wget -O /dev/null "$release") >>"$log" 2>&1 && mirror="$x" && break
 done
 
 [ -z "$mirror" ] && echo "binary-$arch release file for $distro not found" && exit 99
+
+archive_keyring="/usr/share/keyrings/debian-archive-removed-keys.gpg"
+deb_keyring=""
+##not actually planning to support anything super old, but may as well provide for reference
+##should make it easier to adapt for bookworm/trixie when they age out of the main repos
+if [ "$mirror" == "https://archive.debian.org/debian" ] && [ "$distro" == "jessie" ]; then
+  deb_keyring="--keyring=$archive_keyring"
+fi
 
 ##attempt to determine user running script and whether they have ssh pubkey handy.
 pid=$PPID
@@ -155,7 +172,7 @@ echo "Process started, logging output to "$log"" | tee "$log"
 mkdir -p "$target/boot"
 if [ $? -ne 0 ]; then echo "failed created working directory" ; exit 99; fi
 
-for x in qemu-system-$arch debootstrap dd gawk grep chroot pwd date tee wget
+for x in qemu-system-$arch debootstrap dd gawk grep chroot pwd date tee wget mkfs.ext4 mkswap
 do
   which -s "$x"
   if [ $? -ne 0 ]; then
@@ -170,15 +187,22 @@ if [ $? -ne 0 ]; then
   exit 99
 fi
 
-if [ "$distro" == "stretch" ] ||  [ "$distro" == "buster" ]; then
+if [ "$distro" == "jessie" ] || [ "$distro" == "stretch" ] || [ "$distro" == "buster" ] || [ "$distro" == "squeeze" ]; then
   for x in systemd-timesyncd bsdextrautils
   do
     packages=`echo $packages | sed "s/$x//g"`
   done
 fi
 
+if [ "$distro" == "squeeze" ]; then
+  for x in u-boot-tools gdisk bsdextrautils python3-serial libpam-systemd systemd-timesyncd haveged apparmor
+  do
+    packages=`echo $packages | sed "s/$x//g"`
+  done
+fi
+
 echo "running debootstrap" | tee -a "$log"
-debootstrap --arch "$arch" --include="$packages" "$distro" "$target" "$mirror" | tee -a "$log"
+debootstrap $deb_keyring --arch "$arch" --include="$packages" "$distro" "$target" "$mirror" | tee -a "$log"
 
 #add prereq for qemu, not needed or already handled by deboostrap these days
 cp "$qemu_path" "$target/usr/bin/"
@@ -192,6 +216,8 @@ if [ $? -ne 0 ]; then
   echo "unable to run chroot, qemu issue?"
   exit 99
 fi
+
+[ "$distro" == "squeeze" ] && chroot "$target" /bin/bash -c "FLASH_KERNEL_NOTRIGGER=y apt-get --force-yes -y install -t jessie-backports wget flash-kernel e2fsprogs u-boot-tools gdisk python3-serial"
 
 bootID="$(uuidgen_chroot)"
 rootID="$(uuidgen_chroot)"
@@ -236,23 +262,18 @@ chmod 755 "$target"/usr/local/bin/*
 ##boot shim and hook script
 echo "setup bootshim" | tee -a "$log"
 gh_download_chroot "Tools/bootshim/$arch\_shim" "/boot/bootshim"
+mkdir -p "$target/etc/initramfs/post-update.d/"
 gh_download_chroot "Tools/0-install_shim" "/etc/initramfs/post-update.d/0-install_shim"
 chmod +x "$target/etc/initramfs/post-update.d/0-install_shim"
 
 ##flash-kernel setup
 echo "configuring flash-kernel" | tee -a "$log"
+#mkdir -p "$target/usr/share/flash-kernel/db/"
+#mkdir -p "$target/etc/flash-kernel/dtbs/"
 gh_download_chroot "Tools/0-buffalo_devices.db" "/usr/share/flash-kernel/db/0-buffalo_devices.db"
 echo yes > "$target/etc/flash-kernel/ignore-efi"
+sed -i '/^Kernel-Flavors:/d' "$target/usr/share/flash-kernel/db/0-buffalo_devices.db" ##why/how have I not commited this change to the repo yet?
 echo "$machine" > "$target/etc/flash-kernel/machine"
-
-##at this point armel has dtbs in the kernel package, install the needed one for armhf devices
-##could use some work for historical/alternate dtbs
-if [ "$arch" == "armhf" ]; then
-  echo "installing device-tree" | tee -a "$log"
-  search="^Machine: $machine"
-  dtb=`grep -A 4 -e "$search" "$target/usr/share/flash-kernel/db/0-buffalo_devices.db" | grep DTB-Id | gawk '{print $2}'`
-  gh_download_chroot "${default_distro^}/device_trees/$dtb" "/etc/flash-kernel/dtbs/$dtb"
-fi
 
 ##initrd hooks/config for sure.
 echo "COMPRESS=xz"    > "$target/usr/share/initramfs-tools/conf.d/compress"
@@ -265,7 +286,7 @@ echo "FSTYPE=ext4" > "$target/etc/initramfs-tools/conf.d/root" ## still needed?
 echo "RUNSIZE=$((26*1024*1024))" > "$target/etc/initramfs-tools/conf.d/runsize"
 
 ###is it worth trying to trim any of these? of part for sure, possibly libcrc,autofs4 not much really
-for module in sata_mv libata ahci libahci crypto-crc32c jbd2 mbcache crc16 ext4 autofs4 crc32c_generic sd_mod sg scsi_common scsi_mod libcrc32c
+for module in sata_mv libata ahci libahci crypto-crc32c jbd2 mbcache crc16 ext4 autofs4 fscrypto crc32c_generic sd_mod sg scsi_common scsi_mod libcrc32c md_mod raid1
 do
   echo "$module" >> "$target/etc/initramfs-tools/modules"
 done
@@ -324,6 +345,14 @@ else
    fi
 fi
 
+##disable fstrim, it's not safe for some devices and pointless for most use cases on these devices.
+##might narrow it down to just where it breaks stuff later on...that might be a moving target though.
+if [ "$arch" == "armel" ]; then
+  echo "disabling fstrim service" | tee -a "$log"
+  chroot "$target" /bin/bash -c "systemctl disable fstrim.timer" >>"$log" 2>&1
+  chroot "$target" /bin/bash -c "systemctl disable fstrim.service" >>"$log" 2>&1
+fi
+
 echo "creating disk image" | tee -a "$log"
 chroot "$target" /bin/bash -c "dd if=/dev/zero of=$image_name bs=1M count=$((1+boot_size+1+swap_size+1+root_size+2))" >>"$log" 2>&1
 if [ $? -ne 0 ]; then
@@ -352,10 +381,10 @@ fi
 
 ###this stuff into chroot, think there's one in the mdadm bit too.
 #get sector size of partition table, should always be 512
-sectorsz=`chroot "$target" /bin/bash -c "sgdisk -p $image_name" | grep 'Sector size (logical):' | gawk '{print $4}'`
+sectorsz=`chroot "$target" /bin/bash -c "sgdisk -p $image_name" | tee -a "$log" | grep -i 'sector size' | gawk '{print $4}'`
 
 #get starting sector for boot, should be 2048
-bootstart=`chroot "$target" /bin/bash -c "sgdisk -i 1 $image_name" | grep 'First sector:' | gawk '{print $3}'`
+bootstart=`chroot "$target" /bin/bash -c "sgdisk -i 1 $image_name" | tee -a "$log" | grep 'First sector:' | gawk '{print $3}'`
 
 #get starting sector for swap
 swapstart=`chroot "$target" /bin/bash -c "sgdisk -i 2 $image_name" | grep 'First sector:' | gawk '{print $3}'`
@@ -369,7 +398,7 @@ if [ "$use_raid" == "Y" ]; then
   for x in 1 2 3
   do
     tmpuuid=$(uuidgen_chroot)
-    raidstart=`chroot "$target" /bin/bash -c "sgdisk -i $x $image_name" | grep 'First sector:' | gawk '{print $3}'`
+    raidstart=`chroot "$target" /bin/bash -c "sgdisk -i $x $image_name" | tee -a "$log" | grep 'First sector:' | gawk '{print $3}'`
     raidstart=$((raidstart*sectorsz))
     raidsize=`chroot "$target" /bin/bash -c "sgdisk -i $x $image_name" | grep 'Partition size:'| gawk '{print $3}'`
     raidsize=$(( (raidsize*sectorsz) & 0xFFFF0000 ))
@@ -390,7 +419,7 @@ if [ "$use_raid" == "Y" ]; then
       echo "failed to set partition type"
       exit 99
     fi
-    echo "ARRAY /dev/md/md$((x-1)) metadata=0.90 name=$target_hostname:md$((x-1)) UUID=$tmpuuid" >> "$target/etc/mdadm/mdadm.conf"
+    echo "ARRAY /dev/md$((x-1)) metadata=0.90 name=$target_hostname:md$((x-1)) UUID=$tmpuuid" >> "$target/etc/mdadm/mdadm.conf"
     rm "$target/tmpsb.bin"
   done
 else
@@ -425,28 +454,96 @@ fi
 kernel=""
 if [ "$arch" == "armhf" ]; then
    if [ "$machine" == "Buffalo Terastation TS3200D" ] || [ "$machine" == "Buffalo Terastation TS3400D" ] || [ "$machine" == "Buffalo Terastation TS3400R" ]; then
-      kernel="linux-image-armmp-lpae" >>"$log" 2>&1
+      kernel="linux-image-armmp-lpae"
    else
-      kernel="linux-image-armmp" >>"$log" 2>&1
+      kernel="linux-image-armmp"
    fi
 fi
 
 ##installing my custom kernel on devices that depend on my patches.
 if [ "$arch" == "armel" ]; then
-   echo "configuring custom kernel repo" | tee -a "$log"
-   sources_file="$target/etc/apt/sources.list.d/buffalo_kernel.sources"
-   echo "Types: deb" > "$sources_file"
-   echo "URIs: $gh_url/PPA/" >> "$sources_file"
-   echo "Suites: $distro" >> "$sources_file"
-   echo "Components: main" >> "$sources_file"
-   echo "Signed-By: /usr/share/keyrings/buffalo_kernel.gpg" >> "$sources_file"
-   gh_download_chroot "PPA/KEY.gpg" "/usr/share/keyrings/buffalo_kernel.gpg"
-   chroot "$target" /bin/bash -c "apt-get update" >>"$log" 2>&1
-   if [ $? -ne 0 ]; then
-     echo "custom kernel repo setup failed"
-     exit 99
-   fi
-   kernel="linux-image-marvell-buffalo"
+  ##check if there's a release file in the custom repo, if so set that up
+  ##if not it's either something old, non-debian, or possibly a newer/testing release.
+  ##for some if not most just using a newer kernel is probably better.
+  kernel_distro="$distro"
+  release="$gh_url/PPA/dists/$distro/main/binary-$arch/Release"
+  wget -O /dev/null "$release" >>"$log" 2>&1
+  if [ $? -ne 0 ]; then
+    ##distro that was valid enough to generate rootfs but we don't have a custom kernel, use current stable and hope for the best.
+    #maybe in future use better logic and have various backports and testing/unstable to try to find a closer match?
+    kernel_distro="$default_distro"
+  fi
+
+  ##stretch kernel not working for some reason, overriding to buster kernel for now
+  [ "$distro" == "stretch" ] && kernel_distro="buster"
+  [ "$distro" == "jessie" ] && kernel_distro="buster"
+  [ "$distro" == "squeeze" ] && kernel_distro="buster"
+
+  echo "configuring custom kernel repo" | tee -a "$log"
+  gh_download_chroot "PPA/KEY.gpg" "/usr/share/keyrings/buffalo_kernel.gpg"
+  chroot "$target" /bin/bash -c "apt-key add /usr/share/keyrings/buffalo_kernel.gpg" >>"$log" 2>&1
+  if [ $? -eq 0 ]; then
+    ##if apt-key worked create old style sources.list
+    echo "deb $gh_url/PPA/ $kernel_distro main" > "$target/etc/apt/sources.list.d/buffalo_kernel.list"
+    ##backports probably vital for anything this old, especially flash-kernel
+    echo "deb $mirror ${distro}-backports main" >> "$target/etc/apt/sources.list"
+    ##curious is flash-kernel/etc would work on something really old
+    [ "$distro" == "squeeze" ] && echo "deb $mirror jessie-backports main" >> "$target/etc/apt/sources.list"
+    ##try to pull in the keyring
+    cp "$archive_keyring" "$target/usr/share/keyrings/old-debian-archive-removed-keys.gpg"
+    chroot "$target" /bin/bash -c "apt-key add /usr/share/keyrings/old-debian-archive-removed-keys.gpg" >>"$log" 2>&1
+  else
+    ##otherwise create new style
+    sources_file="$target/etc/apt/sources.list.d/buffalo_kernel.sources"
+    echo "Types: deb" > "$sources_file"
+    echo "URIs: $gh_url/PPA/" >> "$sources_file"
+    echo "Suites: $kernel_distro" >> "$sources_file"
+    echo "Components: main" >> "$sources_file"
+    echo "Signed-By: /usr/share/keyrings/buffalo_kernel.gpg" >> "$sources_file"
+  fi
+  kernel="linux-image-marvell-buffalo"
+fi
+
+chroot "$target" /bin/bash -c "apt-get update" >>"$log" 2>&1
+###there's more than one reason this could fail, not sure how best to handle it.
+if [ $? -ne 0 ]; then
+  echo "warning: apt-get update reported issues, this may cause later steps to fail" | tee -a "$log"
+fi
+
+##need a version of flash-kernel that supports out of tree dtbs or we need to get all needed dtbs into the kernel packages
+[ "$distro" == "jessie" ] || [ "$distro" == "squeeze" ] && chroot "$target" /bin/bash -c "FLASH_KERNEL_NOTRIGGER=y apt-get --force-yes -y install -t jessie-backports flash-kernel e2fsprogs u-boot-tools gdisk python3-serial" >>"$log" 2>&1
+
+echo "downloading kernel" | tee -a "$log"
+
+##download kernel first so we can determine if dtb is provided by kernel before flash-kernel setup
+chroot "$target" /bin/bash -c "apt-get -y install --download-only $kernel" >>"$log" 2>&1
+if [ $? -ne 0 ]; then
+ echo "kernel download failed"
+ exit 99
+fi
+
+dtb_needed=1
+search="^Machine: $machine"
+dtb=`grep -A 4 -e "$search" "$target/usr/share/flash-kernel/db/0-buffalo_devices.db" | grep DTB-Id | gawk '{print $2}'`
+chroot "$target" /bin/bash -c "echo /var/cache/apt/archives/linux-image*.deb | xargs -n1 dpkg -c | grep -q $dtb" >>"$log" 2>&1 && dtb_needed=0
+[ -z "$dtb" ] && dtb_needed=0
+
+##if dtb not present from kernel package, grab one from the repo
+if [ $dtb_needed -ne 0 ]; then
+  echo "installing device-tree" | tee -a "$log"
+  ###thinking I might build one last kernel for these that conforms better to the modern way
+  case $kernel_distro in
+  "stretch")
+    altdtb="https://github.com/1000001101000/Debian_on_Buffalo/raw/d2d39c69e5916dbab3bc4c04c811c4d810e9c05d/Stretch/device_trees/$dtb"
+    ;;
+  "buster")
+    altdtb="https://github.com/1000001101000/Debian_on_Buffalo/raw/fa20b7bd5231b7d6ada174a1247a069c295ca5dd/Buster/device_trees/$dtb"
+    ;;
+  *)
+    altdtb="https://github.com/1000001101000/Debian_on_Buffalo/raw/refs/heads/master/${default_distro^}/device_trees/$dtb"
+    ;;
+  esac
+  wget -v -O "$target/etc/flash-kernel/dtbs/$dtb" "$altdtb" >>"$log" 2>&1
 fi
 
 echo "installing kernel" | tee -a "$log"
@@ -455,14 +552,6 @@ chroot "$target" /bin/bash -c "DEBIAN_HAS_FRONTEND=y apt-get -y install $kernel"
 if [ $? -ne 0 ]; then
  echo "kernel install failed"
  exit 99
-fi
-
-##disable fstrim, it's not safe for some devices and pointless for most use cases on these devices.
-##might narrow it down to just where it breaks stuff later on...that might be a moving target though.
-if [ "$arch" == "armel" ]; then
-  echo "disabling fstrim service" | tee -a "$log"
-  chroot "$target" /bin/bash -c "systemctl disable fstrim.timer" >>"$log" 2>&1
-  chroot "$target" /bin/bash -c "systemctl disable fstrim.service" >>"$log" 2>&1
 fi
 
 ##counting on the system determining this dynamically going forward
@@ -480,22 +569,25 @@ chroot "$target" /bin/bash -c "mkfs.ext3 -F $bootflag -U $bootID -d /boot -E off
 if [ $? -ne 0 ]; then echo "write boot image failed"; exit 92; fi
 
 ##empty out the boot mountpoint for a clean image
-chroot "$target" /bin/bash -c "rm -r ./boot/*"
-
-###write rootfs into image
-echo "writing root filesystem" | tee -a "$log"
-chroot "$target" /bin/bash -c "tar --exclude=./$image_name -cf - . | mkfs.ext4 -F -U $rootID -d - -E offset=$((sectorsz*rootstart)) $image_name ${root_size}M" >>"$log" 2>&1
-if [ $? -ne 0 ]; then echo "write root image failed"; exit 91; fi
-
-echo "writing swap" | tee -a "$log"
-chroot "$target" /bin/bash -c "mkswap -o $((sectorsz*swapstart)) -U $swapID $image_name $((swap_size*1024))" >>"$log" 2>&1
-if [ $? -ne 0 ]; then echo "write swap image failed"; exit 91; fi
-
-echo "performing cleanup" | tee -a "$log"
+#chroot "$target" /bin/bash -c "rm -r ./boot/*"
 
 ##move to pwd
 mv "$target/$image_name" .
 
-rm -r "$target"
+echo "writing swap" | tee -a "$log"
+##moving back to host's mkswap to try to ensure offset function is present
+mkswap -o $((sectorsz*swapstart)) -U "$swapID" "$image_name" $((swap_size*1024)) >>"$log" 2>&1
+if [ $? -ne 0 ]; then echo "write swap image failed"; exit 91; fi
+
+###write rootfs into image
+###piping through tar allows for exlusion/etc logic to be used, but also relies on excessively new versions of mkfs.ext4
+###^orphan_file required for kernels before 5.15 or so and similar era fsck etc.
+echo "writing root filesystem" | tee -a "$log"
+mkfs.ext4 -F -O ^orphan_file -U "$rootID" -d "$target" -E offset=$((sectorsz*rootstart)) "$image_name" "${root_size}M" >>"$log" 2>&1
+if [ $? -ne 0 ]; then echo "write root image failed"; exit 91; fi
+
+echo "performing cleanup" | tee -a "$log"
+
+#rm -r "$target"
 
 echo "disk image ready for use" | tee -a "$log"
