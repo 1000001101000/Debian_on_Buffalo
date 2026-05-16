@@ -169,6 +169,25 @@ Description: Linux kernel headers for 6.12.86 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-6.12.88
+Source: linux-upstream
+Version: 6.12.88-10
+Architecture: armel
+Maintainer: root <root@4ebb2b456526>
+Installed-Size: 49202
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-headers-6.12.88_6.12.88-10_armel.deb
+Size: 8263372
+SHA256: aeec209ace9f186e4c9fa0b7e1766b19f57924d492f9885eca6a83a165cc7d2a
+SHA1: 584ced372983168ba734445dca136000d7833266
+MD5sum: 7f0ec8ed3794672f927163178f0049b3
+Description: Linux kernel headers for 6.12.88 on armel
+ This package provides kernel header files for 6.12.88 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-image-6.12.38
 Source: linux-upstream
 Version: 6.12.38-1
@@ -331,38 +350,56 @@ Description: Linux kernel, version 6.12.86
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.12.86.
 
-Package: linux-image-marvell-buffalo
-Version: 6.12.86-9
+Package: linux-image-6.12.88
+Source: linux-upstream
+Version: 6.12.88-10
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@a5a946a1eea1>
+Maintainer: root <root@4ebb2b456526>
+Installed-Size: 14318
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-image-6.12.88_6.12.88-10_armel.deb
+Size: 6950784
+SHA256: 2c41787eed3e2eaa41ff0ad9fcba0ad9ca78c96760eb34b3322d72b0c04f1e3c
+SHA1: d3a516ac4f3493a1c9477ffe6634f3dcb5ed4f9b
+MD5sum: f087484888b594fb0c2bb013422f7e8c
+Description: Linux kernel, version 6.12.88
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 6.12.88.
+
+Package: linux-image-marvell-buffalo
+Version: 6.12.88-10
+Architecture: armel
+Maintainer: Equivs Dummy Package Generator <root@4ebb2b456526>
 Installed-Size: 9
-Depends: linux-image-6.12.86 (= 6.12.86-9), linux-headers-6.12.86 (= 6.12.86-9), linux-libc-dev (= 6.12.86-9)
+Depends: linux-image-6.12.88 (= 6.12.88-10), linux-headers-6.12.88 (= 6.12.88-10), linux-libc-dev (= 6.12.88-10)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.12.86-9_armel.deb
-Size: 2292
-SHA256: 07c6d3a135f07d04902d6bf56b896fc01feb20bd89dd44a1505816c3f81a8b6c
-SHA1: de1336aa2c75924e1516948d74667164802114ee
-MD5sum: 94d550272c46bea63c3a1a01dad91589
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.12.88-10_armel.deb
+Size: 2288
+SHA256: aa6fc141772b2a55b28da509f659e8aeed174985c6af3d43fcd66b8e085c7554
+SHA1: 2ddf131e63bfa38efeea9c294e72bb1c7acd71d4
+MD5sum: 4f6fc922640f7175d841aea380c36a58
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.12.86-9
+Version: 6.12.88-10
 Architecture: armel
-Maintainer: root <root@a5a946a1eea1>
+Maintainer: root <root@4ebb2b456526>
 Installed-Size: 7012
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.12.86-9_armel.deb
-Size: 1357584
-SHA256: b46991359dd2981ccb7789643509bddbb5fcdc2b8684b4ebde4341cfaa7d6a2f
-SHA1: bc608c96570c43dfc187b9e016b64641e2c863c0
-MD5sum: 6aa2882c796b07deb1aaf0a32bf175f8
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.12.88-10_armel.deb
+Size: 1357472
+SHA256: c56e33e46def2c7cea57ff5eed6d29861df9859a49ac2541377f3d9872c5a543
+SHA1: 84101ce92918324ecd476f291cdef8f6c5d39874
+MD5sum: 3eb22d5527607be2e9d61a03acd8cd6c
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
