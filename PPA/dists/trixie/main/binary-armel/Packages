@@ -93,6 +93,25 @@ Description: Linux kernel headers for 6.12.111 on armel
  .
  This is useful for people who need to build external modules
 
+Package: linux-headers-6.12.113
+Source: linux-upstream
+Version: 6.12.113-21
+Architecture: armel
+Maintainer: root <root@132e8b8d6663>
+Installed-Size: 49302
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-headers-6.12.113_6.12.113-21_armel.deb
+Size: 8278328
+SHA256: 6e5ae668d14b8b3327c29c4420db0df9a5645ca8ee19876f6e67547003912095
+SHA1: 2579755d543a879ee728031ed9290bfb14002223
+MD5sum: ec02ef1039cc85faa6c8e1ddb3aa4c76
+Description: Linux kernel headers for 6.12.113 on armel
+ This package provides kernel header files for 6.12.113 on armel
+ .
+ This is useful for people who need to build external modules
+
 Package: linux-headers-6.12.38
 Source: linux-upstream
 Version: 6.12.38-1
@@ -449,6 +468,24 @@ Description: Linux kernel, version 6.12.111
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.12.111.
 
+Package: linux-image-6.12.113
+Source: linux-upstream
+Version: 6.12.113-21
+Architecture: armel
+Maintainer: root <root@132e8b8d6663>
+Installed-Size: 14367
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-image-6.12.113_6.12.113-21_armel.deb
+Size: 6978368
+SHA256: 877e5eb181a4618c7523c679252aa1e51e0ac7c7010b92ce6698768e722f78a9
+SHA1: c77428834b2d051f4b8e256541c7ad510ca5db07
+MD5sum: abdfb9a01f32877a330628a7b500a4f0
+Description: Linux kernel, version 6.12.113
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 6.12.113.
+
 Package: linux-image-6.12.38
 Source: linux-upstream
 Version: 6.12.38-1
@@ -702,37 +739,37 @@ Description: Linux kernel, version 6.12.96
  files, version: 6.12.96.
 
 Package: linux-image-marvell-buffalo
-Version: 6.12.111-20
+Version: 6.12.113-21
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@76719e422ebd>
+Maintainer: Equivs Dummy Package Generator <root@132e8b8d6663>
 Installed-Size: 9
-Depends: linux-image-6.12.111 (= 6.12.111-20), linux-headers-6.12.111 (= 6.12.111-20), linux-libc-dev (= 6.12.111-20)
+Depends: linux-image-6.12.113 (= 6.12.113-21), linux-headers-6.12.113 (= 6.12.113-21), linux-libc-dev (= 6.12.113-21)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.12.111-20_armel.deb
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.12.113-21_armel.deb
 Size: 2296
-SHA256: 932cc211f11984698685aa736993092d045490301dd931c261cfef0b240fed8c
-SHA1: 75462d3a1629cbfa61cb7da8fc22600c2236aea8
-MD5sum: b9729d09f2530da41dc9ed57d7045f8a
+SHA256: 38a1bbc7bd9fd9449eab61f0fc6862c2449218af87c1b191d35988b783b4a0b4
+SHA1: 55f967428d84ebb375a2f96e34a7fbcbda6cf5ce
+MD5sum: 85f051e72ff30e70b0cfad2d4d9273f3
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.12.111-20
+Version: 6.12.113-21
 Architecture: armel
-Maintainer: root <root@76719e422ebd>
+Maintainer: root <root@132e8b8d6663>
 Installed-Size: 7014
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.12.111-20_armel.deb
-Size: 1358016
-SHA256: fe5099f8544e86dddf29a2000141c348b29b6d71882b40d67fbf3edf1a562486
-SHA1: af0e0d898203a44cd5a37fc16896bfccadb52d19
-MD5sum: 3194b42b5fca8e57c221841615f0eda0
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.12.113-21_armel.deb
+Size: 1357944
+SHA256: 2e5bcfbaff7845c12c5911e299b0edaf123faf9460c81d4449e71dc5d22f95a5
+SHA1: 25d1b207562e681645bf49f53abd47e0ebd2ae82
+MD5sum: bab39ca87995d9d1ec3e885d62e84357
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
