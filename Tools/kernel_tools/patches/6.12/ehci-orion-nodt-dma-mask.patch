@@ -1,0 +1,13 @@
+diff -uNr vanilla-source-6.12/drivers/usb/host/ehci-orion.c linux-source-6.12/drivers/usb/host/ehci-orion.c
+--- vanilla-source-6.12/drivers/usb/host/ehci-orion.c
++++ linux-source-6.12/drivers/usb/host/ehci-orion.c
+@@ -245,6 +245,9 @@
+ 	 * now. Once we have dma capability bindings this can go away.
+ 	 */
+ 	dma_mask_ptr = (u64 *)of_device_get_match_data(&pdev->dev);
++	/* board-file (non-DT) devices like mv78xx0 have no match data */
++	if (!dma_mask_ptr)
++		dma_mask_ptr = (u64 *)&dma_mask_orion;
+ 	err = dma_coerce_mask_and_coherent(&pdev->dev, *dma_mask_ptr);
+ 	if (err)
+ 		goto err;
