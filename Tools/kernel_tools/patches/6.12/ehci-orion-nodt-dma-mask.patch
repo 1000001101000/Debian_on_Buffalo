@@ -1,7 +1,7 @@
 diff -uNr vanilla-source-6.12/drivers/usb/host/ehci-orion.c linux-source-6.12/drivers/usb/host/ehci-orion.c
 --- vanilla-source-6.12/drivers/usb/host/ehci-orion.c
 +++ linux-source-6.12/drivers/usb/host/ehci-orion.c
-@@ -245,6 +245,9 @@
+@@ -239,6 +239,9 @@
  	 * now. Once we have dma capability bindings this can go away.
  	 */
  	dma_mask_ptr = (u64 *)of_device_get_match_data(&pdev->dev);
