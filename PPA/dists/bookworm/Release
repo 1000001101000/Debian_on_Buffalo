@@ -1,19 +1,19 @@
 Origin: 1000001101000
 Label: Terastation III Kernel
 Codename: bookworm
-Date: Sat, 24 Oct 2026 04:50:21 UTC
+Date: Mon, 16 Nov 2026 08:21:16 UTC
 Architectures: armel
 Components: main
 Description: Custom Kernel for MV78100 devices
 MD5Sum:
- 3498b04c0d89fcf36d4517d47d9cf976 2695 main/binary-armel/Packages
- caab83735a6b4ccc4a3fc0241addfb78 1060 main/binary-armel/Packages.gz
+ e7f9253ddfbb8a9a4be8fcf381d68208 3975 main/binary-armel/Packages
+ 29d8cea7b1068bc587bd72db4dc818d3 1324 main/binary-armel/Packages.gz
  42730e26634ec03ebdade2d0636e0520 135 main/binary-armel/Release
 SHA1:
- 2a38a4a890bf8c1ecd3e246caa293241a6158205 2695 main/binary-armel/Packages
- ea86d94786b4c28a19d2924eb69e17f3e7deacc6 1060 main/binary-armel/Packages.gz
+ ff8b6438cafb19850bf04add7042243c83f7109b 3975 main/binary-armel/Packages
+ 0f46032455b94a3ac1d8844437a515a04e21fc4b 1324 main/binary-armel/Packages.gz
  5dc0f93a32382683b0842790cc0838172a3b322d 135 main/binary-armel/Release
 SHA256:
- ca80eb64bc59e6124d715b37b6a0d4f5a33b79e08465fbf16934aa3842c27f6f 2695 main/binary-armel/Packages
- f98c31c8d8080b43353ebe6673855611c7d0035b35e31afb513bcb9bf7e1c52f 1060 main/binary-armel/Packages.gz
+ 7d85c1f25b65a9932f84eb8bfe3646c25e5b5999a9f6edef6a187b65ea34b809 3975 main/binary-armel/Packages
+ 70e3e0b1bb388831db29f9484ab19cb5e5b2616b3555557311e7f236e57f6c4b 1324 main/binary-armel/Packages.gz
  115d15b4bd5ef4b2bae36a939c230a37efad87c1701e7d50ae58412f693ba8d1 135 main/binary-armel/Release
