@@ -4,33 +4,33 @@ Hash: SHA512
 Origin: 1000001101000
 Label: Terastation III Kernel
 Codename: bookworm
-Date: Tue, 17 Nov 2026 08:21:45 UTC
+Date: Fri, 27 Nov 2026 08:22:00 UTC
 Architectures: armel
 Components: main
 Description: Custom Kernel for MV78100 devices
 MD5Sum:
- 69266722cf31a89074626b66444c107e 3975 main/binary-armel/Packages
- 5cc3ea6f821572efc3089531fee2d0b2 1317 main/binary-armel/Packages.gz
+ e3f890cf4d1541857964fd49c4407932 3975 main/binary-armel/Packages
+ 638b332be38bee05e8750f4879d82034 1317 main/binary-armel/Packages.gz
  42730e26634ec03ebdade2d0636e0520 135 main/binary-armel/Release
 SHA1:
- 25e25dcb897e0f360a425833215859ca3f1ba0e9 3975 main/binary-armel/Packages
- 4ab9c76280b07357846878109ae904212cc9e32c 1317 main/binary-armel/Packages.gz
+ d1f294f3bbbfdde5792576fc4f8443133d2069f3 3975 main/binary-armel/Packages
+ 2b6185b4686f3c03ac4581c83082c59a0095e067 1317 main/binary-armel/Packages.gz
  5dc0f93a32382683b0842790cc0838172a3b322d 135 main/binary-armel/Release
 SHA256:
- 63b4df0f958484b7c8f9d16ccdea5ef3f4d7049621648cca1e298f18715f1c1e 3975 main/binary-armel/Packages
- 181f71ce1781394011c3cd4ce6435f13820161b7290544feccb3b3fb25162b08 1317 main/binary-armel/Packages.gz
+ 43377f815dfa41f36b7ff05c12f6aaeb0a5ef499c44c5e3fcca8c374fe3dc3b3 3975 main/binary-armel/Packages
+ 497d33bff83269f341b368ad1810a53a5b2d84935becf4401b58cbc2f67789c9 1317 main/binary-armel/Packages.gz
  115d15b4bd5ef4b2bae36a939c230a37efad87c1701e7d50ae58412f693ba8d1 135 main/binary-armel/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAmr8DpoACgkQi1xOXH3M
-hYODeQv/RyF4Ytq9IsrpGUUfNjKUm9f1PheoxcC4IvQti7eOaOlC9Eoay4E+y9rw
-eoRI6XPOn6RqDrzMRkIb+hHBk5Jh0j1xDSGxajw9DhP9zcv2lAElRnExVmPOWJ2y
-mvOZfBFCMjbHdy0fKvzF0sXmoBAoB6ilQDrRXjya3Pqh95u6G6aKR2PQZWfCvGn7
-HQS2OD8TzfNVzUdRjB2pSQXagSMatq0T75QyPNyCBoKcJGWK+QOgfxQS42EA9e9r
-xpmhAySyBAjV3RthBK5AzLgpezpKOaxK0g517eMluEYWMefqr1qU2yg7P5MtTw2D
-b6HzYIMpfUZf3w+KWDIOwqyadlPAgxVDM54V8ffXcuB9V2KnRerYsNzTaCBGau4y
-OEZxKMemEwYGxnCn5Y6Uga5w9nY61lgt2gElJ5hNXPKtU87ykEg4Y2yb8NlmLJVi
-3uxqRf0mQvmgMSWriPhiP+1WY1z/QuLDofuyaAP+n1EckGbY6PK5eTuhCjLAj6gY
-RP1ZgajA
-=5CCR
+iQGzBAEBCgAdFiEE0X19meNpfR8B5BxUi1xOXH3MhYMFAmsJPagACgkQi1xOXH3M
+hYNEagv/UZ5fDQhv+G7C8NvEK4jz3i6ZB6tEWFt0He/sr7pqDUV4qABe2WBRtlOJ
+LAOys4/GvDfChxEXWvm7lUfABQZmnHQMNw+/eRzBimewYwdewwXYH0cvIMBnKcBX
+0M2vZj/uB7HrY0xWzN6VO1vXnTwb+mKxx+BXdOPp+3Wc7FthuF8dThmM8PucPLfS
+IQ7ClexxMdvlx0jHnxxymS5FBL6oGGXAxokCxXgozFUSMvG8nogDeF9LEsZ4gws8
+k+6VAGgaWnQjCJFy0HYUC2OWO9lGFzy3BszKRLdmD0NGoQgvBr96KOdKNKAD9QWA
++ew//DB76e4UFrplstDjnLpyA0LCd/yYmXCAOfU8oqk5CPdFX+YQOeKDDOO7JvQY
+RJpV+wQc+vFNnBM4l8IyLCOhYFaUSoTYOdmxoCLf6RRwe+jBJ1tMwtQHdrk7od4H
+P0AzIFVEQGvz+OWgg2oXySwX1+vu5Bat4Vsznlq+jaFks5uNKeDXizioP4BUgkk0
+FVN0zQ1J
+=pTNW
 -----END PGP SIGNATURE-----

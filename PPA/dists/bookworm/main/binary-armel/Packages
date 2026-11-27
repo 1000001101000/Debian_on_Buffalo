@@ -19,18 +19,18 @@ Description: Linux kernel headers for 6.1.190 on armel
 
 Package: linux-headers-6.1.192
 Source: linux-upstream
-Version: 6.1.192-53
+Version: 6.1.192-54
 Architecture: armel
-Maintainer: root <root@27af3b1a05d3>
+Maintainer: root <root@05c3c62b1f84>
 Installed-Size: 50171
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-headers-6.1.192_6.1.192-53_armel.deb
-Size: 8434056
-SHA256: d5468eae582a557129d74dbd706385d4f9f09e8d6a807cc930b4f20fbec93e76
-SHA1: 0f764a5a478121afcbb780912e663ee7a808f9ab
-MD5sum: 1172fdaf21ff6fae77c446ff0a85e8d4
+Filename: pool/main/l/linux-upstream/linux-headers-6.1.192_6.1.192-54_armel.deb
+Size: 8434644
+SHA256: e56547ea0d1d077f948eff907eaf8ab5d261a65bcd4eb736531522a797ae574a
+SHA1: 5e56fb8fad4e37781951492e2f832b55bc9dd4f1
+MD5sum: 2f91478638f8ce12afc8e523e98cf5c8
 Description: Linux kernel headers for 6.1.192 on armel
  This package provides kernel header files for 6.1.192 on armel
  .
@@ -56,54 +56,54 @@ Description: Linux kernel, version 6.1.190
 
 Package: linux-image-6.1.192
 Source: linux-upstream
-Version: 6.1.192-53
+Version: 6.1.192-54
 Architecture: armel
-Maintainer: root <root@27af3b1a05d3>
+Maintainer: root <root@05c3c62b1f84>
 Installed-Size: 111228
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-image-6.1.192_6.1.192-53_armel.deb
-Size: 26952452
-SHA256: d348efc7949a622dcebfa6cb48e66051d79b412d833e6c1e7093b3e249f12c35
-SHA1: b413a1c53727857f1607555239f16dd591ef85a5
-MD5sum: eda66a886aefc8c193ab47da85401b7f
+Filename: pool/main/l/linux-upstream/linux-image-6.1.192_6.1.192-54_armel.deb
+Size: 26953896
+SHA256: e6982ff266a659d218233f7c1f52ae53e121cf3439e76e25100ae3705255da29
+SHA1: f52b31fd4ae6e01765c92f4952e0b9d136b98581
+MD5sum: 7a5df5e02fbcea1987d84df10884eb9e
 Description: Linux kernel, version 6.1.192
  This package contains the Linux kernel, modules and corresponding other
  files, version: 6.1.192.
 
 Package: linux-image-marvell-buffalo
-Version: 6.1.192-53
+Version: 6.1.192-54
 Architecture: armel
-Maintainer: Equivs Dummy Package Generator <root@27af3b1a05d3>
+Maintainer: Equivs Dummy Package Generator <root@05c3c62b1f84>
 Installed-Size: 9
-Depends: linux-image-6.1.192 (= 6.1.192-53), linux-headers-6.1.192 (= 6.1.192-53), linux-libc-dev (= 6.1.192-53)
+Depends: linux-image-6.1.192 (= 6.1.192-54), linux-headers-6.1.192 (= 6.1.192-54), linux-libc-dev (= 6.1.192-54)
 Multi-Arch: foreign
 Priority: optional
 Section: misc
-Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.192-53_armel.deb
-Size: 2296
-SHA256: e6985c2b0ce319e4dec8838eedbd40fefa209e36182e86a051f89ac6438c6263
-SHA1: f688f438734d415a53d95e9e9a5ef3952e41b8dd
-MD5sum: f0a04f9fc88a10908d45b34b22216467
+Filename: pool/main/l/linux-image-marvell-buffalo/linux-image-marvell-buffalo_6.1.192-54_armel.deb
+Size: 2284
+SHA256: 560e605a4e65cefc05d69e6c9fdfa69e435962e6c55c37ea96bc3760d3537c9f
+SHA1: 55ed65bc21fcc2374945d11711e382504ad9bedc
+MD5sum: 9a54fea8304d2db56f1215791aff4155
 Description: linux-image metapackage for armel devices with tweaks for terastation support
 
 Package: linux-libc-dev
 Source: linux-upstream
-Version: 6.1.192-53
+Version: 6.1.192-54
 Architecture: armel
-Maintainer: root <root@27af3b1a05d3>
+Maintainer: root <root@05c3c62b1f84>
 Installed-Size: 6450
 Provides: linux-kernel-headers
 Multi-Arch: same
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: devel
-Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.192-53_armel.deb
-Size: 1238916
-SHA256: 29b11218e6e189b74917888ba42f3f4b7aa19e58791ecb6952225aad3f2afe83
-SHA1: 14b71eed8b10f67c98ec00de9d3b261891b0a235
-MD5sum: a724486d376c84de3a9fa6455fe36da8
+Filename: pool/main/l/linux-upstream/linux-libc-dev_6.1.192-54_armel.deb
+Size: 1238976
+SHA256: 5b8098393188988303e574021c6d78d7e421997478b254ccc596c68f2d72da1f
+SHA1: c98ebd73847258f4f9a37b5997e2fc214707ea96
+MD5sum: f5a0ad7742a05712572d8c07f201d86e
 Description: Linux support headers for userspace development
  This package provides userspaces headers from the Linux kernel.  These headers
  are used by the installed headers for GNU glibc and other system libraries.
